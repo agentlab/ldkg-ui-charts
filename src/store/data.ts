@@ -1,27 +1,26 @@
-import moment from "moment";
+import moment from 'moment';
 
 const viewDescrCollConstr = {
-	'@id': 'rm:Views_Coll',
-	entConstrs: [
-	  {
-		'@id': 'rm:Views_EntConstr0',
-		schema: 'rm:ViewShape',
-	  }
-	],
+  '@id': 'rm:Views_Coll',
+  entConstrs: [
+    {
+      '@id': 'rm:Views_EntConstr0',
+      schema: 'rm:ViewShape',
+    },
+  ],
 };
 
 const viewDescrs = [
-	{
-		'@id': 'mh:ChartView',
-		'@type': 'rm:View',
-		title: 'ProductAnalysis',
-		description: 'Marketplace Product Analysis Time-series Charts',
-		//viewKind: viewKinds[0]['@id'],
-		type: 'TimeSeriesChart', // control type
-    options: {
-		},
+  {
+    '@id': 'mh:ChartView',
+    '@type': 'rm:View',
+    title: 'ProductAnalysis',
+    description: 'Marketplace Product Analysis Time-series Charts',
+    //viewKind: viewKinds[0]['@id'],
+    type: 'TimeSeriesChart', // control type
+    options: {},
     // child ui elements configs
-		elements: [
+    elements: [
       /**
        * Product 1
        */
@@ -79,7 +78,7 @@ const viewDescrs = [
       /**
        * Product 3
        */
-       {
+      {
         '@id': 'rm:Line_31', // machine-generated random UUID
         '@type': 'rm:Element',
         type: 'Line',
@@ -105,120 +104,120 @@ const viewDescrs = [
       },
     ],
     // datasets constraints, specific to this view (UML aggregation)
-		collsConstrs: [
+    collsConstrs: [
       /**
        * Product 1
        */
-			{
-				'@id': 'es:Observations_11_CollConstr', // machine-generated random UUID
-				'@type': 'rm:CollConstr',
-				entConstrs: [
-				  {
-						'@id': 'es:Observations_11_EntConstr_0', // machine-generated random UUID
-						'@type': 'rm:EntConstr',
-						schema: 'es:ObservationShape',
-						conditions: {
-							'@id': 'es:Observations_11_EntConstr_0_Condition', // machine-generated random UUID
-							'@type': 'rm:EntConstrCondition',
-              observedProperty: 'https://www.wildberries.ru/catalog/15570386#price',
-						},
-				  },
-				],
-			},
       {
-				'@id': 'es:Observations_12_CollConstr',
-				'@type': 'rm:CollConstr',
-				entConstrs: [
-				  {
-						'@id': 'es:Observations_12_EntConstr_0',
-						'@type': 'rm:EntConstr',
-						schema: 'es:ObservationShape',
-						conditions: {
-							'@id': 'es:Observations_12_EntConstr_0_Condition',
-							'@type': 'rm:EntConstrCondition',
+        '@id': 'es:Observations_11_CollConstr', // machine-generated random UUID
+        '@type': 'rm:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'es:Observations_11_EntConstr_0', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'es:ObservationShape',
+            conditions: {
+              '@id': 'es:Observations_11_EntConstr_0_Condition', // machine-generated random UUID
+              '@type': 'rm:EntConstrCondition',
+              observedProperty: 'https://www.wildberries.ru/catalog/15570386#price',
+            },
+          },
+        ],
+      },
+      {
+        '@id': 'es:Observations_12_CollConstr',
+        '@type': 'rm:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'es:Observations_12_EntConstr_0',
+            '@type': 'rm:EntConstr',
+            schema: 'es:ObservationShape',
+            conditions: {
+              '@id': 'es:Observations_12_EntConstr_0_Condition',
+              '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://www.wildberries.ru/catalog/15570386#volume',
-						},
-				  },
-				],
-			},
+            },
+          },
+        ],
+      },
       /**
        * Product 2
        */
       {
-				'@id': 'es:Observations_21_CollConstr',
-				'@type': 'rm:CollConstr',
-				entConstrs: [
-				  {
-						'@id': 'es:Observations_21_EntConstr_0',
-						'@type': 'rm:EntConstr',
-						schema: 'es:ObservationShape',
-						conditions: {
-							'@id': 'es:Observations_21_EntConstr_0_Condition',
-							'@type': 'rm:EntConstrCondition',
+        '@id': 'es:Observations_21_CollConstr',
+        '@type': 'rm:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'es:Observations_21_EntConstr_0',
+            '@type': 'rm:EntConstr',
+            schema: 'es:ObservationShape',
+            conditions: {
+              '@id': 'es:Observations_21_EntConstr_0_Condition',
+              '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://www.wildberries.ru/catalog/16170086#price',
-						},
-				  },
-				],
-			},
+            },
+          },
+        ],
+      },
       {
-				'@id': 'es:Observations_22_CollConstr',
-				'@type': 'rm:CollConstr',
-				entConstrs: [
-				  {
-						'@id': 'es:Observations_22_EntConstr_0',
-						'@type': 'rm:EntConstr',
-						schema: 'es:ObservationShape',
-						conditions: {
-							'@id': 'es:Observations_22_EntConstr_0_Condition',
-							'@type': 'rm:EntConstrCondition',
+        '@id': 'es:Observations_22_CollConstr',
+        '@type': 'rm:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'es:Observations_22_EntConstr_0',
+            '@type': 'rm:EntConstr',
+            schema: 'es:ObservationShape',
+            conditions: {
+              '@id': 'es:Observations_22_EntConstr_0_Condition',
+              '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://www.wildberries.ru/catalog/16170086#volume',
-						},
-				  },
-				],
-			},
+            },
+          },
+        ],
+      },
       /**
        * Product 3
        */
       {
-				'@id': 'es:Observations_31_CollConstr',
-				'@type': 'rm:CollConstr',
-				entConstrs: [
-				  {
-						'@id': 'es:Observations_31_EntConstr_0',
-						'@type': 'rm:EntConstr',
-						schema: 'es:ObservationShape',
-						conditions: {
-							'@id': 'es:Observations_31_EntConstr_0_Condition',
-							'@type': 'rm:EntConstrCondition',
+        '@id': 'es:Observations_31_CollConstr',
+        '@type': 'rm:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'es:Observations_31_EntConstr_0',
+            '@type': 'rm:EntConstr',
+            schema: 'es:ObservationShape',
+            conditions: {
+              '@id': 'es:Observations_31_EntConstr_0_Condition',
+              '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://www.wildberries.ru/catalog/15622789#price',
-						},
-				  },
-				],
-			},
+            },
+          },
+        ],
+      },
       {
-				'@id': 'es:Observations_32_CollConstr',
-				'@type': 'rm:CollConstr',
-				entConstrs: [
-				  {
-						'@id': 'es:Observations_32_EntConstr_0',
-						'@type': 'rm:EntConstr',
-						schema: 'es:ObservationShape',
-						conditions: {
-							'@id': 'es:Observations_32_EntConstr_0_Condition',
-							'@type': 'rm:EntConstrCondition',
+        '@id': 'es:Observations_32_CollConstr',
+        '@type': 'rm:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'es:Observations_32_EntConstr_0',
+            '@type': 'rm:EntConstr',
+            schema: 'es:ObservationShape',
+            conditions: {
+              '@id': 'es:Observations_32_EntConstr_0_Condition',
+              '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://www.wildberries.ru/catalog/15622789#volume',
-						},
-				  },
-				],
-			},
-		],
-	},
+            },
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 /**
  * Product 1 https://www.wildberries.ru/catalog/15570386/detail.aspx?targetUrl=ST
  */
- const viewDataObservations11 = [
+const viewDataObservations11 = [
   {
     '@id': 'Observation/10011',
     '@type': 'sosa:Observation',
@@ -300,7 +299,7 @@ const viewDataObservations22 = [
 /**
  * Product 3 https://www.wildberries.ru/catalog/15622789/detail.aspx?targetUrl=ST
  */
- const viewDataObservations31 = [
+const viewDataObservations31 = [
   {
     '@id': 'Observation/30011',
     '@type': 'sosa:Observation',
@@ -338,86 +337,85 @@ const viewDataObservations32 = [
   },
 ];
 
-
 export const rootModelState = {
-	colls: {
-		// ViewDescr
-		[viewDescrCollConstr['@id']]: {
-			'@id': viewDescrCollConstr['@id'],
-			collConstr: viewDescrCollConstr,
-			dataIntrnl: viewDescrs,
-			updPeriod: undefined,
-			lastSynced: moment.now(),
-			resolveCollConstrs: false,
-		},
-		// ViewKindDescr
-		//[viewKindCollConstr['@id']]: {
-		//	'@id': viewKindCollConstr['@id'],
-		//	collConstr: viewKindCollConstr,
-		//	dataIntrnl: viewKinds,
-		//	updPeriod: undefined,
-		//	lastSynced: moment.now(),
-		//	resolveCollConstrs: false,
-		//},
+  colls: {
+    // ViewDescr
+    [viewDescrCollConstr['@id']]: {
+      '@id': viewDescrCollConstr['@id'],
+      collConstr: viewDescrCollConstr,
+      dataIntrnl: viewDescrs,
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+    // ViewKindDescr
+    //[viewKindCollConstr['@id']]: {
+    //	'@id': viewKindCollConstr['@id'],
+    //	collConstr: viewKindCollConstr,
+    //	dataIntrnl: viewKinds,
+    //	updPeriod: undefined,
+    //	lastSynced: moment.now(),
+    //	resolveCollConstrs: false,
+    //},
 
-		// Data
+    // Data
     /**
      * Product 1
      */
-		[viewDescrs[0].collsConstrs?.[0]['@id'] || '']: {
-			'@id': viewDescrs[0].collsConstrs?.[0]['@id'],
-			collConstr: viewDescrs[0].collsConstrs?.[0]['@id'], // reference by @id
-			dataIntrnl: viewDataObservations11,
-			updPeriod: undefined,
-			lastSynced: moment.now(),
-			resolveCollConstrs: false,
-		},
-		[viewDescrs[0].collsConstrs?.[1]['@id'] || '']: {
-			'@id': viewDescrs[0].collsConstrs?.[1]['@id'],
-			collConstr: viewDescrs[0].collsConstrs?.[1]['@id'], // reference by @id
-			dataIntrnl: viewDataObservations12,
-			updPeriod: undefined,
-			lastSynced: moment.now(),
-			resolveCollConstrs: false,
-		},
+    [viewDescrs[0].collsConstrs?.[0]['@id'] || '']: {
+      '@id': viewDescrs[0].collsConstrs?.[0]['@id'],
+      collConstr: viewDescrs[0].collsConstrs?.[0]['@id'], // reference by @id
+      dataIntrnl: viewDataObservations11,
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+    [viewDescrs[0].collsConstrs?.[1]['@id'] || '']: {
+      '@id': viewDescrs[0].collsConstrs?.[1]['@id'],
+      collConstr: viewDescrs[0].collsConstrs?.[1]['@id'], // reference by @id
+      dataIntrnl: viewDataObservations12,
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
     /**
      * Product 2
      */
-		[viewDescrs[0].collsConstrs?.[2]['@id'] || '']: {
-			'@id': viewDescrs[0].collsConstrs?.[2]['@id'],
-			collConstr: viewDescrs[0].collsConstrs?.[2]['@id'], // reference by @id
-			dataIntrnl: viewDataObservations21,
-			updPeriod: undefined,
-			lastSynced: moment.now(),
-			resolveCollConstrs: false,
-		},
+    [viewDescrs[0].collsConstrs?.[2]['@id'] || '']: {
+      '@id': viewDescrs[0].collsConstrs?.[2]['@id'],
+      collConstr: viewDescrs[0].collsConstrs?.[2]['@id'], // reference by @id
+      dataIntrnl: viewDataObservations21,
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
 
     [viewDescrs[0].collsConstrs?.[3]['@id'] || '']: {
-			'@id': viewDescrs[0].collsConstrs?.[3]['@id'],
-			collConstr: viewDescrs[0].collsConstrs?.[3]['@id'], // reference by @id
-			dataIntrnl: viewDataObservations22,
-			updPeriod: undefined,
-			lastSynced: moment.now(),
-			resolveCollConstrs: false,
-		},
+      '@id': viewDescrs[0].collsConstrs?.[3]['@id'],
+      collConstr: viewDescrs[0].collsConstrs?.[3]['@id'], // reference by @id
+      dataIntrnl: viewDataObservations22,
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
     /**
      * Product 3
      */
-		[viewDescrs[0].collsConstrs?.[4]['@id'] || '']: {
-			'@id': viewDescrs[0].collsConstrs?.[4]['@id'],
-			collConstr: viewDescrs[0].collsConstrs?.[4]['@id'], // reference by @id
-			dataIntrnl: viewDataObservations31,
-			updPeriod: undefined,
-			lastSynced: moment.now(),
-			resolveCollConstrs: false,
-		},
-		[viewDescrs[0].collsConstrs?.[5]['@id'] || '']: {
-			'@id': viewDescrs[0].collsConstrs?.[5]['@id'],
-			collConstr: viewDescrs[0].collsConstrs?.[5]['@id'], // reference by @id
-			dataIntrnl: viewDataObservations32,
-			updPeriod: undefined,
-			lastSynced: moment.now(),
-			resolveCollConstrs: false,
-		},
-	},
+    [viewDescrs[0].collsConstrs?.[4]['@id'] || '']: {
+      '@id': viewDescrs[0].collsConstrs?.[4]['@id'],
+      collConstr: viewDescrs[0].collsConstrs?.[4]['@id'], // reference by @id
+      dataIntrnl: viewDataObservations31,
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+    [viewDescrs[0].collsConstrs?.[5]['@id'] || '']: {
+      '@id': viewDescrs[0].collsConstrs?.[5]['@id'],
+      collConstr: viewDescrs[0].collsConstrs?.[5]['@id'], // reference by @id
+      dataIntrnl: viewDataObservations32,
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+  },
 };
