@@ -1,17 +1,14 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { Chart } from './Chart';
+import {Demo} from './Demo';
 
 export default {
   title: 'Chart',
-  component: Chart,
-  argTypes: {
-    backgroundColor: { control: 'color' },
-  },
+  component: Demo,
 } as Meta;
 
-const Template: Story = (args) => <Chart {...args} />;
+const Template: Story = (args) => <Demo {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {};
