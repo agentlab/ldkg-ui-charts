@@ -38,21 +38,23 @@ export const RadarChart: React.FC = () => {
     },
   ];
   const config: RadarConfig = {
-    /*title: {
+    /* title: {
       visible: true,
       text: 'Ветер',
-    },*/
+    }, */
     data,
     xField: 'item',
     yField: 'score',
     yAxis: {
       grid: {
-        //@ts-ignore
+        // @ts-ignore
         alternateColor: ['rgba(0, 0, 0, 0.04)', null],
       },
     },
-    //area: { visible: false },
-    point: { /*visible: true*/ },
+    // area: { visible: false },
+    point: {
+      /* visible: true */
+    },
   };
   return <Radar {...config} />;
 };

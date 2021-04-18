@@ -18,19 +18,23 @@ export const Chart: React.FC = () => {
   };
 
   const config: LineConfig = {
-    /*title: {
+    /* title: {
       visible: true,
       text: 'The causes of CO2 emissions',
-    },*/
+    }, */
     padding: 'auto',
-    //forceFit: true,
+    // forceFit: true,
     data,
     xField: 'year',
     yField: 'value',
     seriesField: 'category',
     xAxis: { type: 'time' },
-    yAxis: { label: { formatter: (v) => `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`) } },
-    //responsive: true,
+    yAxis: {
+      label: {
+        formatter: (v) => `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
+      },
+    },
+    // responsive: true,
   };
   return <Line {...config} />;
 };
