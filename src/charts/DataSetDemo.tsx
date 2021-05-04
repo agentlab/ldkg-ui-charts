@@ -1,5 +1,7 @@
 import { G2, MultiView } from '@ant-design/charts';
+import { MultiViewConfig } from '@ant-design/charts/es/multiView';
 import DataSet from '@antv/data-set';
+import { Options } from '@antv/g2plot';
 import React, { useEffect, useState } from 'react';
 
 const data1 = [
@@ -139,7 +141,10 @@ export const DataSetDemo: React.FC = () => {
   const [chartData, setChartData] = useState<any>([]);
   const [plot, setPlot] = useState<any>(null);
 
-  const handleSelectionChanged = (e, data) => {
+  const handleSelectionChanged = (e: React.ChangeEvent<HTMLInputElement>, data: any) => {
+    if (data.length === 0) {
+      return;
+    }
     const { checked } = e.target;
     if (checked) {
       setChartData([...chartData, ...data]);
@@ -148,14 +153,14 @@ export const DataSetDemo: React.FC = () => {
     }
   };
 
-  const config = {
+  const config: MultiViewConfig = {
     syncViewPadding: true,
 
     tooltip: { showMarkers: false, shared: true, showCrosshairs: true },
     views: [
       {
         data: chartData,
-        padding: 'auto',
+        // padding: 'auto',
         region: {
           start: {
             x: 0,
@@ -197,7 +202,7 @@ export const DataSetDemo: React.FC = () => {
             yField: 'count',
             colorField: 'id',
             mapping: {
-              color: function color(ref11) {
+              color: function color(ref11: any) {
                 switch (ref11.id) {
                   case 'Product1':
                     return 'red';
@@ -207,7 +212,7 @@ export const DataSetDemo: React.FC = () => {
                     return 'black';
                 }
               },
-              style: function style(ref22) {
+              style: function style(ref22: any) {
                 switch (ref22.id) {
                   case 'Product1':
                     return {
@@ -292,7 +297,7 @@ export const DataSetDemo: React.FC = () => {
       {chartData.length > 0 && (
         <MultiView
           {...config}
-          onReady={(plt) => {
+          onReady={(plt: any) => {
             plt.chart.theme('custom-theme');
             setPlot(plt);
           }}

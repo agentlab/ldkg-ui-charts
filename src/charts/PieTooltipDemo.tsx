@@ -117,7 +117,7 @@ const data2 = [
 ];
 
 export const PieTooltipDemo: React.FC = () => {
-  const config = {
+  const config: any = {
     syncViewPadding: true,
     tooltip: {
       shared: true,
@@ -190,7 +190,7 @@ export const PieTooltipDemo: React.FC = () => {
 
             mapping: {
               color: 'red', // importaint for the color in a tooltip! for lines should be equal to stroke
-              style: function style(ref) {
+              style: function style(ref: any) {
                 return {
                   lineDash: [4, 4],
                   lineWidth: 5,

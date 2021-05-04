@@ -5,55 +5,55 @@ const data1 = [
   {
     id: 'Product1',
     date: '2020-01-30',
-    qty: 10,
+    qty: 100,
     count: 35,
   },
   {
     id: 'Product1',
     date: '2020-02-01',
-    qty: 15,
+    qty: 115,
     count: 30,
   },
   {
     id: 'Product1',
     date: '2020-02-02',
-    qty: 20,
+    qty: 120,
     count: 20,
   },
   {
     id: 'Product1',
     date: '2020-02-03',
-    qty: 18,
+    qty: 118,
     count: 28,
   },
   {
     id: 'Product1',
     date: '2020-02-04',
-    qty: 20,
+    qty: 184,
     count: 30,
   },
   {
     id: 'Product1',
     date: '2020-02-05',
-    qty: 22,
+    qty: 122,
     count: 20,
   },
   {
     id: 'Product1',
     date: '2020-02-06',
-    qty: 23,
+    qty: 138,
     count: 23,
   },
   {
     id: 'Product1',
     date: '2020-02-07',
-    qty: 32,
+    qty: 122,
     count: 34,
   },
   {
     id: 'Product1',
     date: '2020-02-08',
-    qty: 10,
+    qty: 110,
     count: 26,
   },
   {
@@ -87,55 +87,55 @@ const data2 = [
   {
     id: 'Product2',
     date: '2020-01-30',
-    qty: 15,
+    qty: 85,
     count: 25,
   },
   {
     id: 'Product2',
     date: '2020-02-01',
-    qty: 20,
+    qty: 90,
     count: 20,
   },
   {
     id: 'Product2',
     date: '2020-02-02',
-    qty: 21,
+    qty: 91,
     count: 28,
   },
   {
     id: 'Product2',
     date: '2020-02-03',
-    qty: 5,
+    qty: 95,
     count: 23,
   },
   {
     id: 'Product2',
     date: '2020-02-04',
-    qty: 12,
+    qty: 99,
     count: 35,
   },
   {
     id: 'Product2',
     date: '2020-02-05',
-    qty: 10,
+    qty: 97,
     count: 21,
   },
   {
     id: 'Product2',
     date: '2020-02-06',
-    qty: 10,
+    qty: 90,
     count: 28,
   },
   {
     id: 'Product2',
     date: '2020-02-07',
-    qty: 18,
+    qty: 78,
     count: 24,
   },
   {
     id: 'Product2',
     date: '2020-02-08',
-    qty: 19,
+    qty: 89,
     count: 23,
   },
   {
@@ -169,7 +169,7 @@ export const MultiViewDodgeDemo: React.FC = () => {
   const [chartData, setChartData] = useState<any>([]);
   const [plot, setPlot] = useState<any>(null);
 
-  const handleSelectionChanged = (e, data) => {
+  const handleSelectionChanged = (e: React.ChangeEvent<HTMLInputElement>, data: { id: any }[]) => {
     const { checked } = e.target;
     if (checked) {
       setChartData([...chartData, ...data]);
@@ -178,48 +178,52 @@ export const MultiViewDodgeDemo: React.FC = () => {
     }
   };
 
-  G2.registerInteraction('other-filter', {
-    showEnable: [
-      { trigger: 'plot:mouseenter', action: 'cursor:crosshair' },
-      { trigger: 'mask:mouseenter', action: 'cursor:move' },
-      { trigger: 'plot:mouseleave', action: 'cursor:default' },
-      { trigger: 'mask:mouseleave', action: 'cursor:crosshair' },
-    ],
-    start: [
-      {
-        trigger: 'plot:mousedown',
-        isEnable(context) {
-          return !context.isInShape('mask');
-        },
-        action: ['x-rect-mask:start', 'x-rect-mask:show'],
-      },
-      { trigger: 'mask:dragstart', action: 'x-rect-mask:moveStart' },
-    ],
-    processing: [
-      { trigger: 'plot:mousemove', action: 'x-rect-mask:resize' },
-      { trigger: 'mask:drag', action: 'x-rect-mask:move' },
-      { trigger: 'mask:change', action: 'sibling-x-filter:filter' },
-    ],
-    end: [
-      { trigger: 'plot:mouseup', action: 'x-rect-mask:end' },
-      { trigger: 'mask:dragend', action: 'x-rect-mask:moveEnd' },
-    ],
-    rollback: [
-      {
-        trigger: 'dblclick',
-        action: ['x-rect-mask:hide', 'sibling-x-filter:reset'],
-      },
-    ],
-  });
+  const minMax = (data: any[], property: PropertyKey) =>
+    data
+      .filter((d) => ({}.hasOwnProperty.call(d, property)))
+      .map((d) => d[property])
+      .reduce(
+        (accumulator, currentValue) => [Math.min(currentValue, accumulator[0]), Math.max(currentValue, accumulator[1])],
+        [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
+      );
 
-  const config = {
+  const defineAxisRange = (data: any[], property: PropertyKey, ratio = 0.7) => {
+    const [min, max] = minMax(data, property);
+    const pow = (max - min).toString().length - 1;
+    const digit = 10 ** pow;
+    const lower = ((min - (min % digit)) / digit - 1) * digit;
+    const upper = ((max - (max % digit)) / digit + 1) * digit;
+    const initial = lower - Math.ceil(((max - min) * (1 - ratio)) / ratio / digit) * digit;
+
+    return {
+      min: initial,
+      max: upper,
+      ticks: Array.from({ length: (upper - lower) / digit + 1 }, (a, i) => (i + 1) * digit),
+    };
+  };
+
+  const defineSecondaryAxisRange = (data: any[], property: PropertyKey, ratio = 0.25) => {
+    const [min, max] = minMax(data, property);
+    const pow = max.toString().length - 1;
+    const digit = 10 ** pow;
+    const upper = ((max - (max % digit)) / digit + 1) * digit;
+    const highest = upper / ratio;
+
+    return {
+      min: 0,
+      max: highest,
+      ticks: Array.from({ length: upper / digit + 1 }, (a, i) => i * digit),
+    };
+  };
+
+  const config: any = {
     syncViewPadding: true,
 
     tooltip: {
       showMarkers: false,
       shared: true,
-      showCrosshairs: true,
-      customContent(title: string, items: []) {
+      showCrosshairs: false,
+      customContent(title: string, items: { name: string; data: any }[]) {
         const seen: {
           [key: string]: any;
         } = {};
@@ -238,7 +242,7 @@ export const MultiViewDodgeDemo: React.FC = () => {
             <h5 style={{ marginTop: 16 }}>{`Date: ${title}`}</h5>
             <ul style={{ paddingLeft: 0 }}>
               {displayedItems?.map((item, index) => {
-                const { name, data, color } = item;
+                const { name, data } = item;
                 return (
                   <li
                     key={name}
@@ -249,14 +253,17 @@ export const MultiViewDodgeDemo: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                     }}>
-                    <span className='g2-tooltip-marker' style={{ backgroundColor: color }} />
+                    <span
+                      className='g2-tooltip-marker'
+                      style={{ backgroundColor: data.id === 'Product1' ? 'red' : 'blue' }}
+                    />
                     <span
                       style={{
                         display: 'inline-flex',
                         flex: 1,
                         justifyContent: 'space-between',
                       }}>
-                      <span style={{ margiRight: 16, paddingRight: 10 }}>{name}:</span>
+                      <span>{name}:</span>
                       {data.id
                         ? data.qty &&
                           data.count && (
@@ -279,17 +286,12 @@ export const MultiViewDodgeDemo: React.FC = () => {
       {
         data: chartData,
         padding: 'auto',
-        region: {
-          start: {
-            x: 0,
-            y: 0,
-          },
-          end: {
-            x: 1,
-            y: 0.68,
-          },
+        axes: {
+          qty: { position: 'left' },
+          count: { position: 'right' },
+          predicted: false,
+          interval: false,
         },
-        axes: {},
         meta: {
           date: {
             alias: 'Date',
@@ -299,21 +301,24 @@ export const MultiViewDodgeDemo: React.FC = () => {
           },
           count: {
             alias: 'Qty',
-            min: 10,
-            max: 40,
+            ...defineAxisRange(chartData, 'count'),
           },
           predicted: {
             alias: 'Predicted Value',
-            min: 10,
+            min: 0,
             max: 40,
           },
           interval: {
             alias: 'Interval',
-            min: 10,
+            min: 0,
             max: 40,
           },
+          qty: {
+            alias: 'quantity',
+            ...defineSecondaryAxisRange(chartData, 'qty'),
+          },
         },
-        interactions: [{ type: 'element-single-selected' }],
+        interactions: [{ type: 'active-region' }],
         geometries: [
           {
             type: 'area',
@@ -325,15 +330,27 @@ export const MultiViewDodgeDemo: React.FC = () => {
               // style: {
               // 	fill: 'black'
               // }
+              style: function style(ref22: any) {
+                switch (ref22.id) {
+                  case 'Product1':
+                    return {
+                      fill: 'red',
+                    };
+                  default:
+                    return {
+                      fill: 'blue',
+                    };
+                }
+              },
             },
           },
           {
             type: 'line',
-            xField: 'date',
-            yField: 'count',
-            colorField: 'id',
+            xField: 'date', // resultTime
+            yField: 'count', // hasSimpleResult
+            colorField: 'id', // observedProperty
             mapping: {
-              color: function color(ref11) {
+              color: function color(ref11: any) {
                 switch (ref11.id) {
                   case 'Product1':
                     return 'red';
@@ -343,7 +360,7 @@ export const MultiViewDodgeDemo: React.FC = () => {
                     return 'black';
                 }
               },
-              style: function style(ref22) {
+              style: function style(ref22: any) {
                 switch (ref22.id) {
                   case 'Product1':
                     return {
@@ -360,11 +377,70 @@ export const MultiViewDodgeDemo: React.FC = () => {
             },
           },
           {
+            type: 'interval',
+            xField: 'date',
+            yField: 'qty',
+            colorField: 'id',
+            adjust: {
+              type: 'dodge',
+              marginRatio: 0,
+            },
+            axes: {
+              date: { title: { text: 'Date' } },
+              qty: false,
+            },
+            mapping: {
+              color: function color(ref11: any) {
+                switch (ref11.id) {
+                  case 'Product1':
+                    return 'red';
+                  case 'Product2':
+                    return 'blue';
+                  default:
+                    return 'black';
+                }
+              },
+              style: function style(ref22: any) {
+                return {
+                  fillOpacity: 0.9,
+                  cursor: 'pointer',
+                };
+              },
+            },
+          },
+          {
             type: 'line',
             xField: 'date',
             yField: 'predicted',
             colorField: 'id',
-            mapping: {},
+            mapping: {
+              color: function color(ref11: any) {
+                switch (ref11.id) {
+                  case 'Product1':
+                    return 'red';
+                  case 'Product2':
+                    return 'blue';
+                  default:
+                    return 'black';
+                }
+              },
+              style: function style(ref22: any) {
+                switch (ref22.id) {
+                  case 'Product1':
+                    return {
+                      lineWidth: 1,
+                      lineDash: [4, 4],
+                      stroke: 'red',
+                    };
+                  default:
+                    return {
+                      lineWidth: 1,
+                      lineDash: [4, 4],
+                      stroke: 'blue',
+                    };
+                }
+              },
+            },
             // style: {
             // 	lineDash: [4, 4],
             // 	lineWidth: 2,
@@ -373,6 +449,7 @@ export const MultiViewDodgeDemo: React.FC = () => {
           },
         ],
       },
+      /*
       {
         data: chartData,
         padding: 'auto',
@@ -422,13 +499,16 @@ export const MultiViewDodgeDemo: React.FC = () => {
           },
         ],
         interactions: [{ type: 'other-filter' }],
-      },
+      }, */
     ],
   };
 
   const theme = {
     colors10: ['#FACDAA', '#F4A49E', '#EE7B91', '#E85285', '#BE408C', '#BE408C'],
     colors20: ['#FACDAA', '#F4A49E', '#EE7B91', '#E85285', '#BE408C', '#BE408C', '#942D93'],
+    maxColumnWidth: 5,
+    minColumnWidth: 5,
+    columnWidthRatio: 0.2,
   };
   const { registerTheme } = G2;
   registerTheme('custom-theme', theme);
@@ -670,7 +750,7 @@ export const MultiViewDodgeDemo: React.FC = () => {
       {chartData.length > 0 && (
         <MultiView
           {...config}
-          onReady={(plt) => {
+          onReady={(plt: any) => {
             plt.chart.theme('custom-theme');
             setPlot(plt);
           }}
