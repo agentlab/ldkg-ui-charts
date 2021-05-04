@@ -1,21 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { rootModelState } from './store/data';
+import DataRenderer from './DataRenderer';
 
-function App() {
-  return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className='App-link' href='https://reactjs.org' target='_blank' rel='noopener noreferrer'>
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => (
+  <>
+    <DataRenderer
+      viewKinds={rootModelState.colls['rm:ViewKinds_Coll'].dataIntrnl}
+      viewDescriptions={rootModelState.colls['rm:Views_Coll'].dataIntrnl}
+      data={rootModelState.colls}
+    />
+  </>
+);
 
 export default App;

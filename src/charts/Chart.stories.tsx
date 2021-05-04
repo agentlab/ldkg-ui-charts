@@ -1,17 +1,13 @@
-import React from 'react';
-import { Story, Meta } from '@storybook/react';
-
-import { Chart } from './Chart';
+import { Meta } from '@storybook/react';
+import React, { ReactNode } from 'react';
+import { DataSetDemo } from './DataSetDemo';
+import { MultiViewDodgeDemo } from './MultiViewDodgeDemo';
+import { PieTooltipDemo } from './PieTooltipDemo';
 
 export default {
-  title: 'Chart',
-  component: Chart,
-  argTypes: {
-    backgroundColor: { control: 'color' },
-  },
+  title: 'ChartDemo',
 } as Meta;
 
-const Template: Story = (args) => <Chart {...args} />;
-
-export const Primary = Template.bind({});
-Primary.args = {};
+export const PieTooltip = (): ReactNode => <PieTooltipDemo />;
+export const Dodge = (): ReactNode => <MultiViewDodgeDemo />;
+export const DataSet = (): ReactNode => <DataSetDemo />;
