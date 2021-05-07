@@ -37,7 +37,7 @@ const viewKinds = [
       yField: {
         type: 'expr',
         value: '(v) => v.replace(/^[^#]*#/, "")',
-        applyTo: '$..observedProperty',
+        applyTo: '$.observedProperty',
         dataProperty: 'hasSimpleResult',
       },
       colorField: 'observedProperty',
