@@ -40,11 +40,7 @@ const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.Element =
           title: viewDescription.title,
           description: viewDescription.description,
           options: viewDescription.options,
-          views: [
-            {
-              ...viewConfig,
-            },
-          ],
+          views: [viewConfig],
         };
 
         const dataViewComponent = await createComponent(viewKind.type);
@@ -60,7 +56,7 @@ const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.Element =
     <React.Suspense fallback={<Spin />}>
       {views.map((item: { View: any; key: any; config: any }) => {
         const { View, key, config } = item;
-        return <View key={key} config={config} />;
+        return <View key={key} {...config} />;
       })}
     </React.Suspense>
   );

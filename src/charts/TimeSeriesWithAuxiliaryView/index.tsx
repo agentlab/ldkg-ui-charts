@@ -1,7 +1,7 @@
 import { G2, MultiView } from '@ant-design/charts';
 import React, { useEffect, useState } from 'react';
 
-const TimeSeriesWithAuxiliaryView = ({ config }: any) => {
+const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, description }: any) => {
   const [plot, setPlot] = useState<any>(null);
   const [chartConfig, setChartConfig] = useState<any>({});
 
@@ -26,7 +26,7 @@ const TimeSeriesWithAuxiliaryView = ({ config }: any) => {
 
   useEffect(() => {
     const updatedConfig = {
-      ...config,
+      views,
       syncViewPadding: true,
       tooltip: {
         showMarkers: false,
@@ -36,12 +36,12 @@ const TimeSeriesWithAuxiliaryView = ({ config }: any) => {
     };
 
     setChartConfig(updatedConfig);
-  }, [config]);
+  }, [views, options]);
 
   return (
     <>
-      <h1>{chartConfig.title}</h1>
-      <h3>{chartConfig.description}</h3>
+      <h1>{title}</h1>
+      <h3>{description}</h3>
       <MultiView
         {...chartConfig}
         onReady={(plt: any) => {
