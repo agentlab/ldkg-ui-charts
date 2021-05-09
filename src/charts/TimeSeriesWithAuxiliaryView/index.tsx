@@ -1,5 +1,7 @@
 import { G2, MultiView } from '@ant-design/charts';
+import 'antd/dist/antd.css';
 import React, { useEffect, useState } from 'react';
+import { configureAxesScales } from './utils';
 
 const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, description }: any) => {
   const [plot, setPlot] = useState<any>(null);
@@ -25,8 +27,14 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
   }, [plot]);
 
   useEffect(() => {
+    const updateViews = views.map((view: any) => ({
+      ...view,
+      interactions: [{ type: 'active-region' }],
+      meta: configureAxesScales(view.meta, options.axes, view.data),
+    }));
+
     const updatedConfig = {
-      views,
+      views: updateViews,
       syncViewPadding: true,
       tooltip: {
         showMarkers: false,
