@@ -37,7 +37,7 @@ const viewKinds = [
       yField: {
         type: 'expr',
         value: '(v) => v.replace(/^[^#]*#/, "")',
-        applyTo: '$..observedProperty',
+        applyTo: '$.observedProperty',
         dataProperty: 'hasSimpleResult',
       },
       colorField: 'observedProperty',
@@ -82,7 +82,10 @@ const viewDescrs = [
     description: 'Marketplace Product Analysis Time-series Charts',
     viewKind: viewKinds[0]['@id'],
     // child ui elements configs
-    options: {}, // global options (primary/secondary)
+    options: {
+      dateFormat: 'DD.MM.YYYY',
+      axes: { yAxis: { primary: ['price'], secondary: ['volume'] } },
+    },
     elements: [
       /**
        * Product 1

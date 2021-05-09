@@ -1,70 +1,50 @@
+import { Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { createGeometryForViewElement, geometriesReducer } from './mappers/geometries';
+import ViewPartMapper, { initialViewPart, viewPartReducer } from './mappers/views';
 import ShapeFactoryMapper from './mappers/shapes';
-import { viewMapper } from './mappers/views';
+import { createComponent } from './mappers/components';
 
 const shapeFactoryMapper = new ShapeFactoryMapper();
 
-const DataRenderer = ({ viewKinds, viewDescriptions, data }: any) => {
+const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.Element => {
   const [views, setViews] = useState<any>([]);
 
   useEffect(() => {
     async function loadViews() {
       // map viewDescription constraints to G2 views and geometries
-      const mappedViews = viewDescriptions.map(async (view: any) => {
-        const viewKind = viewKinds.find((vk: any) => vk['@id'] === view.viewKind);
+      const mappedViews = viewDescriptions.map(async (viewDescription: any) => {
+        const viewKind = viewKinds.find((vk: any) => vk['@id'] === viewDescription.viewKind);
         const { mappings = [] } = viewKind;
+        const viewPartMapper = ViewPartMapper(mappings);
 
-        const elementsWithMeta = view.elements.map((element: any) => {
-          const elementCollectionConstraint = view.collsConstrs.find(
-            (constraint: { [x: string]: any }) => constraint['@id'] === element.resultsScope,
-          );
+        const viewConfig = viewDescription.elements
+          .map((viewElement: any) => {
+            const elementCollectionConstraint = viewDescription.collsConstrs.find(
+              (constraint: { [x: string]: any }) => constraint['@id'] === viewElement.resultsScope,
+            );
 
-          const viewElementMeta = elementCollectionConstraint?.entConstrs
-            .map((e: any) => shapeFactoryMapper.mapToMeta(e))
-            .reduce((acc: any, item: any) => ({ ...acc, ...item }), {});
-          const result = { ...viewElementMeta, ...element };
-          return result;
-        });
+            const viewElementMeta = elementCollectionConstraint?.entConstrs
+              .map((e: any) => shapeFactoryMapper.mapToMeta(e))
+              .reduce((acc: any, item: any) => ({ ...acc, ...item }), {});
 
-        const viewData: any[] = [];
-        const geometries = elementsWithMeta
-          .map((elementWithMeta: any) => {
-            const { viewElementGeometry, dataMappings } = createGeometryForViewElement(elementWithMeta, mappings);
-            const viewElementData = data[elementWithMeta.resultsScope]?.dataIntrnl ?? [];
-            dataMappings.forEach((func: any) => {
-              viewElementData.forEach(func);
-            });
-            viewData.push(...viewElementData);
-            return viewElementGeometry;
+            return { ...viewElementMeta, ...viewElement };
           })
-          .reduce(geometriesReducer, []);
+          .map((elementWithMeta: any) => {
+            const viewElementData = data[elementWithMeta.resultsScope]?.dataIntrnl ?? [];
+            const chartViewPart = viewPartMapper.createChartViewPart(elementWithMeta, viewElementData);
+            return chartViewPart;
+          })
+          .reduce(viewPartReducer, initialViewPart);
 
-        // TODO: Fix for multiple views
-        const viewConfig = {
-          title: view.title,
-          description: view.description,
-          views: [
-            {
-              padding: 'auto',
-              meta: {
-                resultTime: {
-                  alias: 'Date',
-                  type: 'timeCat',
-                  mask: 'DD-MM-YYYY',
-                  sync: true,
-                },
-              },
-              interactions: [{ type: 'active-region' }],
-              axes: {},
-              data: viewData,
-              geometries,
-            },
-          ],
+        const chartConfig = {
+          title: viewDescription.title,
+          description: viewDescription.description,
+          options: viewDescription.options,
+          views: [viewConfig],
         };
 
-        const importedView = await viewMapper(viewKind);
-        return { View: importedView, config: viewConfig };
+        const dataViewComponent = await createComponent(viewKind.type);
+        return { View: dataViewComponent, key: viewDescription['@id'], config: chartConfig };
       });
       Promise.all(mappedViews).then(setViews);
     }
@@ -73,10 +53,10 @@ const DataRenderer = ({ viewKinds, viewDescriptions, data }: any) => {
   }, [viewDescriptions, data, viewKinds]);
 
   return (
-    <React.Suspense fallback='Loading views...'>
-      {views.map((item: { View: any; config: any }) => {
-        const { View, config } = item;
-        return <View key='sand' config={config} />;
+    <React.Suspense fallback={<Spin />}>
+      {views.map((item: { View: any; key: any; config: any }) => {
+        const { View, key, config } = item;
+        return <View key={key} {...config} />;
       })}
     </React.Suspense>
   );

@@ -9,6 +9,10 @@ export default class ObservationShapeMetaMapper {
 
   map(constraint: any): any {
     const { observedProperty, hasFeatureOfInterest } = constraint.conditions;
-    return { observedProperty, hasFeatureOfInterest };
+    const meta = {
+      resultTime: { type: 'timeCat' },
+      observedProperty: {},
+    };
+    return { observedProperty, hasFeatureOfInterest, meta };
   }
 }
