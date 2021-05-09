@@ -1,30 +1,50 @@
 {
-  "name": "ldkg-ui-charts",
+  "name": "@agentlab/ldkg-ui-charts",
   "version": "0.1.0",
+  "license": "EPL-2.0",
   "private": true,
-  "dependencies": {
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public",
+    "format": "./node_modules/.bin/prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.2",
+    "react-dom": ">=17.0.2",
+    "@ant-design/charts": ">=1.1.1",
+    "@ant-design/icons": ">=4.6.2",
+    "@antv/data-set": ">=0.11.8",
+    "@antv/g2plot": ">=2.3.18",
+    "antd": ">=4.15.1",
+    "json-pointer": ">=0.6.1",
+    "jsonpath": ">=1.1.1",
+    "lodash": ">=4.17.21",
+    "moment": ">=2.29.1"
+  },
+  "devDependencies": {
     "@ant-design/charts": "1.1.1",
     "@ant-design/icons": "^4.6.2",
     "@antv/data-set": "^0.11.8",
     "@antv/g2plot": "^2.3.18",
-    "@types/node": "^14.14.37",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.3",
-    "antd": "^4.15.1",
-    "json-pointer": "^0.6.1",
-    "jsonpath": "^1.1.1",
-    "lodash": "^4.17.21",
-    "moment": "^2.29.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3"
-  },
-  "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@size-limit/preset-small-lib": "^4.10.2",
     "@storybook/addon-actions": "^6.2.7",
     "@storybook/addon-essentials": "^6.2.7",
     "@storybook/addon-links": "^6.2.7",
+    "@storybook/addons": "^6.2.9",
     "@storybook/node-logger": "^6.2.7",
-    "@storybook/preset-create-react-app": "^3.1.7",
     "@storybook/react": "^6.2.7",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
@@ -33,57 +53,60 @@
     "@types/json-pointer": "^1.0.30",
     "@types/jsonpath": "^0.2.0",
     "@types/lodash": "^4.14.168",
+    "@types/node": "^14.14.37",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
-    "eslint": "^7.24.0",
-    "eslint-config-airbnb-typescript": "^12.3.1",
-    "eslint-config-prettier": "^8.2.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.23.2",
-    "eslint-plugin-react-hooks": "^4.2.0",
+    "antd": "^4.15.1",
+    "babel-loader": "^8.2.2",
     "husky": "^6.0.0",
+    "json-pointer": "^0.6.1",
+    "jsonpath": "^1.1.1",
     "lint-staged": "^10.5.4",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "prettier": "^2.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-is": "^17.0.2",
+    "size-limit": "^4.10.2",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.2.0",
     "typescript": "^4.2.4",
-    "typescript-plugin-css-modules": "^3.2.0",
-    "web-vitals": "^1.1.1"
+    "typescript-plugin-css-modules": "^3.2.0"
   },
-  "resolutions": {
-    "**/@typescript-eslint/eslint-plugin": "^4.20.0",
-    "**/@typescript-eslint/parser": "^4.20.0",
-    "**/babel-loader": "8.1.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
-    "format": "./node_modules/.bin/prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "lint-staged": "lint-staged",
-    "prepare": "husky install"
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json}": [
-      "eslint --fix"
-    ],
     "src/**/*.{css,less,scss,md}": [
+      "prettier --write"
+    ],
+    "stories/**/*.{css,less,scss,md}": [
+      "prettier --write"
+    ],
+    "test/**/*.{css,less,scss,md}": [
       "prettier --write"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "module": "dist/ldkg-ui-react.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/ldkg-ui-react.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/ldkg-ui-react.esm.js",
+      "limit": "10 KB"
+    }
+  ]
 }
