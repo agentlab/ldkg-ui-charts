@@ -11,6 +11,9 @@ jobs:
         os: [ubuntu-latest, windows-latest]
 
     steps:
+      - name: Config Git (Mainly for Windows)
+        run: git config --global core.autocrlf false
+
       - name: Checkout repo
         uses: actions/checkout@v2
 
