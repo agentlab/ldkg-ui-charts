@@ -1,6 +1,7 @@
 import { G2, MultiView } from '@ant-design/charts';
 import 'antd/dist/antd.css';
 import React, { useEffect, useState } from 'react';
+import styles from './TimeSeriesWithAuxiliaryView.module.scss';
 import { configureAxesScales } from './utils';
 
 const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, description }: any) => {
@@ -51,9 +52,11 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
   }, [views, options]);
 
   return (
-    <>
-      <h1>{title}</h1>
-      <h3>{description}</h3>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h2 className={styles.title}>{title}</h2>
+        <h4 className={styles.subtitle}>{description}</h4>
+      </div>
       <MultiView
         {...chartConfig}
         onReady={(plt: any) => {
@@ -61,7 +64,7 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
           setPlot(plt);
         }}
       />
-    </>
+    </div>
   );
 };
 
