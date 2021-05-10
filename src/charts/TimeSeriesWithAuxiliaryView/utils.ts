@@ -1,74 +1,119 @@
 import { Meta } from '@antv/g2plot';
 import _ from 'lodash';
 
-const isTimeAxis = (axis: Meta) => axis.type === 'timeCat' || axis.type === 'time';
+export function configureAxesScales(scales: Record<string, Meta>, axesOptions: any = {}, data: [] = []): Meta {
+  const { xAxis: xAxisOptions = {}, yAxis: yAxisOptions = {} } = axesOptions;
 
-export const configureAxesScales = (scales: Record<string, Meta>, axesOptions: any, data: any[]): Meta => {
-  const { xAxis = {}, yAxis = {} } = axesOptions;
-  const yScales = Object.keys(scales).filter((axis: string) => !isTimeAxis(scales[axis]));
-  const xScales = Object.keys(scales).filter((axis: string) => isTimeAxis(scales[axis]));
+  const isTimeAxis = (axis: string) => scales[axis].type === 'timeCat' || scales[axis].type === 'time';
+  const [xScaleNames, yScaleNames] = _.partition(Object.keys(scales), isTimeAxis);
+  const xScales = _.pick(scales, xScaleNames);
+  const yScales = _.pick(scales, yScaleNames);
 
-  const isPrimary = (scale: string) => !yAxis.secondary.includes(scale);
+  const yAxisConfig = makeYAxisConfiguration(yAxisOptions, yScales, data);
+  const xAxisConfig = makeXAxisConfiguration(xAxisOptions, xScales);
+  return { ...xAxisConfig, ...yAxisConfig };
+}
 
-  const yScalesGroups = _.groupBy(yScales, isPrimary);
-  const yGroups = Object.keys(yScalesGroups).map((key: any) => {
-    const groupAxes = yScalesGroups[key];
-    const groupData = data
-      .map((d: any) => {
-        const dataKeys = _.intersection(Object.keys(d), groupAxes);
-        return _.values(_.pick(d, dataKeys));
-      })
-      .flat();
+function makeXAxisConfiguration(xAxisOptions: any, xScales: any) {
+  const { dateFormat } = xAxisOptions;
+  return Object.keys(xScales)
+    .map((scale: any) => ({
+      [scale]: {
+        ...xScales[scale],
+        mask: dateFormat,
+        sync: true,
+      },
+    }))
+    .reduce((acc: any, scale: any) => ({ ...acc, ...scale }), {});
+}
 
-    const calculateRange = key === 'true' ? defineAxisRange : defineSecondaryAxisRange;
+function makeYAxisConfiguration(yAxis: any, yScales: Record<string, Meta>, data: []) {
+  const isPrimary = (scale: string) => !yAxis?.secondary?.includes(scale);
 
-    return yScalesGroups[key].reduce(
-      (acc: any, scale: string) => ({
-        ...acc,
-        [scale]: calculateRange(groupData),
-      }),
-      {},
-    );
-  });
+  const yScalesGroups: any = _.partition(Object.keys(yScales), isPrimary);
+  _.remove(yScalesGroups, (group: any) => group.length === 0);
 
-  const result = yGroups.reduce((acc: any, group: any) => ({
-    ...acc,
-    ...group,
-  }));
-  return { ...result, resultTime: { type: 'timeCat' } };
-};
+  const { ratio: yRatio = 0.75 } = yAxis;
 
-const minMax = (data: any[]) =>
-  data.reduce(
+  const regions: [number, number][] =
+    yScalesGroups.length === 1
+      ? [
+          [0, 1],
+          [0, 0],
+        ]
+      : [
+          [1 - yRatio, 1],
+          [0, 1 - yRatio],
+        ];
+
+  return yScalesGroups
+    .map((groupAxes: any, idx: number) => {
+      const groupData = data
+        .map((d: any) => {
+          const dataKeys = _.intersection(Object.keys(d), groupAxes);
+          return _.values(_.pick(d, dataKeys));
+        })
+        .flat();
+
+      const range = calculateAxisTicks(groupData, regions[idx]);
+      return groupAxes.reduce(
+        (acc: any, axis: any) => ({
+          ...acc,
+          [axis]: range,
+        }),
+        {},
+      );
+    })
+    .reduce((acc: any, group: any) => ({
+      ...acc,
+      ...group,
+    }));
+}
+
+function minMax(data: any[]) {
+  return data.reduce(
     (accumulator, currentValue) => [Math.min(currentValue, accumulator[0]), Math.max(currentValue, accumulator[1])],
     [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
   );
+}
 
-const defineAxisRange = (data: any[], ratio = 0.7) => {
+function calculateAxisTicks(data: any[], region: [number, number]) {
+  const [start, end] = region;
+
   const [min, max] = minMax(data);
-  const pow = (max - min).toString().length - 1;
-  const digit = 10 ** pow;
-  const lower = ((min - (min % digit)) / digit - 1) * digit;
-  const upper = ((max - (max % digit)) / digit + 1) * digit;
-  const initial = lower - Math.ceil(((max - min) * (1 - ratio)) / ratio / digit) * digit;
+  const [tickSpacing, tickMin, tickMax] = calculateTicks(5, min, max);
+  const minTick = tickMin - ((tickMax - tickMin) * start) / (end - start);
+  const maxTick = tickMax + ((tickMax - tickMin) * (1 - end)) / (end - start);
 
   return {
-    min: initial,
-    max: upper,
-    ticks: Array.from({ length: (upper - lower) / digit + 1 }, (a, i) => (i + 1) * digit),
+    ticks: _.range(tickMin, tickMax + tickSpacing, tickSpacing),
+    min: minTick,
+    max: maxTick,
   };
-};
+}
 
-const defineSecondaryAxisRange = (data: any[], ratio = 0.25) => {
-  const [, max] = minMax(data);
-  const pow = max.toString().length - 1;
-  const digit = 10 ** pow;
-  const upper = ((max - (max % digit)) / digit + 1) * digit;
-  const highest = upper / ratio;
+function calculateTicks(maxTicks: number, minPoint: number, maxPoint: number): [number, number, number] {
+  const range = niceNum(maxPoint - minPoint, false);
+  const tickSpacing = niceNum(range / (maxTicks - 1), true);
+  const niceMin = Math.floor(minPoint / tickSpacing) * tickSpacing;
+  const niceMax = Math.ceil(maxPoint / tickSpacing) * tickSpacing;
+  return [tickSpacing, niceMin, niceMax];
+}
 
-  return {
-    min: 0,
-    max: highest,
-    ticks: Array.from({ length: upper / digit + 1 }, (a, i) => i * digit),
-  };
-};
+function niceNum(range: number, round: boolean): number {
+  const exponent: number = Math.floor(Math.log10(range));
+  const fraction: number = range / 10 ** exponent;
+  let niceFraction: number;
+
+  if (round) {
+    if (fraction < 1.5) niceFraction = 1;
+    else if (fraction < 3) niceFraction = 2;
+    else if (fraction < 7) niceFraction = 5;
+    else niceFraction = 10;
+  } else if (fraction <= 1) niceFraction = 1;
+  else if (fraction <= 2) niceFraction = 2;
+  else if (fraction <= 5) niceFraction = 5;
+  else niceFraction = 10;
+
+  return niceFraction * 10 ** exponent;
+}

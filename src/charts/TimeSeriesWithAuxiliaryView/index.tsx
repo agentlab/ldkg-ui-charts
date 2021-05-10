@@ -30,7 +30,11 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
     const updateViews = views.map((view: any) => ({
       ...view,
       interactions: [{ type: 'active-region' }],
-      meta: configureAxesScales(view.meta, options.axes, view.data),
+      meta: configureAxesScales(
+        view.meta,
+        { ...options.axes, xAxis: { dateFormat: options.dateFormat || 'DD.MM.YYYY' } },
+        view.data,
+      ),
     }));
 
     const updatedConfig = {
