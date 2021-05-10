@@ -3,6 +3,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
+    //project: './tsconfig.json',
     ecmaFeatures: {
       jsx: true, // Allows for the parsing of JSX
     },
@@ -13,9 +14,17 @@ module.exports = {
     },
   },
   plugins: ['import', 'flowtype', 'jsx-a11y', 'react', 'react-hooks', 'prettier'],
-  extends: ['eslint:recommended', 'react-app', 'prettier', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    //'airbnb-typescript',
+    'react-app',
+    'prettier',
+    'plugin:prettier/recommended',
+  ],
   rules: {
     '@typescript-eslint/no-use-before-define': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/ban-types': [
       'error',
