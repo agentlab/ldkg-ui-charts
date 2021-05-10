@@ -2,6 +2,7 @@ import { G2, MultiView } from '@ant-design/charts';
 import 'antd/dist/antd.css';
 import React, { useEffect, useState } from 'react';
 import styles from './TimeSeriesWithAuxiliaryView.module.scss';
+import DateRangePickerMenu from '../../DateRangePickerMenu';
 import { configureAxesScales } from './utils';
 
 const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, description }: any) => {
@@ -57,6 +58,7 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
         <h2 className={styles.title}>{title}</h2>
         <h4 className={styles.subtitle}>{description}</h4>
       </div>
+      <DateRangePickerMenu />
       <MultiView
         {...chartConfig}
         onReady={(plt: any) => {
