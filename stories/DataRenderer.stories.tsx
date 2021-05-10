@@ -1,7 +1,8 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import { rootModelState } from '../store/data';
-import DataRenderer from '.';
+
+import { rootModelState } from '../src/store/data';
+import { DataRenderer } from '../src';
 
 export default {
   title: 'DataRenderer',

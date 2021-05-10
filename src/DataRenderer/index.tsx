@@ -6,7 +6,7 @@ import { createComponent } from './mappers/components';
 
 const shapeFactoryMapper = new ShapeFactoryMapper();
 
-const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.Element => {
+export const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.Element => {
   const [views, setViews] = useState<any>([]);
 
   useEffect(() => {
@@ -61,5 +61,3 @@ const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.Element =
     </React.Suspense>
   );
 };
-
-export default DataRenderer;

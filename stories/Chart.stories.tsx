@@ -1,8 +1,8 @@
 import { Meta } from '@storybook/react';
 import React, { ReactNode } from 'react';
-import { DataSetDemo } from './DataSetDemo';
-import { MultiViewDodgeDemo } from './MultiViewDodgeDemo';
-import { PieTooltipDemo } from './PieTooltipDemo';
+import { DataSetDemo } from '../src/charts/DataSetDemo';
+import { MultiViewDodgeDemo } from '../src/charts/MultiViewDodgeDemo';
+import { PieTooltipDemo } from '../src/charts/PieTooltipDemo';
 
 export default {
   title: 'ChartDemo',

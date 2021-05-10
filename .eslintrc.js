@@ -3,24 +3,28 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
-    project: './tsconfig.json',
+    //project: './tsconfig.json',
+    ecmaFeatures: {
+      jsx: true, // Allows for the parsing of JSX
+    },
   },
   settings: {
     react: {
       version: 'detect',
     },
   },
-  plugins: ['react', 'react-hooks', '@typescript-eslint', 'import', 'jsx-a11y', 'prettier'],
+  plugins: ['import', 'flowtype', 'jsx-a11y', 'react', 'react-hooks', 'prettier'],
   extends: [
-    'airbnb-typescript',
     'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
+    //'airbnb-typescript',
+    'react-app',
     'prettier',
+    'plugin:prettier/recommended',
   ],
   rules: {
     '@typescript-eslint/no-use-before-define': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/ban-types': [
       'error',
@@ -38,7 +42,7 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: ['**/*.stories.tsx'],
+        devDependencies: ['stories/**/*', 'test/**/*'],
       },
     ],
     '@typescript-eslint/naming-convention': [
