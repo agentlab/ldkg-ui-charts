@@ -10,7 +10,7 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint",
+    "lint": "eslint \"{src,stories,test}**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
@@ -22,50 +22,56 @@
   "peerDependencies": {
     "react": ">=17.0.2",
     "react-dom": ">=17.0.2",
-    "@ant-design/charts": ">=1.1.1",
+    "@ant-design/charts": ">=1.1.3",
     "@ant-design/icons": ">=4.6.2",
     "@antv/data-set": ">=0.11.8",
-    "@antv/g2plot": ">=2.3.18",
-    "antd": ">=4.15.1",
+    "@antv/g2plot": ">=2.3.19",
+    "antd": ">=4.15.4",
     "json-pointer": ">=0.6.1",
     "jsonpath": ">=1.1.1",
     "lodash": ">=4.17.21",
     "moment": ">=2.29.1"
   },
   "devDependencies": {
-    "@ant-design/charts": "1.1.1",
+    "@ant-design/charts": "1.1.3",
     "@ant-design/icons": "^4.6.2",
     "@antv/data-set": "^0.11.8",
-    "@antv/g2plot": "^2.3.18",
+    "@antv/g2plot": "^2.3.19",
     "@babel/core": "^7.14.0",
     "@size-limit/preset-small-lib": "^4.10.2",
-    "@storybook/addon-actions": "^6.2.7",
-    "@storybook/addon-essentials": "^6.2.7",
-    "@storybook/addon-links": "^6.2.7",
+    "@storybook/addon-actions": "^6.2.9",
+    "@storybook/addon-essentials": "^6.2.9",
+    "@storybook/addon-info": "^5.3.21",
+    "@storybook/addon-links": "^6.2.9",
     "@storybook/addons": "^6.2.9",
-    "@storybook/node-logger": "^6.2.7",
-    "@storybook/react": "^6.2.7",
-    "@testing-library/jest-dom": "^5.11.10",
+    "@storybook/node-logger": "^6.2.9",
+    "@storybook/react": "^6.2.9",
+    "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
-    "@testing-library/user-event": "^13.1.4",
-    "@types/jest": "^26.0.22",
+    "@testing-library/user-event": "^13.1.8",
     "@types/json-pointer": "^1.0.30",
     "@types/jsonpath": "^0.2.0",
     "@types/lodash": "^4.14.168",
-    "@types/node": "^14.14.37",
-    "@types/react": "^17.0.3",
+    "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.3",
-    "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
-    "antd": "^4.15.1",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "@typescript-eslint/parser": "^4.22.1",
+    "antd": "^4.15.4",
     "babel-loader": "^8.2.2",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^6.0.0",
     "json-pointer": "^0.6.1",
     "jsonpath": "^1.1.1",
-    "lint-staged": "^10.5.4",
+    "lint-staged": "^11.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "prettier": "^2.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
@@ -75,19 +81,23 @@
     "typescript": "^4.2.4",
     "typescript-plugin-css-modules": "^3.2.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
+  "resolutions": {
+    "**/@typescript-eslint/eslint-plugin": "^4.22.1",
+    "**/@typescript-eslint/parser": "^4.22.1",
+    "**/eslint": "^7.26.0",
+    "**/eslint-config-prettier": "^8.3.0",
+    "**/eslint-config-react-app": "^6.0.0",
+    "**/eslint-plugin-import": "^2.22.1",
+    "**/eslint-plugin-jsx-a11y": "^6.4.1",
+    "**/eslint-plugin-prettier": "^3.4.0",
+    "**/eslint-plugin-react": "^7.23.2",
+    "**/eslint-plugin-react-hooks": "^4.2.0"
   },
   "lint-staged": {
-    "src/**/*.{css,less,scss,md}": [
-      "prettier --write"
+    "{src,stories,test}/**/*.{js,jsx,ts,tsx,json}": [
+      "eslint --fix"
     ],
-    "stories/**/*.{css,less,scss,md}": [
-      "prettier --write"
-    ],
-    "test/**/*.{css,less,scss,md}": [
+    "{src,stories,test}/**/*.{css,less,scss,md}": [
       "prettier --write"
     ]
   },
