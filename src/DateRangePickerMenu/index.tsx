@@ -1,12 +1,13 @@
 import { CalendarTwoTone } from '@ant-design/icons';
 import { DatePicker, Divider, Space, Typography } from 'antd';
 import moment, { Duration, Moment } from 'moment';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './DateRangePickerMenu.module.scss';
 
 interface DateRangePickerMenuProps {
   dateFormat?: string;
   ranges?: Record<string, Duration>;
+  onChange(dates: [Moment, Moment]): void;
 }
 
 const defaultRanges: Record<string, Duration> = {
@@ -21,9 +22,16 @@ const defaultRanges: Record<string, Duration> = {
 const DateRangePickerMenu: React.FC<DateRangePickerMenuProps> = ({
   dateFormat = 'DD.MM.YYYY',
   ranges = defaultRanges,
+  onChange,
 }) => {
   const [dates, setDates] = useState<[Moment, Moment] | null>(null);
   const { RangePicker } = DatePicker;
+
+  useEffect(() => {
+    if (dates) {
+      onChange(dates);
+    }
+  }, [dates]);
 
   return (
     <div className={styles.controlPanel}>
@@ -33,7 +41,8 @@ const DateRangePickerMenu: React.FC<DateRangePickerMenuProps> = ({
             <Typography.Link
               key={range}
               onClick={() => {
-                setDates([moment().subtract(ranges[range]), moment()]);
+                const calendarDates: [Moment, Moment] = [moment().subtract(ranges[range]), moment()];
+                setDates(calendarDates);
               }}>
               {range}
             </Typography.Link>
@@ -50,6 +59,7 @@ const DateRangePickerMenu: React.FC<DateRangePickerMenuProps> = ({
           separator='-'
           onChange={(calendarDates: any) => {
             setDates(calendarDates);
+            onChange(calendarDates);
           }}
           disabledDate={(d) => !d || d.isAfter(moment())}
           className={styles.picker}
