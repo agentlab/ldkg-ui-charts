@@ -11,14 +11,13 @@
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "prepare": "tsdx build",
+    "prepare": "husky install && tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "format": "./node_modules/.bin/prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "lint-staged": "lint-staged",
-    "prepare": "husky install"
+    "lint-staged": "lint-staged"
   },
   "peerDependencies": {
     "react": ">=17.0.2",
@@ -98,15 +97,15 @@
     "dist",
     "src"
   ],
-  "module": "dist/ldkg-ui-react.esm.js",
+  "module": "dist/ldkg-ui-charts.esm.js",
   "size-limit": [
     {
-      "path": "dist/ldkg-ui-react.cjs.production.min.js",
-      "limit": "10 KB"
+      "path": "dist/ldkg-ui-charts.cjs.production.min.js",
+      "limit": "500 KB"
     },
     {
-      "path": "dist/ldkg-ui-react.esm.js",
-      "limit": "10 KB"
+      "path": "dist/ldkg-ui-charts.esm.js",
+      "limit": "500 KB"
     }
   ]
 }
