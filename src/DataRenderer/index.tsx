@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { getSnapshot } from 'mobx-state-tree';
 import { MstContext } from '@agentlab/ldkg-ui-react';
 
-import ViewPartMapper, { initialViewPart, viewPartReducer } from './mappers/views';
+import ViewPartMapper, { createEmptyViewPart, viewPartReducer } from './mappers/views';
 import ShapeFactoryMapper from './mappers/shapes';
 import { createComponent } from './mappers/components';
 
@@ -37,7 +37,7 @@ export const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.El
             const chartViewPart = viewPartMapper.createChartViewPart(elementWithMeta, viewElementData);
             return chartViewPart;
           })
-          .reduce(viewPartReducer, initialViewPart);
+          .reduce(viewPartReducer, createEmptyViewPart());
         const chartConfig = {
           title: viewDescription.title,
           description: viewDescription.description,
@@ -104,7 +104,7 @@ export const ChartRenderer = observer<any>(
             const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, viewElementData);
             return chartViewPart;
           })
-          .reduce(viewPartReducer, initialViewPart);
+          .reduce(viewPartReducer, createEmptyViewPart());
         setViewConfig(viewConfig2);
       }
     }

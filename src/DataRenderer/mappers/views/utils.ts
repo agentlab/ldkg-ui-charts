@@ -1,12 +1,13 @@
 import { Geometry } from '@antv/g2plot/lib/adaptor/geometries/base';
+import { IView } from '@antv/g2plot/lib/plots/multi-view/types';
 
-export const initialViewPart = { geometries: [], data: [], meta: {}, axes: {} };
+export const createEmptyViewPart = (): IView => ({ geometries: [], data: [], meta: {}, axes: {} });
 
 function compareGeometries(g1: Geometry, g2: Geometry) {
   return g1.type === g2.type && g1.xField === g2.xField && g1.yField === g2.yField && g1.colorField === g2.colorField;
 }
 
-export function viewPartReducer(view: any, geometryViewPart: any, idx: number, sourceArray: Geometry[]) {
+export function viewPartReducer(view: any, geometryViewPart: any, idx: number, sourceArray: Geometry[]): IView {
   const { geometry, meta, data } = geometryViewPart;
   const existingGeometry = view.geometries.find((g: Geometry) => compareGeometries(geometry, g));
   if (!existingGeometry) {
