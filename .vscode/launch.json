@@ -7,9 +7,16 @@
         {
             "type": "pwa-chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:3000",
+            "name": "Storybook1 in Chrome",
+            "url": "http://localhost:6006/?path=/story/datarenderer--time-series",
             "webRoot": "${workspaceFolder}",
-        }
+        },
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Storybook2 in Chrome",
+            "url": "http://localhost:6006/?path=/story/remotedatarenderer--time-series",
+            "webRoot": "${workspaceFolder}",
+        },
     ]
 }

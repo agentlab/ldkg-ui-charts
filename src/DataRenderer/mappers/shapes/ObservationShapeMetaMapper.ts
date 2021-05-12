@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-underscore-dangle */
 export default class ObservationShapeMetaMapper {
-  private static readonly _shape = 'es:ObservationShape';
+  private static readonly _shape = 'sosa:ObservationShape';
 
   get shape(): string {
     return ObservationShapeMetaMapper._shape;

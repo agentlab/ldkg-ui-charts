@@ -40,10 +40,11 @@ module.exports = {
     'import/no-anonymous-default-export': 'off',
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': [
-      'error',
-      {
-        devDependencies: ['stories/**/*', 'test/**/*'],
-      },
+      'off',
+      //'error',
+      //{
+      //  devDependencies: ['stories/**/*', 'test/**/*'],
+      //},
     ],
     '@typescript-eslint/naming-convention': [
       'error',
