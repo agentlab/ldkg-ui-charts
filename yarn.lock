@@ -3099,7 +3099,7 @@
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.6.tgz#df9c3c8b31a247ec315e6996566be3171df4b3b1"
   integrity sha512-0/HnwIfW4ki2D8L8c9GVcG5I72s9jP5GSLVF0VIXDW00kmIpA6O33G7a8n59Tmh7Nz0WUC3rSb7PTY/sdW2JzA==
 
-"@types/rdf-js@*", "@types/rdf-js@^4.0.0":
+"@types/rdf-js@*", "@types/rdf-js@4.0.1", "@types/rdf-js@^4.0.0":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@types/rdf-js/-/rdf-js-4.0.1.tgz#bf89dfc080e292f06273f059b3a82e5e69fec4c0"
   integrity sha512-S+28+3RoFI+3arls7dS813gYnhb2HiyLX+gs00rgIvCzHU93DaYajhx4tyT+XEO8SjtzZw90OF4OVdYXBwbvkQ==
@@ -3162,6 +3162,13 @@
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@types/source-list-map/-/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"
   integrity sha512-K5K+yml8LTo9bWJI/rECfIPrGgxdpeNbj+d53lwN4QjW1MCwlkhUms+gtdzigTeUyBr09+u8BwOIY3MXvHdcsA==
+
+"@types/sparqljs@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@types/sparqljs/-/sparqljs-3.1.1.tgz#2569e958ffa4a1172272bac2835f5e6d1c17a10f"
+  integrity sha512-S/+x6MDEBzVlLvBhsH/r6UvD3I0jXYpWiahCNkcmd8Dli6brxAiTorQ1ZKIGpPgP1tmZrmuQ075Fi7KIrrMXDA==
+  dependencies:
+    "@types/rdf-js" "*"
 
 "@types/stack-utils@^2.0.0":
   version "2.0.0"
