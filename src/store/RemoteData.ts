@@ -15,6 +15,7 @@ const viewDescrs = [
     type: 'Chart', // control type
     // child ui elements configs
     options: {
+      timeUnit: 'day',
       dateFormat: 'DD.MM.YYYY',
       axes: { yAxis: { primary: ['price'], secondary: ['totalSales'], ratio: 0.5 } },
     },

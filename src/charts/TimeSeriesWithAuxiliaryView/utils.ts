@@ -1,13 +1,28 @@
 import { Meta } from '@antv/g2plot';
+import { Axis } from '@antv/g2plot/lib/types/axis';
 import _ from 'lodash';
+import moment, { unitOfTime } from 'moment';
 
-export function configureAxesScales(scales: Record<string, Meta>, axesOptions: any = {}, data: [] = []): Meta {
-  const { xAxis: xAxisOptions = {}, yAxis: yAxisOptions = {} } = axesOptions;
-
+export function getXYScales(scales: Record<string, Meta>) {
   const isTimeAxis = (axis: string) => scales[axis].type === 'timeCat' || scales[axis].type === 'time';
   const [xScaleNames, yScaleNames] = _.partition(Object.keys(scales), isTimeAxis);
   const xScales = _.pick(scales, xScaleNames);
   const yScales = _.pick(scales, yScaleNames);
+  return { xScales, yScales };
+}
+
+export function scaleDataToTimeUnit(timeScaleName: string, timeUnit: unitOfTime.StartOf, data: any[]): any[] {
+  return timeUnit !== null
+    ? data.map((d: any) => ({
+        ...d,
+        [timeScaleName]: moment(d.resultTime).startOf(timeUnit).toISOString(),
+      }))
+    : data;
+}
+
+export function configureAxesScales(scales: any, axesOptions: any = {}, data: [] = []): Meta {
+  const { xAxis: xAxisOptions = {}, yAxis: yAxisOptions = {} } = axesOptions;
+  const { xScales, yScales } = scales;
 
   const yAxisConfig = makeYAxisConfiguration(yAxisOptions, yScales, data);
   const xAxisConfig = makeXAxisConfiguration(xAxisOptions, xScales);
@@ -68,6 +83,17 @@ function makeYAxisConfiguration(yAxis: any, yScales: Record<string, Meta>, data:
       ...acc,
       ...group,
     }));
+}
+
+export function configureYAxes(yScales: any): Record<string, Axis> {
+  const yScaleNames = Object.keys(yScales);
+  return yScaleNames.reduce(
+    (acc: any, scaleName: string) => ({
+      ...acc,
+      [scaleName]: { title: { text: scaleName.charAt(0).toUpperCase() + scaleName.slice(1) } },
+    }),
+    {},
+  );
 }
 
 function minMax(data: any[]) {

@@ -5,7 +5,7 @@ import moment, { Moment } from 'moment';
 import React, { useEffect, useState } from 'react';
 import DateRangePickerMenu from '../../DateRangePickerMenu';
 import styles from './TimeSeriesWithAuxiliaryView.module.scss';
-import { configureAxesScales } from './utils';
+import { configureAxesScales, configureYAxes, getXYScales, scaleDataToTimeUnit } from './utils';
 
 const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, description }: any) => {
   const [plot, setPlot] = useState<any>(null);
@@ -26,9 +26,9 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
   const theme = {
     colors10: ['#FACDAA', '#F4A49E', '#EE7B91', '#E85285', '#BE408C', '#BE408C'],
     colors20: ['#FACDAA', '#F4A49E', '#EE7B91', '#E85285', '#BE408C', '#BE408C', '#942D93'],
-    maxColumnWidth: 10,
-    minColumnWidth: 5,
-    columnWidthRatio: 0.1,
+    maxColumnWidth: 20,
+    minColumnWidth: 4,
+    columnWidthRatio: 0.4,
   };
 
   const { registerTheme } = G2;
@@ -43,15 +43,24 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
   }, [plot]);
 
   useEffect(() => {
-    const updateViews = views.map((view: any) => ({
-      ...view,
-      interactions: [{ type: 'active-region' }],
-      meta: configureAxesScales(
-        view.meta,
-        { ...options.axes, xAxis: { dateFormat: options.dateFormat || 'DD.MM.YYYY' } },
-        view.data,
-      ),
-    }));
+    const updateViews = views.map((view: any) => {
+      const { timeUnit = null } = options;
+      const xyScales = getXYScales(view.meta);
+      const { xScales, yScales } = xyScales;
+      const timeScalesName = Object.keys(xScales)[0];
+      const viewData = timeUnit !== null ? scaleDataToTimeUnit(timeScalesName, timeUnit, view.data) : view.data;
+      return {
+        ...view,
+        axes: configureYAxes(yScales),
+        data: viewData,
+        interactions: [{ type: 'active-region' }],
+        meta: configureAxesScales(
+          xyScales,
+          { ...options.axes, xAxis: { dateFormat: options.dateFormat || 'DD.MM.YYYY' } },
+          viewData,
+        ),
+      };
+    });
 
     const updatedConfig = {
       views: updateViews,
