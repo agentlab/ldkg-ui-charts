@@ -1,7 +1,7 @@
 import { CalendarTwoTone } from '@ant-design/icons';
 import { DatePicker, Divider, Space, Typography } from 'antd';
 import moment, { Duration, Moment } from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './DateRangePickerMenu.module.scss';
 
 interface DateRangePickerMenuProps {
@@ -25,6 +25,7 @@ const DateRangePickerMenu: React.FC<DateRangePickerMenuProps> = ({
   onChange,
 }) => {
   const [dates, setDates] = useState<[Moment, Moment] | null>(null);
+  const activeRangeRef = useRef<any>(null);
   const { RangePicker } = DatePicker;
 
   useEffect(() => {
@@ -40,8 +41,13 @@ const DateRangePickerMenu: React.FC<DateRangePickerMenuProps> = ({
           {Object.keys(ranges).map((range: string) => (
             <Typography.Link
               key={range}
-              onClick={() => {
+              onClick={(e) => {
                 const calendarDates: [Moment, Moment] = [moment().subtract(ranges[range]), moment()];
+                if (activeRangeRef.current !== null) {
+                  activeRangeRef.current.classList.remove(styles.activeRange);
+                }
+                activeRangeRef.current = e.target;
+                activeRangeRef.current.classList.add(styles.activeRange);
                 setDates(calendarDates);
               }}>
               {range}
@@ -50,7 +56,7 @@ const DateRangePickerMenu: React.FC<DateRangePickerMenuProps> = ({
         </Space>
       </div>
 
-      <div className={styles.range}>
+      <div className={styles.rangePicker}>
         <RangePicker
           inputReadOnly
           allowClear={false}
@@ -58,6 +64,9 @@ const DateRangePickerMenu: React.FC<DateRangePickerMenuProps> = ({
           showNow
           separator='-'
           onChange={(calendarDates: any) => {
+            if (activeRangeRef.current !== null) {
+              activeRangeRef.current.classList.remove(styles.activeRange);
+            }
             setDates(calendarDates);
             onChange(calendarDates);
           }}

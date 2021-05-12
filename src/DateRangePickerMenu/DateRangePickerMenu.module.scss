@@ -28,7 +28,11 @@
     }
   }
 
-  .range {
+  .rangePicker {
     flex-shrink: 0;
+  }
+
+  .activeRange {
+    font-weight: 700;
   }
 }
