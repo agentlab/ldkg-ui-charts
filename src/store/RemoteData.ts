@@ -1,13 +1,13 @@
 import moment from 'moment';
-import { when } from 'mobx';
+import { variable } from '@rdfjs/data-model';
 
-import { SparqlClient, JsObject, Repository } from '@agentlab/sparql-jsld-client';
+import { CollState } from '@agentlab/sparql-jsld-client';
 
 import { viewDescrCollConstr, viewKindCollConstr, viewKinds } from './data';
 
 const viewDescrs = [
   {
-    '@id': 'mh:ChartView',
+    '@id': 'mktp:_g7H7gh',
     '@type': 'rm:View',
     title: 'ProductAnalysis',
     description: 'Marketplace Product Analysis Time-series Charts',
@@ -26,7 +26,7 @@ const viewDescrs = [
         '@id': 'rm:line_11', // machine-generated random UUID
         '@type': 'rm:Element',
         type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
-        resultsScope: 'sosa:Observations_11_CollConstr', // reference to data
+        resultsScope: 'mktp:_8uJ8t6', // reference to data
         options: {
           label: 'Цена Продукт 1', // TODO: in future should be a data-binding
           color: '#4EEC1F',
@@ -39,7 +39,7 @@ const viewDescrs = [
         '@id': 'rm:line_12', // machine-generated random UUID
         '@type': 'rm:Element',
         type: 'interval', // TODO: +'Bar' (auxillary bars, auxillary lines)
-        resultsScope: 'sosa:Observations_12_CollConstr', // reference to data
+        resultsScope: 'mktp:_Kj8d6g5', // reference to data
         options: {
           label: 'Объем продаж Продукт 1', // TODO: in future should be a data-binding
           color: '#4EEC1F',
@@ -50,11 +50,11 @@ const viewDescrs = [
       /**
        * Product 2
        */
-      /*{
+      {
         '@id': 'rm:line_21', // machine-generated random UUID
         '@type': 'rm:Element',
         type: 'line',
-        resultsScope: 'sosa:Observations_21_CollConstr', // reference to data
+        resultsScope: 'mktp:_d6Ghkj', // reference to data
         options: {
           label: 'Цена Продукт 2', // TODO: in future should be a data-binding
           color: '#0B49F2',
@@ -67,22 +67,22 @@ const viewDescrs = [
         '@id': 'rm:line_22', // machine-generated random UUID
         '@type': 'rm:Element',
         type: 'interval',
-        resultsScope: 'sosa:Observations_22_CollConstr', // reference to data
+        resultsScope: 'mktp:_sD678hf', // reference to data
         options: {
           label: 'Объем продаж Продукт 2', // TODO: in future should be a data-binding
           color: '#0B49F2',
           lineWidth: 2,
           // lineDash: '',
         },
-      },*/
+      },
       /**
        * Product 3
        */
-      /*{
+      {
         '@id': 'rm:line_31', // machine-generated random UUID
         '@type': 'rm:Element',
         type: 'line',
-        resultsScope: 'sosa:Observations_31_CollConstr', // reference to data
+        resultsScope: 'mktp:_Kh56Df67', // reference to data
         options: {
           label: 'Цена Продукт 3', // TODO: in future should be a data-binding
           color: '#F20B93',
@@ -95,14 +95,14 @@ const viewDescrs = [
         '@id': 'rm:line_32', // machine-generated random UUID
         '@type': 'rm:Element',
         type: 'interval',
-        resultsScope: 'sosa:Observations_32_CollConstr', // reference to data
+        resultsScope: 'mktp:_sd56Fg78', // reference to data
         options: {
           label: 'Объем продаж Продукт 3', // TODO: in future should be a data-binding
           color: '#F20B93',
           lineWidth: 2,
           // lineDash: '',
         },
-      },*/
+      },
     ],
     // datasets constraints, specific to this view (UML aggregation)
     collsConstrs: [
@@ -110,177 +110,146 @@ const viewDescrs = [
        * Product 1
        */
       {
-        '@id': 'sosa:Observations_11_CollConstr', // machine-generated random UUID
+        '@id': 'mktp:_8uJ8t6', // machine-generated random UUID
         '@type': 'rm:CollConstr',
         entConstrs: [
           {
-            '@id': 'sosa:Observations_11_EntConstr_0', // machine-generated random UUID
+            '@id': 'mktp:_uf78Dfg', // machine-generated random UUID
             '@type': 'rm:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
-              '@id': 'sosa:Observations_11_EntConstr_0_Condition', // machine-generated random UUID
+              '@id': 'mktp:_u8Yg83', // machine-generated random UUID
               '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://huntersales.ru/catalog/products/18247707/prop#price',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/18247707/detail.aspx',
             },
           },
         ],
+        orderBy: [{ expression: variable('resultTime0'), descending: false }],
       },
       {
-        '@id': 'sosa:Observations_12_CollConstr',
+        '@id': 'mktp:_Kj8d6g5',
         '@type': 'rm:CollConstr',
         entConstrs: [
           {
-            '@id': 'sosa:Observations_12_EntConstr_0',
+            '@id': 'mktp:_sD529gk',
             '@type': 'rm:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
-              '@id': 'sosa:Observations_12_EntConstr_0_Condition',
+              '@id': 'mktp:_kj89Df7',
               '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://huntersales.ru/catalog/products/18247707/prop#totalSales',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/18247707/detail.aspx',
             },
           },
         ],
+        orderBy: [{ expression: variable('resultTime0'), descending: false }],
       },
       /**
        * Product 2
        */
-      /*{
-        '@id': 'sosa:Observations_21_CollConstr',
+      {
+        '@id': 'mktp:_d6Ghkj',
         '@type': 'rm:CollConstr',
         entConstrs: [
           {
-            '@id': 'sosa:Observations_21_EntConstr_0',
+            '@id': 'mktp:_df67Gf8',
             '@type': 'rm:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
-              '@id': 'sosa:Observations_21_EntConstr_0_Condition',
+              '@id': 'mktp:_ld35Fcs',
               '@type': 'rm:EntConstrCondition',
-              observedProperty: 'https://huntersales.ru/catalog/products/18247707/prop#price',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/18247707/detail.aspx',
+              observedProperty: 'https://huntersales.ru/catalog/products/15570386/prop#price',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
             },
           },
         ],
+        orderBy: [{ expression: variable('resultTime0'), descending: false }],
       },
       {
-        '@id': 'sosa:Observations_22_CollConstr',
+        '@id': 'mktp:_sD678hf',
         '@type': 'rm:CollConstr',
         entConstrs: [
           {
-            '@id': 'sosa:Observations_22_EntConstr_0',
+            '@id': 'mktp:_98Kg8Gf',
             '@type': 'rm:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
-              '@id': 'sosa:Observations_22_EntConstr_0_Condition',
+              '@id': 'mktp:_kj89dF5',
               '@type': 'rm:EntConstrCondition',
-              observedProperty: 'https://huntersales.ru/catalog/products/18247707/prop#totalSales',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/18247707/detail.aspx',
+              observedProperty: 'https://huntersales.ru/catalog/products/15570386/prop#totalSales',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
             },
           },
         ],
-      },*/
+        orderBy: [{ expression: variable('resultTime0'), descending: false }],
+      },
       /**
        * Product 3
        */
-      /*{
-        '@id': 'sosa:Observations_31_CollConstr',
+      {
+        '@id': 'mktp:_Kh56Df67',
         '@type': 'rm:CollConstr',
         entConstrs: [
           {
-            '@id': 'sosa:Observations_31_EntConstr_0',
+            '@id': 'mktp:_jd8Hd7w',
             '@type': 'rm:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
-              '@id': 'sosa:Observations_31_EntConstr_0_Condition',
+              '@id': 'mktp:_dj7Dsg9',
               '@type': 'rm:EntConstrCondition',
-              observedProperty: 'https://huntersales.ru/catalog/products/18247707/prop#price',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/18247707/detail.aspx',
+              observedProperty: 'https://huntersales.ru/catalog/products/15622789/prop#price',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
             },
           },
         ],
+        orderBy: [{ expression: variable('resultTime0'), descending: false }],
       },
       {
-        '@id': 'sosa:Observations_32_CollConstr',
+        '@id': 'mktp:_sd56Fg78',
         '@type': 'rm:CollConstr',
         entConstrs: [
           {
-            '@id': 'sosa:Observations_32_EntConstr_0',
+            '@id': 'mktp:_kf8Sdf',
             '@type': 'rm:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
-              '@id': 'sosa:Observations_32_EntConstr_0_Condition',
+              '@id': 'mktp:_sd9D8hc',
               '@type': 'rm:EntConstrCondition',
-              observedProperty: 'https://huntersales.ru/catalog/products/18247707/prop#totalSales',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/18247707/detail.aspx',
+              observedProperty: 'https://huntersales.ru/catalog/products/15622789/prop#totalSales',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
             },
           },
         ],
-      },*/
+        orderBy: [{ expression: variable('resultTime0'), descending: false }],
+      },
     ],
   },
 ];
 
+/**
+ * Collections Configs Data
+ */
 export const additionalColls: CollState[] = [
-  // ViewKindDescr
+  // ViewKinds Collection
   {
     constr: viewKindCollConstr,
     data: viewKinds,
     opt: {
       updPeriod: undefined,
       lastSynced: moment.now(),
-      resolveCollConstrs: false,
+      resolveCollConstrs: false, // disable data loading from the server for viewKinds.collConstrs
     },
   },
-  // ViewDescr
+  // ViewDescrs Collection
   {
     constr: viewDescrCollConstr,
     data: viewDescrs,
     opt: {
       updPeriod: undefined,
       lastSynced: moment.now(),
-      //resolveCollConstrs: false,
+      //resolveCollConstrs: false, // 'true' here (by default) triggers data loading from the server
+      // for viewDescrs.collConstrs (it loads lazily -- after the first access)
     },
   },
 ];
-
-export interface CollState {
-  constr: any;
-  data: JsObject[];
-  opt?: JsObject;
-}
-
-export const createModelFromState = (
-  repId: string,
-  client: SparqlClient,
-  initialState: any,
-  additionalColls: CollState[] | undefined = undefined,
-): any => {
-  //@ts-ignore
-  const model = Repository.create(initialState, { client });
-  model.setId(repId);
-  model.ns.reloadNs();
-  //console.log(mstSchemas);
-  if (additionalColls && additionalColls.length > 0) {
-    // wait until namespaces loads then add additionalState
-    when(
-      () => Object.keys(model.ns.currentJs).length > 5,
-      () => {
-        additionalColls.forEach((collState) => {
-          if (model.getColl(collState.constr['@id']) === undefined) {
-            try {
-              const coll = model.addColl(collState.constr, collState.opt, collState.data);
-              if (!coll) {
-                console.warn(`Warn: Coll insertion failed! Coll ${collState.constr['@id']} is undefined`);
-              }
-            } catch (err) {
-              console.error(`Err: Coll insertion failed! Coll ${collState.constr['@id']} is undefined`);
-              console.error(err);
-            }
-          }
-        });
-      },
-    );
-  }
-  return model;
-};

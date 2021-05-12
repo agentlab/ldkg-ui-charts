@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { rootModelInitialState } from '@agentlab/sparql-jsld-client';
 
 export const viewKindCollConstr = {
   '@id': 'rm:ViewKinds_Coll',
@@ -588,6 +589,7 @@ const viewDataObservations32 = [
 ];
 
 export const rootModelState = {
+  ...rootModelInitialState,
   colls: {
     // ViewDescr
     [viewDescrCollConstr['@id']]: {

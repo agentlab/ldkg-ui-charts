@@ -21,13 +21,11 @@ export const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.El
         const viewKind = viewKinds.find((vk: any) => vk['@id'] === viewDescription.viewKind);
         const { mappings = [] } = viewKind;
         const viewPartMapper = ViewPartMapper(mappings);
-
         const viewConfig = viewDescription.elements
           .map((viewElement: any) => {
             const elementCollectionConstraint = viewDescription.collsConstrs.find(
               (constraint: { [x: string]: any }) => constraint['@id'] === viewElement.resultsScope,
             );
-
             const viewElementMeta = elementCollectionConstraint?.entConstrs
               .map((e: any) => shapeFactoryMapper.mapToMeta(e))
               .reduce((acc: any, item: any) => ({ ...acc, ...item }), {});
@@ -40,20 +38,17 @@ export const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.El
             return chartViewPart;
           })
           .reduce(viewPartReducer, initialViewPart);
-
         const chartConfig = {
           title: viewDescription.title,
           description: viewDescription.description,
           options: viewDescription.options,
           views: [viewConfig],
         };
-
         const dataViewComponent = await createComponent(viewKind.type);
         return { View: dataViewComponent, key: viewDescription['@id'], config: chartConfig };
       });
       Promise.all(mappedViews).then(setViews);
     }
-
     loadViews();
   }, [viewDescriptions, data, viewKinds]);
 
@@ -74,43 +69,45 @@ export const ChartRenderer = observer<any>(
     const [viewDescr, setViewDescr] = useState<any | undefined>();
     const [viewKind, setViewKind] = useState<any | undefined>();
     const [viewConfig, setViewConfig] = useState<any | undefined>();
-
+    //TODO: How to detect viewDescr modifications?
     if (!viewDescr) setViewDescr(getSnapshot(viewDescrObs));
     if (!viewKind) setViewKind(getSnapshot(viewKindObs));
-
     if (!viewConfig && viewDescr && viewKind) {
       const { mappings = [] } = viewKind;
       const viewPartMapper = ViewPartMapper(mappings);
-      try {
-        const viewConfig2 = viewDescr.elements
-          .map((viewElem: any) => {
-            const elemCollConstr = viewDescr.collsConstrs.find(
-              (constraint: { [x: string]: any }) => constraint['@id'] === viewElem.resultsScope,
-            );
-            const viewElemMeta = elemCollConstr?.entConstrs
-              .map((e: any) => shapeFactoryMapper.mapToMeta(e))
-              .reduce((acc: any, item: any) => ({ ...acc, ...item }), {});
-            const viewElemClear: any = {}; // filter all fields with 'undefined'
-            Object.keys(viewElem).forEach((key) => {
-              const val = viewElem[key];
-              if (val !== undefined) viewElemClear[key] = val;
-            });
-            return { ...viewElemMeta, ...viewElemClear };
-          })
+      const elemWithMetas = viewDescr.elements.map((viewElem: any) => {
+        const elemCollConstr = viewDescr.collsConstrs.find(
+          (constraint: { [x: string]: any }) => constraint['@id'] === viewElem.resultsScope,
+        );
+        const viewElemMeta = elemCollConstr?.entConstrs
+          .map((e: any) => shapeFactoryMapper.mapToMeta(e))
+          .reduce((acc: any, item: any) => ({ ...acc, ...item }), {});
+        const viewElemClear: any = {}; // filter all fields with 'undefined'
+        Object.keys(viewElem).forEach((key) => {
+          const val = viewElem[key];
+          if (val !== undefined) viewElemClear[key] = val;
+        });
+        return { ...viewElemMeta, ...viewElemClear };
+      });
+      // Wait for all ViewDescr.collConstrs data to load
+      //TODO: How to render the data, available for elemWithMetas, and detect lazy-loaded data
+      // for the rest elemWithMetas and render it later
+      // every() here and not filter() cause we did not fugure it out
+      if (elemWithMetas.every((e: any) => rootStore.getColl(e.resultsScope)?.data.length > 0)) {
+        const viewConfig2 = elemWithMetas
           .map((elemWithMeta: any) => {
             const dataObs = rootStore.getColl(elemWithMeta.resultsScope);
-            if (!dataObs || dataObs.data.length === 0) throw 'Get out of cycle';
-            const viewElementData: any = cloneDeep(getSnapshot(dataObs.data));
+            // TODO: fix sotring in sparql client and remove sorting below
+            const viewElementData: any = (cloneDeep(getSnapshot(dataObs.data)) as any[]).sort(
+              (a: any, b: any) => new Date(a.resultTime).valueOf() - new Date(b.resultTime).valueOf(),
+            );
             const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, viewElementData);
             return chartViewPart;
           })
           .reduce(viewPartReducer, initialViewPart);
         setViewConfig(viewConfig2);
-      } catch (err) {
-        console.log(err);
       }
     }
-
     // Data & Mapping
     useEffect(() => {
       async function loadViews() {
@@ -128,7 +125,6 @@ export const ChartRenderer = observer<any>(
         loadViews();
       }
     }, [rootStore, viewConfig, viewDescr, viewKind]);
-
     return (
       <React.Suspense fallback={<Spin />}>
         {views.map((item: { View: any; key: any; config: any }) => {
@@ -149,21 +145,16 @@ interface ViewData {
 export const RemoteDataRenderer = observer<any>(
   ({ viewDescrCollId, viewDescrId, viewKindCollId }: ViewData): JSX.Element => {
     const { rootStore } = useContext(MstContext);
-    //console.log(getSnapshot(rootStore));
     // ViewDescr
     const collWithViewDescrsObs = rootStore.getColl(viewDescrCollId);
     if (!collWithViewDescrsObs) {
-      console.log('undef collWithViewDescrsObs with id', viewDescrCollId);
       return <Spin />;
     } else {
-      //console.log('OK collWithViewDescrsObs', getSnapshot(collWithViewDescrsObs));
       const viewDescrObs = collWithViewDescrsObs.dataByIri(viewDescrId);
       if (!viewDescrObs) {
         console.log('undef viewDescrObs with id', viewDescrId);
         return <Spin />;
       } else {
-        //console.log('OK viewDescrObs', getSnapshot(viewDescrObs));
-        //setViewDescr(getSnapshot(viewDescrObs));
         // ViewKind
         const viewKindId = viewDescrObs.viewKind;
         const collWithViewKindsObs = rootStore.getColl(viewKindCollId);
@@ -171,14 +162,11 @@ export const RemoteDataRenderer = observer<any>(
           console.log('undef collWithViewKindsObs with id', viewKindCollId);
           return <Spin />;
         } else {
-          //console.log('OK collWithViewKindsObs', getSnapshot(collWithViewKindsObs));
           const viewKindObs = collWithViewKindsObs.dataByIri(viewKindId);
           if (!viewKindObs) {
             console.log('undef viewKindObs with id', viewKindId);
             return <Spin />;
           } else {
-            //console.log('OK viewKindObs', getSnapshot(viewKindObs));
-            //setViewKind(getSnapshot(viewKindObs));
             return <ChartRenderer viewDescrObs={viewDescrObs} viewKindObs={viewKindObs} />;
           }
         }

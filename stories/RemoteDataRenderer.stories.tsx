@@ -3,10 +3,10 @@ import { Meta, Story } from '@storybook/react';
 
 import { Provider } from 'react-redux';
 import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
-import { SparqlClientImpl, rootModelInitialState } from '@agentlab/sparql-jsld-client';
+import { SparqlClientImpl, rootModelInitialState, createModelFromState } from '@agentlab/sparql-jsld-client';
 import { MstContextProvider } from '@agentlab/ldkg-ui-react';
 
-import { additionalColls, createModelFromState } from '../src/store/RemoteData';
+import { additionalColls } from '../src/store/RemoteData';
 import { RemoteDataRenderer } from '../src';
 
 export default {
@@ -31,6 +31,6 @@ export const TimeSeries = Template.bind({});
 
 TimeSeries.args = {
   viewDescrCollId: 'rm:Views_Coll',
-  viewDescrId: 'mh:ChartView',
+  viewDescrId: 'mktp:_g7H7gh',
   viewKindCollId: 'rm:ViewKinds_Coll',
 };
