@@ -86,6 +86,7 @@ const viewDescrs = [
     // child ui elements configs
     options: {
       dateFormat: 'DD.MM.YYYY',
+      timeUnit: 'day',
       axes: { yAxis: { primary: ['price'], secondary: ['volume'], ratio: 0.5 } },
     },
     elements: [

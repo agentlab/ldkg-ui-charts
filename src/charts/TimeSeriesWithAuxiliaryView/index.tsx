@@ -1,11 +1,27 @@
 import { G2, MultiView } from '@ant-design/charts';
+import { Datum } from '@antv/g2plot/lib/types';
 import 'antd/dist/antd.css';
+import moment, { Moment } from 'moment';
 import React, { useEffect, useState } from 'react';
+import DateRangePickerMenu from '../../DateRangePickerMenu';
+import styles from './TimeSeriesWithAuxiliaryView.module.scss';
 import { configureAxesScales } from './utils';
 
 const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, description }: any) => {
   const [plot, setPlot] = useState<any>(null);
   const [chartConfig, setChartConfig] = useState<any>({});
+
+  const handleDatesChanged = (dates: [Moment, Moment]) => {
+    const { views: chartViews = [] } = plot?.chart;
+    const { timeUnit = null } = options;
+    chartViews.forEach((view: any) => {
+      view.filter('*', (value: any, data: Datum) => {
+        const resultDate = moment(data.resultTime);
+        return resultDate.isSameOrAfter(dates[0], timeUnit) && resultDate.isSameOrBefore(dates[1], timeUnit);
+      });
+      view.render();
+    });
+  };
 
   const theme = {
     colors10: ['#FACDAA', '#F4A49E', '#EE7B91', '#E85285', '#BE408C', '#BE408C'],
@@ -51,9 +67,12 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
   }, [views, options]);
 
   return (
-    <>
-      <h1>{title}</h1>
-      <h3>{description}</h3>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h2 className={styles.title}>{title}</h2>
+        <h4 className={styles.subtitle}>{description}</h4>
+      </div>
+      <DateRangePickerMenu onChange={handleDatesChanged} />
       <MultiView
         {...chartConfig}
         onReady={(plt: any) => {
@@ -61,7 +80,7 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
           setPlot(plt);
         }}
       />
-    </>
+    </div>
   );
 };
 
