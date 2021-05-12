@@ -49,6 +49,7 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
       const { xScales, yScales } = xyScales;
       const timeScalesName = Object.keys(xScales)[0];
       const viewData = timeUnit !== null ? scaleDataToTimeUnit(timeScalesName, timeUnit, view.data) : view.data;
+      const { options: viewOptions = {} } = view;
       return {
         ...view,
         axes: configureYAxes(yScales),

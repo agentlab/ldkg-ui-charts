@@ -39,21 +39,25 @@ function assign(object: any, value: any, wrapper?: any, contextObject?: any, pro
   }
   if (wrapper) {
     const wrapperType = wrapper.type ?? 'rawValue';
+    let objectValueToAssign = {};
     switch (wrapperType) {
       case 'rawValue': {
-        return Object.assign(object, { [property]: { [wrapper]: value[property] } });
+        objectValueToAssign = { [property]: { [wrapper]: value[property] } };
+        break;
       }
       case 'pointer':
         {
           const pointerValue = getPointerValue(wrapper.value, contextObject);
           if (pointerValue) {
-            return Object.assign(object, { [property]: { [pointerValue]: value[property] } });
+            objectValueToAssign = { [property]: { [pointerValue]: value[property] } };
           }
         }
         break;
       default:
-        return Object.assign(object, value);
+        objectValueToAssign = value;
+        break;
     }
+    return Object.assign(object, wrapper.options ? { options: objectValueToAssign } : objectValueToAssign);
   }
   return Object.assign(object, value);
 }
@@ -119,12 +123,22 @@ export default function ViewPartMapper(mappings: any) {
     );
   };
 
+  const extractGeometryOptions = (viewElementGeometry: any) => {
+    if (viewElementGeometry.options) {
+      const geometyOptions = _.cloneDeep(viewElementGeometry.options);
+      delete viewElementGeometry.options;
+      return geometyOptions;
+    }
+    return {};
+  };
+
   return {
     createChartViewPart(element: any, viewElementData: any[]) {
       const geometry: Geometry = createGeometry(element);
       const geometryData = applyDataMappings(geometry, viewElementData);
       const geometryMeta = getGeometryMeta(element, geometry);
-      return { geometry, meta: geometryMeta, data: geometryData };
+      const options = extractGeometryOptions(geometry);
+      return { geometry, meta: geometryMeta, data: geometryData, options };
     },
   };
 }

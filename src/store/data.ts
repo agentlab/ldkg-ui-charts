@@ -49,6 +49,15 @@ export const viewKinds = [
           marginRatio: 0,
         },
       },
+      legend: {
+        type: 'object',
+        properties: {
+          link: { type: 'pointer', value: '/hasFeatureOfInterest' },
+          dataField: 'hasFeatureOfInterest',
+          color: { type: 'pointer', value: '/options/color' },
+        },
+        wrapper: { type: 'pointer', value: '/hasFeatureOfInterest', options: true },
+      },
       mapping: {
         type: 'object',
         properties: {
