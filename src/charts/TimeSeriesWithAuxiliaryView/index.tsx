@@ -2,7 +2,7 @@ import { G2, MultiView } from '@ant-design/charts';
 import { Datum } from '@antv/g2plot/lib/types';
 import 'antd/dist/antd.css';
 import moment, { Moment } from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DateRangePickerMenu from '../../DateRangePickerMenu';
 import styles from './TimeSeriesWithAuxiliaryView.module.scss';
 import { configureAxesScales, configureYAxes, getXYScales, scaleDataToTimeUnit } from './utils';
@@ -10,6 +10,7 @@ import { configureAxesScales, configureYAxes, getXYScales, scaleDataToTimeUnit }
 const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, description }: any) => {
   const [plot, setPlot] = useState<any>(null);
   const [chartConfig, setChartConfig] = useState<any>({});
+  const legendItems = useRef<any[]>([]);
 
   const handleDatesChanged = (dates: [Moment, Moment]) => {
     const { views: chartViews = [] } = plot?.chart;
@@ -21,6 +22,25 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
       });
       view.render();
     });
+  };
+
+  const handleLegendClick = (element: any, legend: any) => {
+    const { views: chartViews = [] } = plot?.chart;
+    chartViews.forEach((view: any) => {
+      view.filter(
+        legend.link,
+        legend.enabled
+          ? (value: any, data: Datum) => {
+              return data[legend.dataField] !== legend.link;
+            }
+          : null,
+      );
+      view.render();
+    });
+    const legendIdx = legendItems.current.findIndex((legendItem: any) => legendItem.link === legend.link);
+    legendItems.current[legendIdx].enabled = !legend.enabled;
+    element.className = legend.enabled ? styles.legendItemActive : styles.legendItem;
+    element.style.borderColor = legend.enabled ? legend.color : '#DADCE0';
   };
 
   const theme = {
@@ -43,6 +63,7 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
   }, [plot]);
 
   useEffect(() => {
+    const chartOptions = {};
     const updateViews = views.map((view: any) => {
       const { timeUnit = null } = options;
       const xyScales = getXYScales(view.meta);
@@ -50,6 +71,15 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
       const timeScalesName = Object.keys(xScales)[0];
       const viewData = timeUnit !== null ? scaleDataToTimeUnit(timeScalesName, timeUnit, view.data) : view.data;
       const { options: viewOptions = {} } = view;
+
+      if (viewOptions.legend) {
+        const viewLegendItems = Object.keys(viewOptions.legend).map((key: PropertyKey) => ({
+          ...viewOptions.legend[key],
+          enabled: true,
+        }));
+        legendItems.current = viewLegendItems;
+      }
+
       return {
         ...view,
         axes: configureYAxes(yScales),
@@ -64,6 +94,7 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
     });
 
     const updatedConfig = {
+      options: chartOptions,
       views: updateViews,
       syncViewPadding: true,
       tooltip: {
@@ -90,6 +121,21 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
           setPlot(plt);
         }}
       />
+      <div className={styles.legend}>
+        {legendItems.current.map((legend: any) => (
+          <div
+            key={legend.link}
+            className={styles.legendItemActive}
+            style={{ borderColor: legend.color }}
+            onClick={(e) => {
+              handleLegendClick(e.target, legend);
+            }}>
+            <a href={legend.link} onClick={(e) => e.stopPropagation()}>
+              {legend.text}
+            </a>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
