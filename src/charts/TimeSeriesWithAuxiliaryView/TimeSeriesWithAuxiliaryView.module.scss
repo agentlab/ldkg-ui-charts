@@ -22,3 +22,30 @@
     color: rgb(153, 153, 153);
   }
 }
+
+.legend {
+  display: flex;
+  margin-top: 20px;
+}
+
+.legendItem {
+  cursor: pointer;
+  border: 1px solid #dadce0;
+  height: 50px;
+  width: 200px;
+  padding: 6px 8px 6px 4px;
+  margin-right: 8px;
+  margin-top: 4px;
+  border-radius: 8px;
+}
+
+.legendItemActive {
+  cursor: pointer;
+  border: 3px solid #dadce0;
+  height: 50px;
+  width: 200px;
+  padding: 4px 6px 4px 2px;
+  margin-right: 8px;
+  margin-top: 4px;
+  border-radius: 8px;
+}

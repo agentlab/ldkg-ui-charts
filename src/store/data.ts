@@ -49,6 +49,16 @@ export const viewKinds = [
           marginRatio: 0,
         },
       },
+      legend: {
+        type: 'object',
+        properties: {
+          link: { type: 'pointer', value: '/hasFeatureOfInterest' },
+          dataField: 'hasFeatureOfInterest',
+          color: { type: 'pointer', value: '/options/color' },
+          text: { type: 'pointer', value: '/options/label' },
+        },
+        wrapper: { type: 'pointer', value: '/hasFeatureOfInterest', options: true },
+      },
       mapping: {
         type: 'object',
         properties: {
@@ -99,7 +109,7 @@ const viewDescrs = [
         type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
         resultsScope: 'sosa:Observations_11_CollConstr', // reference to data
         options: {
-          label: 'Цена Продукт 1', // TODO: in future should be a data-binding
+          label: 'Продукт 1', // TODO: in future should be a data-binding
           color: '#4EEC1F',
           lineWidth: 2,
           shape: 'hvh',
@@ -112,7 +122,7 @@ const viewDescrs = [
         type: 'interval', // TODO: +'Bar' (auxillary bars, auxillary lines)
         resultsScope: 'sosa:Observations_12_CollConstr', // reference to data
         options: {
-          label: 'Объем продаж Продукт 1', // TODO: in future should be a data-binding
+          label: 'Продукт 1', // TODO: in future should be a data-binding
           color: '#4EEC1F',
           lineWidth: 2,
           // lineDash: '',
@@ -127,7 +137,7 @@ const viewDescrs = [
         type: 'line',
         resultsScope: 'sosa:Observations_21_CollConstr', // reference to data
         options: {
-          label: 'Цена Продукт 2', // TODO: in future should be a data-binding
+          label: 'Продукт 2', // TODO: in future should be a data-binding
           color: '#0B49F2',
           lineWidth: 2,
           shape: 'hvh',
@@ -140,7 +150,7 @@ const viewDescrs = [
         type: 'interval',
         resultsScope: 'sosa:Observations_22_CollConstr', // reference to data
         options: {
-          label: 'Объем продаж Продукт 2', // TODO: in future should be a data-binding
+          label: 'Продукт 2', // TODO: in future should be a data-binding
           color: '#0B49F2',
           lineWidth: 2,
           // lineDash: '',
@@ -155,7 +165,7 @@ const viewDescrs = [
         type: 'line',
         resultsScope: 'sosa:Observations_31_CollConstr', // reference to data
         options: {
-          label: 'Цена Продукт 3', // TODO: in future should be a data-binding
+          label: 'Продукт 3', // TODO: in future should be a data-binding
           color: '#F20B93',
           lineWidth: 2,
           shape: 'hvh',
@@ -168,7 +178,7 @@ const viewDescrs = [
         type: 'interval',
         resultsScope: 'sosa:Observations_32_CollConstr', // reference to data
         options: {
-          label: 'Объем продаж Продукт 3', // TODO: in future should be a data-binding
+          label: 'Продукт 3', // TODO: in future should be a data-binding
           color: '#F20B93',
           lineWidth: 2,
           // lineDash: '',
@@ -192,7 +202,7 @@ const viewDescrs = [
               '@id': 'sosa:Observations_11_EntConstr_0_Condition', // machine-generated random UUID
               '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://www.wildberries.ru/catalog/15570386#price',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
             },
           },
         ],
@@ -209,7 +219,7 @@ const viewDescrs = [
               '@id': 'sosa:Observations_12_EntConstr_0_Condition',
               '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://www.wildberries.ru/catalog/15570386#volume',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
             },
           },
         ],
@@ -229,7 +239,7 @@ const viewDescrs = [
               '@id': 'sosa:Observations_21_EntConstr_0_Condition',
               '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://www.wildberries.ru/catalog/16170086#price',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
             },
           },
         ],
@@ -246,7 +256,7 @@ const viewDescrs = [
               '@id': 'sosa:Observations_22_EntConstr_0_Condition',
               '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://www.wildberries.ru/catalog/16170086#volume',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
             },
           },
         ],
@@ -266,7 +276,7 @@ const viewDescrs = [
               '@id': 'sosa:Observations_31_EntConstr_0_Condition',
               '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://www.wildberries.ru/catalog/15622789#price',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
             },
           },
         ],
@@ -283,7 +293,7 @@ const viewDescrs = [
               '@id': 'sosa:Observations_32_EntConstr_0_Condition',
               '@type': 'rm:EntConstrCondition',
               observedProperty: 'https://www.wildberries.ru/catalog/15622789#volume',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
             },
           },
         ],

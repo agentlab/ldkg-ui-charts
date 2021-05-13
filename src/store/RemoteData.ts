@@ -29,7 +29,7 @@ const viewDescrs = [
         type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
         resultsScope: 'mktp:_8uJ8t6', // reference to data
         options: {
-          label: 'Цена Продукт 1', // TODO: in future should be a data-binding
+          label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
           color: '#4EEC1F',
           lineWidth: 2,
           shape: 'hvh',
@@ -42,7 +42,7 @@ const viewDescrs = [
         type: 'interval', // TODO: +'Bar' (auxillary bars, auxillary lines)
         resultsScope: 'mktp:_Kj8d6g5', // reference to data
         options: {
-          label: 'Объем продаж Продукт 1', // TODO: in future should be a data-binding
+          label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
           color: '#4EEC1F',
           lineWidth: 2,
           // lineDash: '',
@@ -57,7 +57,7 @@ const viewDescrs = [
         type: 'line',
         resultsScope: 'mktp:_d6Ghkj', // reference to data
         options: {
-          label: 'Цена Продукт 2', // TODO: in future should be a data-binding
+          label: 'Подушка Relax Massage', // TODO: in future should be a data-binding
           color: '#0B49F2',
           lineWidth: 2,
           shape: 'hvh',
@@ -70,7 +70,7 @@ const viewDescrs = [
         type: 'interval',
         resultsScope: 'mktp:_sD678hf', // reference to data
         options: {
-          label: 'Объем продаж Продукт 2', // TODO: in future should be a data-binding
+          label: 'Подушка Relax Massage', // TODO: in future should be a data-binding
           color: '#0B49F2',
           lineWidth: 2,
           // lineDash: '',
@@ -85,7 +85,7 @@ const viewDescrs = [
         type: 'line',
         resultsScope: 'mktp:_Kh56Df67', // reference to data
         options: {
-          label: 'Цена Продукт 3', // TODO: in future should be a data-binding
+          label: 'Подушка HappyGoods', // TODO: in future should be a data-binding
           color: '#F20B93',
           lineWidth: 2,
           shape: 'hvh',
@@ -98,7 +98,7 @@ const viewDescrs = [
         type: 'interval',
         resultsScope: 'mktp:_sd56Fg78', // reference to data
         options: {
-          label: 'Объем продаж Продукт 3', // TODO: in future should be a data-binding
+          label: 'Подушка HappyGoods', // TODO: in future should be a data-binding
           color: '#F20B93',
           lineWidth: 2,
           // lineDash: '',
