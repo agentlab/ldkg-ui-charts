@@ -1,9 +1,12 @@
 {
   // see https://www.typescriptlang.org/tsconfig to better understand tsconfigs
   "include": ["src"],
+  "exclude": ["es", "lib", "node_modules", "stories", "test"],
   "compilerOptions": {
-    "module": "esnext",
+    "module": "es2020",
+    "target": "es2019",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "outDir": "./lib",
     "allowJs": true,
     "importHelpers": true,
     // output .d.ts declaration files for consumers
@@ -11,7 +14,7 @@
     // output .js.map sourcemap files for consumers
     "sourceMap": true,
     // match output dir to input dir. e.g. dist/index instead of dist/src/index
-    "rootDir": "./src",
+    ////"rootDir": "./src",
     // stricter type-checking for stronger correctness. Recommended by TS
     "strict": true,
     // linter checks for common issues
@@ -23,11 +26,11 @@
     // use Node's module resolution algorithm, instead of the legacy TS one
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "experimentalDecorators": true,
     // transpile JSX to React.createElement
-    "jsx": "react-jsx",
+    "jsx": "react",
     // interop between ESM and CJS modules. Recommended by TS
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     // significant perf increase by skipping checking .d.ts files, particularly those in node_modules. Recommended by TS
     "skipLibCheck": true,
@@ -35,6 +38,12 @@
     "forceConsistentCasingInFileNames": true,
     // `tsdx build` ignores this option, but it is commonly used when type-checking separately with `tsc`
     "noEmit": true,
-    "types": ["jest"]
+    "noEmitOnError": true,
+    "types": ["jest"],
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
   }
 }
