@@ -3,8 +3,8 @@
   "include": ["src"],
   "exclude": ["es", "lib", "node_modules", "stories", "test"],
   "compilerOptions": {
-    "module": "esnext",
-    "target": "esnext",
+    "module": "es2020",
+    "target": "es2019",
     "lib": ["dom", "dom.iterable", "esnext"],
     "outDir": "./lib",
     "allowJs": true,
@@ -26,11 +26,11 @@
     // use Node's module resolution algorithm, instead of the legacy TS one
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "experimentalDecorators": true,
     // transpile JSX to React.createElement
-    "jsx": "react-jsx",
+    "jsx": "react",
     // interop between ESM and CJS modules. Recommended by TS
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     // significant perf increase by skipping checking .d.ts files, particularly those in node_modules. Recommended by TS
     "skipLibCheck": true,
@@ -38,6 +38,7 @@
     "forceConsistentCasingInFileNames": true,
     // `tsdx build` ignores this option, but it is commonly used when type-checking separately with `tsc`
     "noEmit": true,
+    "noEmitOnError": true,
     "types": ["jest"],
     "plugins": [
       {
