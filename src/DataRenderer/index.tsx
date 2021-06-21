@@ -1,3 +1,12 @@
+/********************************************************************************
+ * Copyright (c) 2021 Agentlab and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the GNU General Public License v. 3.0 which is available at
+ * https://www.gnu.org/licenses/gpl-3.0.html.
+ *
+ * SPDX-License-Identifier: GPL-3.0-only
+ ********************************************************************************/
 import React, { useEffect, useState, useContext } from 'react';
 import { cloneDeep } from 'lodash';
 import { Spin } from 'antd';
@@ -62,79 +71,77 @@ export const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.El
   );
 };
 
-export const ChartRenderer = observer<any>(
-  ({ viewDescrObs, viewKindObs }: any): JSX.Element => {
-    const { rootStore } = useContext(MstContext);
-    const [views, setViews] = useState<any>([]);
-    const [viewDescr, setViewDescr] = useState<any | undefined>();
-    const [viewKind, setViewKind] = useState<any | undefined>();
-    const [viewConfig, setViewConfig] = useState<any | undefined>();
-    //TODO: How to detect viewDescr modifications?
-    if (!viewDescr) setViewDescr(getSnapshot(viewDescrObs));
-    if (!viewKind) setViewKind(getSnapshot(viewKindObs));
-    if (!viewConfig && viewDescr && viewKind) {
-      const { mappings = [] } = viewKind;
-      const viewPartMapper = ViewPartMapper(mappings);
-      const elemWithMetas = viewDescr.elements.map((viewElem: any) => {
-        const elemCollConstr = viewDescr.collsConstrs.find(
-          (constraint: { [x: string]: any }) => constraint['@id'] === viewElem.resultsScope,
-        );
-        const viewElemMeta = elemCollConstr?.entConstrs
-          .map((e: any) => shapeFactoryMapper.mapToMeta(e))
-          .reduce((acc: any, item: any) => ({ ...acc, ...item }), {});
-        const viewElemClear: any = {}; // filter all fields with 'undefined'
-        Object.keys(viewElem).forEach((key) => {
-          const val = viewElem[key];
-          if (val !== undefined) viewElemClear[key] = val;
-        });
-        return { ...viewElemMeta, ...viewElemClear };
+export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any): JSX.Element => {
+  const { rootStore } = useContext(MstContext);
+  const [views, setViews] = useState<any>([]);
+  const [viewDescr, setViewDescr] = useState<any | undefined>();
+  const [viewKind, setViewKind] = useState<any | undefined>();
+  const [viewConfig, setViewConfig] = useState<any | undefined>();
+  //TODO: How to detect viewDescr modifications?
+  if (!viewDescr) setViewDescr(getSnapshot(viewDescrObs));
+  if (!viewKind) setViewKind(getSnapshot(viewKindObs));
+  if (!viewConfig && viewDescr && viewKind) {
+    const { mappings = [] } = viewKind;
+    const viewPartMapper = ViewPartMapper(mappings);
+    const elemWithMetas = viewDescr.elements.map((viewElem: any) => {
+      const elemCollConstr = viewDescr.collsConstrs.find(
+        (constraint: { [x: string]: any }) => constraint['@id'] === viewElem.resultsScope,
+      );
+      const viewElemMeta = elemCollConstr?.entConstrs
+        .map((e: any) => shapeFactoryMapper.mapToMeta(e))
+        .reduce((acc: any, item: any) => ({ ...acc, ...item }), {});
+      const viewElemClear: any = {}; // filter all fields with 'undefined'
+      Object.keys(viewElem).forEach((key) => {
+        const val = viewElem[key];
+        if (val !== undefined) viewElemClear[key] = val;
       });
-      // Wait for all ViewDescr.collConstrs data to load
-      //TODO: How to render the data, available for elemWithMetas, and detect lazy-loaded data
-      // for the rest elemWithMetas and render it later
-      // every() here and not filter() cause we did not fugure it out
-      if (elemWithMetas.every((e: any) => rootStore.getColl(e.resultsScope)?.data.length > 0)) {
-        const viewConfig2 = elemWithMetas
-          .map((elemWithMeta: any) => {
-            const dataObs = rootStore.getColl(elemWithMeta.resultsScope);
-            // TODO: fix sotring in sparql client and remove sorting below
-            const viewElementData: any = (cloneDeep(getSnapshot(dataObs.data)) as any[]).sort(
-              (a: any, b: any) => new Date(a.resultTime).valueOf() - new Date(b.resultTime).valueOf(),
-            );
-            const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, viewElementData);
-            return chartViewPart;
-          })
-          .reduce(viewPartReducer, createEmptyViewPart());
-        setViewConfig(viewConfig2);
-      }
+      return { ...viewElemMeta, ...viewElemClear };
+    });
+    // Wait for all ViewDescr.collConstrs data to load
+    //TODO: How to render the data, available for elemWithMetas, and detect lazy-loaded data
+    // for the rest elemWithMetas and render it later
+    // every() here and not filter() cause we did not fugure it out
+    if (elemWithMetas.every((e: any) => rootStore.getColl(e.resultsScope)?.data.length > 0)) {
+      const viewConfig2 = elemWithMetas
+        .map((elemWithMeta: any) => {
+          const dataObs = rootStore.getColl(elemWithMeta.resultsScope);
+          // TODO: fix sotring in sparql client and remove sorting below
+          const viewElementData: any = (cloneDeep(getSnapshot(dataObs.data)) as any[]).sort(
+            (a: any, b: any) => new Date(a.resultTime).valueOf() - new Date(b.resultTime).valueOf(),
+          );
+          const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, viewElementData);
+          return chartViewPart;
+        })
+        .reduce(viewPartReducer, createEmptyViewPart());
+      setViewConfig(viewConfig2);
     }
-    // Data & Mapping
-    useEffect(() => {
-      async function loadViews() {
-        const chartConfig = {
-          title: viewDescr.title,
-          description: viewDescr.description,
-          options: viewDescr.options,
-          views: [viewConfig],
-        };
-        const dataViewComponent = await createComponent(viewKind.type);
-        setViews([{ View: dataViewComponent, key: viewDescr['@id'], config: chartConfig }]);
-      }
-      if (viewDescr && viewKind && viewConfig) {
-        console.log('call loadViews');
-        loadViews();
-      }
-    }, [rootStore, viewConfig, viewDescr, viewKind]);
-    return (
-      <React.Suspense fallback={<Spin />}>
-        {views.map((item: { View: any; key: any; config: any }) => {
-          const { View, key, config } = item;
-          return <View key={key} {...config} />;
-        })}
-      </React.Suspense>
-    );
-  },
-);
+  }
+  // Data & Mapping
+  useEffect(() => {
+    async function loadViews() {
+      const chartConfig = {
+        title: viewDescr.title,
+        description: viewDescr.description,
+        options: viewDescr.options,
+        views: [viewConfig],
+      };
+      const dataViewComponent = await createComponent(viewKind.type);
+      setViews([{ View: dataViewComponent, key: viewDescr['@id'], config: chartConfig }]);
+    }
+    if (viewDescr && viewKind && viewConfig) {
+      console.log('call loadViews');
+      loadViews();
+    }
+  }, [rootStore, viewConfig, viewDescr, viewKind]);
+  return (
+    <React.Suspense fallback={<Spin />}>
+      {views.map((item: { View: any; key: any; config: any }) => {
+        const { View, key, config } = item;
+        return <View key={key} {...config} />;
+      })}
+    </React.Suspense>
+  );
+});
 
 interface ViewData {
   viewDescrCollId: string;
