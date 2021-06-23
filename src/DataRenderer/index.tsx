@@ -15,10 +15,17 @@ import { getSnapshot } from 'mobx-state-tree';
 import { MstContext } from '@agentlab/ldkg-ui-react';
 
 import ViewPartMapper, { createEmptyViewPart, viewPartReducer } from './mappers/views';
-import ShapeFactoryMapper from './mappers/shapes';
 import { createComponent } from './mappers/components';
+import { observable } from 'mobx';
 
-const shapeFactoryMapper = new ShapeFactoryMapper();
+function mapToMeta(constraint: any): any {
+  const { observedProperty, hasFeatureOfInterest } = constraint.conditions;
+  const meta = {
+    resultTime: { type: 'timeCat' },
+    observedProperty: {},
+  };
+  return { observedProperty, hasFeatureOfInterest, meta };
+}
 
 export const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.Element => {
   const [views, setViews] = useState<any>([]);
@@ -36,7 +43,7 @@ export const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.El
               (constraint: { [x: string]: any }) => constraint['@id'] === viewElement.resultsScope,
             );
             const viewElementMeta = elementCollectionConstraint?.entConstrs
-              .map((e: any) => shapeFactoryMapper.mapToMeta(e))
+              .map((e: any) => mapToMeta(e))
               .reduce((acc: any, item: any) => ({ ...acc, ...item }), {});
 
             return { ...viewElementMeta, ...viewElement };
@@ -88,7 +95,7 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
         (constraint: { [x: string]: any }) => constraint['@id'] === viewElem.resultsScope,
       );
       const viewElemMeta = elemCollConstr?.entConstrs
-        .map((e: any) => shapeFactoryMapper.mapToMeta(e))
+        .map((e: any) => mapToMeta(e))
         .reduce((acc: any, item: any) => ({ ...acc, ...item }), {});
       const viewElemClear: any = {}; // filter all fields with 'undefined'
       Object.keys(viewElem).forEach((key) => {
@@ -106,9 +113,15 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
         .map((elemWithMeta: any) => {
           const dataObs = store.getColl(elemWithMeta.resultsScope);
           // TODO: fix sotring in sparql client and remove sorting below
-          const viewElementData: any = (cloneDeep(getSnapshot(dataObs.data)) as any[]).sort(
+          let viewElementData: any = (cloneDeep(getSnapshot(dataObs.data)) as any[]).sort(
             (a: any, b: any) => new Date(a.resultTime).valueOf() - new Date(b.resultTime).valueOf(),
           );
+          viewElementData = viewElementData.map((obs: any) => {
+            let propName = obs.observedProperty.replace('hs:', '#');
+            propName = propName[0].toLowerCase() + propName.slice(1);
+            obs.observedProperty = obs.hasFeatureOfInterest + propName;
+            return obs;
+          });
           const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, viewElementData);
           return chartViewPart;
         })

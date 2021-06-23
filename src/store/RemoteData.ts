@@ -130,7 +130,7 @@ const viewDescrs = [
             conditions: {
               '@id': 'mktp:_u8Yg83', // machine-generated random UUID
               '@type': 'rm:EntConstrCondition',
-              observedProperty: 'https://huntersales.ru/catalog/products/18247707/prop#price',
+              observedProperty: 'hs:Price',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/18247707/detail.aspx',
             },
           },
@@ -148,7 +148,7 @@ const viewDescrs = [
             conditions: {
               '@id': 'mktp:_kj89Df7',
               '@type': 'rm:EntConstrCondition',
-              observedProperty: 'https://huntersales.ru/catalog/products/18247707/prop#totalSales',
+              observedProperty: 'hs:TotalSales',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/18247707/detail.aspx',
             },
           },
@@ -169,7 +169,7 @@ const viewDescrs = [
             conditions: {
               '@id': 'mktp:_ld35Fcs',
               '@type': 'rm:EntConstrCondition',
-              observedProperty: 'https://huntersales.ru/catalog/products/15570386/prop#price',
+              observedProperty: 'hs:Price',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
             },
           },
@@ -187,7 +187,7 @@ const viewDescrs = [
             conditions: {
               '@id': 'mktp:_kj89dF5',
               '@type': 'rm:EntConstrCondition',
-              observedProperty: 'https://huntersales.ru/catalog/products/15570386/prop#totalSales',
+              observedProperty: 'hs:TotalSales',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
             },
           },
@@ -208,7 +208,7 @@ const viewDescrs = [
             conditions: {
               '@id': 'mktp:_dj7Dsg9',
               '@type': 'rm:EntConstrCondition',
-              observedProperty: 'https://huntersales.ru/catalog/products/15622789/prop#price',
+              observedProperty: 'hs:Price',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
             },
           },
@@ -226,7 +226,7 @@ const viewDescrs = [
             conditions: {
               '@id': 'mktp:_sd9D8hc',
               '@type': 'rm:EntConstrCondition',
-              observedProperty: 'https://huntersales.ru/catalog/products/15622789/prop#totalSales',
+              observedProperty: 'hs:TotalSales',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
             },
           },
