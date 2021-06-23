@@ -19,7 +19,7 @@ const remoteBoxPlotViewKinds = [
     '@id': 'rm:BoxPlotViewKind',
     '@type': 'rm:ViewKind',
     //type: 'BoxPlotChart', // control type
-    type: 'TimeSeriesChart', // control type
+    type: 'BoxPlotChart', // control type
     options: {
       // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
     },
