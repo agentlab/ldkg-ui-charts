@@ -76,6 +76,7 @@ function assignObjectValue(mappingProperties: any, contextObject: any, propertyN
   Object.keys(mappingProperties).forEach((property: any) => {
     const mappingPropertyType = mappingProperties[property].type ?? 'rawValue';
     let mappedValue;
+    console.log(mappingPropertyType, property);
     switch (mappingPropertyType) {
       case 'rawValue':
         mappedValue = assignValue(property, mappingProperties[property]);

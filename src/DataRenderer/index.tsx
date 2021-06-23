@@ -117,9 +117,15 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
             (a: any, b: any) => new Date(a.resultTime).valueOf() - new Date(b.resultTime).valueOf(),
           );
           viewElementData = viewElementData.map((obs: any) => {
-            let propName = obs.observedProperty.replace('hs:', '#');
-            propName = propName[0].toLowerCase() + propName.slice(1);
-            obs.observedProperty = obs.hasFeatureOfInterest + propName;
+            if (obs.observedProperty) {
+              let propName = obs.observedProperty.replace('hs:', '#');
+              propName = propName[0].toLowerCase() + propName.slice(1);
+              obs.observedProperty = obs.hasFeatureOfInterest + propName;
+            } else if (obs.forProperty) {
+              let propName = obs.forProperty.replace('hs:', '#');
+              propName = propName[0].toLowerCase() + propName.slice(1);
+              obs.forProperty = obs.hasFeatureOfInterest + propName;
+            }
             return obs;
           });
           const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, viewElementData);
