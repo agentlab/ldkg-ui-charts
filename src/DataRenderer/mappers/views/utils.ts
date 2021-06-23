@@ -9,7 +9,7 @@
  ********************************************************************************/
 import { Geometry } from '@antv/g2plot/lib/adaptor/geometries/base';
 import { IView } from '@antv/g2plot/lib/plots/multi-view/types';
-import _ from 'lodash';
+import { merge } from 'lodash-es';
 
 export declare type ViewPart = IView & { options: Record<string, any> };
 
@@ -41,7 +41,7 @@ export function viewPartReducer(view: ViewPart, geometryViewPart: any, idx: numb
     });
   }
   view.data.push(...data);
-  Object.assign(view.options, _.merge(view.options, options));
+  Object.assign(view.options, merge(view.options, options));
   Object.assign(view.meta, meta);
 
   if (idx === sourceArray.length - 1) {

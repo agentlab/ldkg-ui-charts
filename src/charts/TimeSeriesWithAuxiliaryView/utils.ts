@@ -9,14 +9,14 @@
  ********************************************************************************/
 import { Meta } from '@antv/g2plot';
 import { Axis } from '@antv/g2plot/lib/types/axis';
-import _ from 'lodash';
+import { intersection, partition, pick, range, remove, values } from 'lodash-es';
 import moment, { unitOfTime } from 'moment';
 
 export function getXYScales(scales: Record<string, Meta>) {
   const isTimeAxis = (axis: string) => scales[axis].type === 'timeCat' || scales[axis].type === 'time';
-  const [xScaleNames, yScaleNames] = _.partition(Object.keys(scales), isTimeAxis);
-  const xScales = _.pick(scales, xScaleNames);
-  const yScales = _.pick(scales, yScaleNames);
+  const [xScaleNames, yScaleNames] = partition(Object.keys(scales), isTimeAxis);
+  const xScales = pick(scales, xScaleNames);
+  const yScales = pick(scales, yScaleNames);
   return { xScales, yScales };
 }
 
@@ -54,8 +54,8 @@ function makeXAxisConfiguration(xAxisOptions: any, xScales: any) {
 function makeYAxisConfiguration(yAxis: any, yScales: Record<string, Meta>, data: []) {
   const isPrimary = (scale: string) => !yAxis?.secondary?.includes(scale);
 
-  const yScalesGroups: any = _.partition(Object.keys(yScales), isPrimary);
-  _.remove(yScalesGroups, (group: any) => group.length === 0);
+  const yScalesGroups: any = partition(Object.keys(yScales), isPrimary);
+  remove(yScalesGroups, (group: any) => group.length === 0);
 
   const { ratio: yRatio = 0.75 } = yAxis;
 
@@ -74,8 +74,8 @@ function makeYAxisConfiguration(yAxis: any, yScales: Record<string, Meta>, data:
     .map((groupAxes: any, idx: number) => {
       const groupData = data
         .map((d: any) => {
-          const dataKeys = _.intersection(Object.keys(d), groupAxes);
-          return _.values(_.pick(d, dataKeys));
+          const dataKeys = intersection(Object.keys(d), groupAxes);
+          return values(pick(d, dataKeys));
         })
         .flat();
 
@@ -121,7 +121,7 @@ function calculateAxisTicks(data: any[], region: [number, number]) {
   const maxTick = tickMax + ((tickMax - tickMin) * (1 - end)) / (end - start);
 
   return {
-    ticks: _.range(tickMin, tickMax + tickSpacing, tickSpacing),
+    ticks: range(tickMin, tickMax + tickSpacing, tickSpacing),
     min: minTick,
     max: maxTick,
   };

@@ -10,7 +10,7 @@
 import { Geometry } from '@antv/g2plot/lib/adaptor/geometries/base';
 import jp from 'json-pointer';
 import jsonpath from 'jsonpath';
-import _ from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash-es';
 
 function assignValue(property: any, value: any) {
   return value !== undefined ? { [property]: value } : {};
@@ -32,7 +32,7 @@ function assignPointerValue(property: any, pointer: any, contextObject: any) {
 
 function assignExpressionValue(property: any, expression: any, subject: any) {
   const { applyTo, value: expressionString } = expression;
-  const actualSubject = _.cloneDeep(subject);
+  const actualSubject = cloneDeep(subject);
   // eslint-disable-next-line no-eval
   const values = jsonpath.apply(actualSubject, applyTo, eval(expressionString));
   if (values.length !== 1) {
@@ -43,7 +43,7 @@ function assignExpressionValue(property: any, expression: any, subject: any) {
 }
 
 function assign(object: any, value: any, wrapper?: any, contextObject?: any, property?: any) {
-  if (_.isEmpty(value)) {
+  if (isEmpty(value)) {
     return undefined;
   }
   if (wrapper) {
@@ -134,7 +134,7 @@ export default function ViewPartMapper(mappings: any) {
 
   const extractGeometryOptions = (viewElementGeometry: any) => {
     if (viewElementGeometry.options) {
-      const geometyOptions = _.cloneDeep(viewElementGeometry.options);
+      const geometyOptions = cloneDeep(viewElementGeometry.options);
       delete viewElementGeometry.options;
       return geometyOptions;
     }

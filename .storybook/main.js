@@ -10,9 +10,9 @@ module.exports = {
       options: {
         lessOptions: {
           modifyVars: {
-            'primary-color': '#1864FB', //'#1DA57A', // primary color for all components  24 100 251
+            //'primary-color': '#1864FB', //'#1DA57A', // primary color for all components  24 100 251
             'font-size-base': '12px', // major text font size
-            'link-color': '#1DA57A',
+            //'link-color': '#1DA57A',
           },
         },
       },

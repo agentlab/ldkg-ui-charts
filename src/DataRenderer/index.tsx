@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
 import React, { useEffect, useState, useContext } from 'react';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import { Spin } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { getSnapshot } from 'mobx-state-tree';
