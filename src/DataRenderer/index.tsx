@@ -72,7 +72,7 @@ export const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.El
 };
 
 export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any): JSX.Element => {
-  const { rootStore } = useContext(MstContext);
+  const { store } = useContext(MstContext);
   const [views, setViews] = useState<any>([]);
   const [viewDescr, setViewDescr] = useState<any | undefined>();
   const [viewKind, setViewKind] = useState<any | undefined>();
@@ -101,10 +101,10 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
     //TODO: How to render the data, available for elemWithMetas, and detect lazy-loaded data
     // for the rest elemWithMetas and render it later
     // every() here and not filter() cause we did not fugure it out
-    if (elemWithMetas.every((e: any) => rootStore.getColl(e.resultsScope)?.data.length > 0)) {
+    if (elemWithMetas.every((e: any) => store.getColl(e.resultsScope)?.data.length > 0)) {
       const viewConfig2 = elemWithMetas
         .map((elemWithMeta: any) => {
-          const dataObs = rootStore.getColl(elemWithMeta.resultsScope);
+          const dataObs = store.getColl(elemWithMeta.resultsScope);
           // TODO: fix sotring in sparql client and remove sorting below
           const viewElementData: any = (cloneDeep(getSnapshot(dataObs.data)) as any[]).sort(
             (a: any, b: any) => new Date(a.resultTime).valueOf() - new Date(b.resultTime).valueOf(),
@@ -132,7 +132,7 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
       console.log('call loadViews');
       loadViews();
     }
-  }, [rootStore, viewConfig, viewDescr, viewKind]);
+  }, [store, viewConfig, viewDescr, viewKind]);
   return (
     <React.Suspense fallback={<Spin />}>
       {views.map((item: { View: any; key: any; config: any }) => {
@@ -151,9 +151,9 @@ interface ViewData {
 
 export const RemoteDataRenderer = observer<any>(
   ({ viewDescrCollId, viewDescrId, viewKindCollId }: ViewData): JSX.Element => {
-    const { rootStore } = useContext(MstContext);
+    const { store } = useContext(MstContext);
     // ViewDescr
-    const collWithViewDescrsObs = rootStore.getColl(viewDescrCollId);
+    const collWithViewDescrsObs = store.getColl(viewDescrCollId);
     if (!collWithViewDescrsObs) {
       return <Spin />;
     } else {
@@ -164,7 +164,7 @@ export const RemoteDataRenderer = observer<any>(
       } else {
         // ViewKind
         const viewKindId = viewDescrObs.viewKind;
-        const collWithViewKindsObs = rootStore.getColl(viewKindCollId);
+        const collWithViewKindsObs = store.getColl(viewKindCollId);
         if (!collWithViewKindsObs) {
           console.log('undef collWithViewKindsObs with id', viewKindCollId);
           return <Spin />;

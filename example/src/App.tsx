@@ -21,7 +21,7 @@ connectReduxDevtools(require('remotedev'), rootStore);
 export const App = () => {
   return (
     <Provider store={store}>
-      <MstContextProvider rootStore={rootStore}>
+      <MstContextProvider store={rootStore}>
         <RemoteDataRenderer
           viewDescrCollId={'rm:Views_Coll'}
           viewDescrId={'mktp:_g7H7gh'}

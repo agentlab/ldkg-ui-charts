@@ -32,7 +32,7 @@ connectReduxDevtools(require('remotedev'), rootStore);
 
 const Template: Story = (args: any) => (
   <Provider store={store}>
-    <MstContextProvider rootStore={rootStore}>
+    <MstContextProvider store={rootStore}>
       <RemoteDataRenderer {...args} />
     </MstContextProvider>
   </Provider>
