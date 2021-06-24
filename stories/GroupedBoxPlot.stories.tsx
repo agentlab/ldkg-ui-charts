@@ -37,9 +37,9 @@ const Template: Story = (args: any) => (
     </MstContextProvider>
   </Provider>
 );
-export const BoxPlot = Template.bind({});
+export const GroupedBoxPlot = Template.bind({});
 
-BoxPlot.args = {
+GroupedBoxPlot.args = {
   viewDescrCollId: 'rm:Views_Coll',
   viewDescrId: 'mh:BoxPlot',
   viewKindCollId: 'rm:ViewKinds_Coll',

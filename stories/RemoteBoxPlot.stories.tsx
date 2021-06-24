@@ -36,9 +36,9 @@ const Template: Story = (args: any) => (
     </MstContextProvider>
   </Provider>
 );
-export const TimeSeries = Template.bind({});
+export const TimeSeriesBoxPlot = Template.bind({});
 
-TimeSeries.args = {
+TimeSeriesBoxPlot.args = {
   viewDescrCollId: 'rm:Views_Coll',
   viewDescrId: 'mktp:_g7H7gh',
   viewKindCollId: 'rm:ViewKinds_Coll',
