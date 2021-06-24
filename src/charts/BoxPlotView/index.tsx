@@ -14,12 +14,13 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
     const data = view.data.map((e: any, idx: number) => {
       const medianDate = moment((Number(moment(e.end).format('x')) + Number(moment(e.begin).format('x'))) / 2);
       return {
-        x: medianDate,
+        x: options.groupField ? medianDate.format(options.dateFormat) : medianDate,
         low: e.min,
         q1: e.percentile_25,
         median: e.median,
         q3: e.percentile_75,
         high: e.max,
+        ...e,
       };
     });
     const newConfig = {
@@ -28,17 +29,22 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
       data: data,
       xField: 'x',
       yField: ['low', 'q1', 'median', 'q3', 'high'],
-      boxStyle: {
-        stroke: '#545454',
-        fill: '#1890FF',
-        fillOpacity: 0.3,
-      },
-      meta: {
-        x: {
-          formatter: (val: any) => {
-            return moment(val).format(options.dateFormat);
+      groupField: options.groupField,
+      boxStyle: options.groupField
+        ? {}
+        : {
+            stroke: '#545454',
+            fill: '#1890FF',
+            fillOpacity: 0.3,
           },
-        },
+      meta: {
+        x: options.groupField
+          ? {}
+          : {
+              formatter: (val: any) => {
+                return moment(val).format(options.dateFormat);
+              },
+            },
       },
       animation: false,
     };

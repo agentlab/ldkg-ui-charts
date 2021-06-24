@@ -9,6 +9,7 @@
  ********************************************************************************/
 import moment from 'moment';
 import { rootModelInitialState } from '@agentlab/sparql-jsld-client';
+import { groupedBoxPlot } from './LocalBoxPlot';
 
 export const viewKindCollConstr = {
   '@id': 'rm:ViewKinds_Coll',
@@ -87,6 +88,69 @@ export const viewKinds = [
             type: 'pointer',
             value: '/options/color',
             wrapper: { type: 'pointer', value: '/observedProperty' },
+          },
+        },
+      },
+    },
+  },
+  {
+    '@id': 'rm:GroupedBoxPlotViewKind',
+    '@type': 'rm:ViewKind',
+    //type: 'BoxPlotChart', // control type
+    type: 'BoxPlotChart', // control type
+    options: {
+      // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
+    },
+    mappings: {
+      type: {
+        type: 'pointer',
+        value: '/type',
+      },
+      groupField: 'source',
+      xField: 'begin',
+      yField: {
+        type: 'expr',
+        value: '(v) => v.replace(/^[^#]*#/, "")',
+        applyTo: '$.forProperty',
+        dataProperty: 'median',
+      },
+      colorField: 'forProperty',
+      adjust: {
+        type: 'object',
+        properties: {
+          type: 'dodge',
+          marginRatio: 0,
+        },
+      },
+      legend: {
+        type: 'object',
+        properties: {
+          link: { type: 'pointer', value: '/hasFeatureOfInterest' },
+          dataField: 'hasFeatureOfInterest',
+          color: { type: 'pointer', value: '/options/color' },
+          text: { type: 'pointer', value: '/options/label' },
+        },
+        wrapper: { type: 'pointer', value: '/hasFeatureOfInterest', options: true },
+      },
+      mapping: {
+        type: 'object',
+        properties: {
+          style: {
+            type: 'object',
+            properties: {
+              lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+              stroke: { type: 'pointer', value: '/options/stroke' },
+            },
+            wrapper: { type: 'pointer', value: '/forProperty' },
+          },
+          shape: {
+            type: 'pointer',
+            value: '/options/shape',
+          },
+          color: {
+            type: 'pointer',
+            value: '/options/color',
+            wrapper: { type: 'pointer', value: '/forProperty' },
           },
         },
       },
@@ -306,6 +370,64 @@ const viewDescrs = [
             },
           },
         ],
+      },
+    ],
+  },
+  {
+    '@id': 'mh:BoxPlot',
+    '@type': 'rm:View',
+    title: 'Product Boxplots',
+    description: 'Marketplace Product Analysis Box-Plot Charts',
+    viewKind: 'rm:GroupedBoxPlotViewKind',
+    //type: 'BoxPlotChart', // control type
+    type: 'Chart', // control type
+    // child ui elements configs
+    options: {
+      timeUnit: 'day',
+      dateFormat: 'DD.MM.YYYY',
+      groupField: 'source',
+      axes: { yAxis: { primary: ['median'], secondary: ['max'], ratio: 0.5 } },
+    },
+    elements: [
+      /**
+       * Product 1
+       */
+      {
+        '@id': 'rm:line_11', // machine-generated random UUID
+        '@type': 'rm:Element',
+        type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
+        resultsScope: 'mktp:BoxPlotBucket_0_CollConstr', // reference to data
+        options: {
+          label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
+          color: '#4EEC1F',
+          lineWidth: 2,
+          shape: 'hvh',
+          // lineDash: '',
+        },
+      },
+    ],
+    // datasets constraints, specific to this view (UML aggregation)
+    collsConstrs: [
+      /**
+       * Product 1
+       */
+      {
+        '@id': 'mktp:BoxPlotBucket_0_CollConstr', // machine-generated random UUID
+        '@type': 'rm:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:BoxPlotBucket_0_CollConstr_0', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'mktp:BoxPlotBucketShape',
+            conditions: {
+              '@id': 'mktp:BoxPlotBucket_0_CollConstr_0_0', // machine-generated random UUID
+              '@type': 'rm:EntConstrCondition',
+              hasFeatureOfInterest: 'mktp_d:Massager',
+              forProperty: 'hs:Price',
+            },
+          },
+        ],
+        //orderBy: [{ expression: variable('begin0'), descending: false }],
       },
     ],
   },
@@ -685,6 +807,14 @@ export const rootModelState = {
       '@id': viewDescrs[0].collsConstrs?.[5]['@id'],
       collConstr: viewDescrs[0].collsConstrs?.[5]['@id'], // reference by @id
       dataIntrnl: viewDataObservations32,
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+    [viewDescrs[1].collsConstrs?.[0]['@id'] || '']: {
+      '@id': viewDescrs[1].collsConstrs?.[0]['@id'],
+      collConstr: viewDescrs[1].collsConstrs?.[0]['@id'], // reference by @id
+      dataIntrnl: groupedBoxPlot,
       updPeriod: undefined,
       lastSynced: moment.now(),
       resolveCollConstrs: false,
