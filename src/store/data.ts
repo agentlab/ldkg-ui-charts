@@ -12,7 +12,7 @@ import { rootModelInitialState } from '@agentlab/sparql-jsld-client';
 import { groupedBoxPlot } from './LocalBoxPlot';
 
 export const viewKindCollConstr = {
-  '@id': 'rm:ViewKinds_Coll',
+  '@id': 'rm:ViewKinds_Coll_charts',
   entConstrs: [
     {
       '@id': 'rm:ViewKinds_EntConstr0',
@@ -22,7 +22,7 @@ export const viewKindCollConstr = {
 };
 
 export const viewDescrCollConstr = {
-  '@id': 'rm:Views_Coll',
+  '@id': 'rm:Views_Coll_charts',
   entConstrs: [
     {
       '@id': 'rm:Views_EntConstr0',
@@ -31,7 +31,7 @@ export const viewDescrCollConstr = {
   ],
 };
 
-export const viewKinds = [
+export const timeSeriesViewKinds = [
   {
     '@id': 'rm:TimeSeriesViewKind',
     '@type': 'rm:ViewKind',
@@ -158,7 +158,7 @@ export const viewKinds = [
   },
 ];
 
-const viewDescrs = [
+export const localChartsViewDescrs = [
   {
     '@id': 'mh:ChartView',
     '@type': 'rm:View',
@@ -376,7 +376,7 @@ const viewDescrs = [
   {
     '@id': 'mh:BoxPlot',
     '@type': 'rm:View',
-    title: 'Product Boxplots',
+    title: 'Разброс цены продукта, по маркетплейсам',
     description: 'Marketplace Product Analysis Box-Plot Charts',
     viewKind: 'rm:GroupedBoxPlotViewKind',
     //type: 'BoxPlotChart', // control type
@@ -730,14 +730,14 @@ const viewDataObservations32 = [
   },
 ];
 
-export const rootModelState = {
+export const chartLocalRootModelState = {
   ...rootModelInitialState,
   colls: {
     // ViewDescr
     [viewDescrCollConstr['@id']]: {
       '@id': viewDescrCollConstr['@id'],
       collConstr: viewDescrCollConstr,
-      dataIntrnl: viewDescrs,
+      dataIntrnl: localChartsViewDescrs,
       updPeriod: undefined,
       lastSynced: moment.now(),
       resolveCollConstrs: false,
@@ -746,7 +746,7 @@ export const rootModelState = {
     [viewKindCollConstr['@id']]: {
       '@id': viewKindCollConstr['@id'],
       collConstr: viewKindCollConstr,
-      dataIntrnl: viewKinds,
+      dataIntrnl: timeSeriesViewKinds,
       updPeriod: undefined,
       lastSynced: moment.now(),
       resolveCollConstrs: false,
@@ -756,17 +756,17 @@ export const rootModelState = {
     /**
      * Product 1
      */
-    [viewDescrs[0].collsConstrs?.[0]['@id'] || '']: {
-      '@id': viewDescrs[0].collsConstrs?.[0]['@id'],
-      collConstr: viewDescrs[0].collsConstrs?.[0]['@id'], // reference by @id
+    [localChartsViewDescrs[0].collsConstrs?.[0]['@id'] || '']: {
+      '@id': localChartsViewDescrs[0].collsConstrs?.[0]['@id'],
+      collConstr: localChartsViewDescrs[0].collsConstrs?.[0]['@id'], // reference by @id
       dataIntrnl: viewDataObservations11,
       updPeriod: undefined,
       lastSynced: moment.now(),
       resolveCollConstrs: false,
     },
-    [viewDescrs[0].collsConstrs?.[1]['@id'] || '']: {
-      '@id': viewDescrs[0].collsConstrs?.[1]['@id'],
-      collConstr: viewDescrs[0].collsConstrs?.[1]['@id'], // reference by @id
+    [localChartsViewDescrs[0].collsConstrs?.[1]['@id'] || '']: {
+      '@id': localChartsViewDescrs[0].collsConstrs?.[1]['@id'],
+      collConstr: localChartsViewDescrs[0].collsConstrs?.[1]['@id'], // reference by @id
       dataIntrnl: viewDataObservations12,
       updPeriod: undefined,
       lastSynced: moment.now(),
@@ -775,18 +775,18 @@ export const rootModelState = {
     /**
      * Product 2
      */
-    [viewDescrs[0].collsConstrs?.[2]['@id'] || '']: {
-      '@id': viewDescrs[0].collsConstrs?.[2]['@id'],
-      collConstr: viewDescrs[0].collsConstrs?.[2]['@id'], // reference by @id
+    [localChartsViewDescrs[0].collsConstrs?.[2]['@id'] || '']: {
+      '@id': localChartsViewDescrs[0].collsConstrs?.[2]['@id'],
+      collConstr: localChartsViewDescrs[0].collsConstrs?.[2]['@id'], // reference by @id
       dataIntrnl: viewDataObservations21,
       updPeriod: undefined,
       lastSynced: moment.now(),
       resolveCollConstrs: false,
     },
 
-    [viewDescrs[0].collsConstrs?.[3]['@id'] || '']: {
-      '@id': viewDescrs[0].collsConstrs?.[3]['@id'],
-      collConstr: viewDescrs[0].collsConstrs?.[3]['@id'], // reference by @id
+    [localChartsViewDescrs[0].collsConstrs?.[3]['@id'] || '']: {
+      '@id': localChartsViewDescrs[0].collsConstrs?.[3]['@id'],
+      collConstr: localChartsViewDescrs[0].collsConstrs?.[3]['@id'], // reference by @id
       dataIntrnl: viewDataObservations22,
       updPeriod: undefined,
       lastSynced: moment.now(),
@@ -795,25 +795,25 @@ export const rootModelState = {
     /**
      * Product 3
      */
-    [viewDescrs[0].collsConstrs?.[4]['@id'] || '']: {
-      '@id': viewDescrs[0].collsConstrs?.[4]['@id'],
-      collConstr: viewDescrs[0].collsConstrs?.[4]['@id'], // reference by @id
+    [localChartsViewDescrs[0].collsConstrs?.[4]['@id'] || '']: {
+      '@id': localChartsViewDescrs[0].collsConstrs?.[4]['@id'],
+      collConstr: localChartsViewDescrs[0].collsConstrs?.[4]['@id'], // reference by @id
       dataIntrnl: viewDataObservations31,
       updPeriod: undefined,
       lastSynced: moment.now(),
       resolveCollConstrs: false,
     },
-    [viewDescrs[0].collsConstrs?.[5]['@id'] || '']: {
-      '@id': viewDescrs[0].collsConstrs?.[5]['@id'],
-      collConstr: viewDescrs[0].collsConstrs?.[5]['@id'], // reference by @id
+    [localChartsViewDescrs[0].collsConstrs?.[5]['@id'] || '']: {
+      '@id': localChartsViewDescrs[0].collsConstrs?.[5]['@id'],
+      collConstr: localChartsViewDescrs[0].collsConstrs?.[5]['@id'], // reference by @id
       dataIntrnl: viewDataObservations32,
       updPeriod: undefined,
       lastSynced: moment.now(),
       resolveCollConstrs: false,
     },
-    [viewDescrs[1].collsConstrs?.[0]['@id'] || '']: {
-      '@id': viewDescrs[1].collsConstrs?.[0]['@id'],
-      collConstr: viewDescrs[1].collsConstrs?.[0]['@id'], // reference by @id
+    [localChartsViewDescrs[1].collsConstrs?.[0]['@id'] || '']: {
+      '@id': localChartsViewDescrs[1].collsConstrs?.[0]['@id'],
+      collConstr: localChartsViewDescrs[1].collsConstrs?.[0]['@id'], // reference by @id
       dataIntrnl: groupedBoxPlot,
       updPeriod: undefined,
       lastSynced: moment.now(),

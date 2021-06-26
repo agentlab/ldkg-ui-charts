@@ -15,6 +15,7 @@ export * from './charts/PieTooltipDemo';
 export * from './charts/RadarChart';
 
 export * as TimeSeriesWithAuxiliaryView from './charts/TimeSeriesWithAuxiliaryView';
+export * as BoxPlotView from './charts/BoxPlotView';
 
 export * from './DataRenderer';
 
@@ -22,3 +23,5 @@ export * as DateRangePickerMenu from './DateRangePickerMenu';
 
 // test data
 export * from './store/RemoteData';
+export * from './store/RemoteBoxPlot';
+export * from './store/data';

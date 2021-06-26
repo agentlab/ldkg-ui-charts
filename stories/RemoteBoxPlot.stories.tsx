@@ -15,11 +15,11 @@ import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
 import { SparqlClientImpl, rootModelInitialState, createModelFromState } from '@agentlab/sparql-jsld-client';
 import { MstContextProvider } from '@agentlab/ldkg-ui-react';
 
-import { additionalColls } from '../src/store/RemoteBoxPlot';
+import { additionalBoxplotColls } from '../src/store/RemoteBoxPlot';
 import { RemoteDataRenderer } from '../src';
 
 const client = new SparqlClientImpl('https://rdf4j.agentlab.ru/rdf4j-server');
-const rootStore = createModelFromState('mktp', client, rootModelInitialState, additionalColls);
+const rootStore = createModelFromState('mktp', client, rootModelInitialState, additionalBoxplotColls);
 const store: any = asReduxStore(rootStore);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 connectReduxDevtools(require('remotedev'), rootStore);
@@ -39,7 +39,7 @@ const Template: Story = (args: any) => (
 export const TimeSeriesBoxPlot = Template.bind({});
 
 TimeSeriesBoxPlot.args = {
-  viewDescrCollId: 'rm:Views_Coll',
+  viewDescrCollId: 'rm:Views_Coll_charts',
   viewDescrId: 'mktp:_g7H7gh',
-  viewKindCollId: 'rm:ViewKinds_Coll',
+  viewKindCollId: 'rm:ViewKinds_Coll_charts',
 };

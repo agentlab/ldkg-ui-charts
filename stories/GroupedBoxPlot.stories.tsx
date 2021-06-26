@@ -15,7 +15,7 @@ import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
 import { SparqlClientImpl, Repository } from '@agentlab/sparql-jsld-client';
 import { MstContextProvider } from '@agentlab/ldkg-ui-react';
 
-import { rootModelState } from '../src/store/data';
+import { chartLocalRootModelState } from '../src/store/data';
 import { RemoteDataRenderer } from '../src';
 
 export default {
@@ -25,7 +25,7 @@ export default {
 
 const client = new SparqlClientImpl('https://rdf4j.agentlab.ru/rdf4j-server');
 //@ts-ignore
-const rootStore = Repository.create(rootModelState, { client });
+const rootStore = Repository.create(chartLocalRootModelState, { client });
 const store: any = asReduxStore(rootStore);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 connectReduxDevtools(require('remotedev'), rootStore);
@@ -40,7 +40,7 @@ const Template: Story = (args: any) => (
 export const GroupedBoxPlot = Template.bind({});
 
 GroupedBoxPlot.args = {
-  viewDescrCollId: 'rm:Views_Coll',
+  viewDescrCollId: 'rm:Views_Coll_charts',
   viewDescrId: 'mh:BoxPlot',
-  viewKindCollId: 'rm:ViewKinds_Coll',
+  viewKindCollId: 'rm:ViewKinds_Coll_charts',
 };

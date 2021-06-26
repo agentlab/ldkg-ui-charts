@@ -7,15 +7,8 @@
         {
             "type": "pwa-chrome",
             "request": "launch",
-            "name": "Storybook1 in Chrome",
-            "url": "http://localhost:6006/?path=/story/remoteboxplot--time-series",
-            "webRoot": "${workspaceFolder}",
-        },
-        {
-            "type": "pwa-chrome",
-            "request": "launch",
-            "name": "Storybook2 in Chrome",
-            "url": "http://localhost:6006/?path=/story/remotedatarenderer--time-series",
+            "name": "Storybook in Chrome",
+            "url": "http://localhost:6006/?path=/story/remoteboxplot--time-series-box-plot",
             "webRoot": "${workspaceFolder}",
         },
     ]

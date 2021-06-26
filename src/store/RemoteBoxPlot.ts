@@ -129,8 +129,20 @@ const remoteBoxPlotViewDescrs = [
               '@id': 'mktp:_u8Yg83', // machine-generated random UUID
               '@type': 'rm:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Massager',
-              forProperty: 'hs:Price',
+              forProperty: 'hs:Stocks',
+              hasUpperOutlier: '?eIri1',
+              hasLowerOutlier: '?eIri2',
             },
+          },
+          {
+            '@id': 'mktp:_dfd8SDfg', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'sosa:ObservationShape',
+          },
+          {
+            '@id': 'mktp:_Jhd8fg', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'sosa:ObservationShape',
           },
         ],
         orderBy: [{ expression: variable('begin0'), descending: false }],
@@ -142,7 +154,7 @@ const remoteBoxPlotViewDescrs = [
 /**
  * Collections Configs Data
  */
-export const additionalColls: CollState[] = [
+export const additionalBoxplotColls: CollState[] = [
   // ViewKinds Collection
   {
     constr: viewKindCollConstr,

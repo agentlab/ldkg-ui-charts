@@ -12,9 +12,9 @@ import { variable } from '@rdfjs/data-model';
 
 import { CollState } from '@agentlab/sparql-jsld-client';
 
-import { viewDescrCollConstr, viewKindCollConstr, viewKinds } from './data';
+import { viewDescrCollConstr, viewKindCollConstr, timeSeriesViewKinds } from './data';
 
-const viewDescrs = [
+export const timeSeriesViewDescrs = [
   {
     '@id': 'mktp:_g7H7gh',
     '@type': 'rm:View',
@@ -244,7 +244,7 @@ export const additionalColls: CollState[] = [
   // ViewKinds Collection
   {
     constr: viewKindCollConstr,
-    data: viewKinds,
+    data: timeSeriesViewKinds,
     opt: {
       updPeriod: undefined,
       lastSynced: moment.now(),
@@ -254,7 +254,7 @@ export const additionalColls: CollState[] = [
   // ViewDescrs Collection
   {
     constr: viewDescrCollConstr,
-    data: viewDescrs,
+    data: timeSeriesViewDescrs,
     opt: {
       updPeriod: undefined,
       lastSynced: moment.now(),

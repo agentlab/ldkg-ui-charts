@@ -39,7 +39,7 @@ const Template: Story = (args: any) => (
 export const TimeSeries = Template.bind({});
 
 TimeSeries.args = {
-  viewDescrCollId: 'rm:Views_Coll',
+  viewDescrCollId: 'rm:Views_Coll_charts',
   viewDescrId: 'mktp:_g7H7gh',
-  viewKindCollId: 'rm:ViewKinds_Coll',
+  viewKindCollId: 'rm:ViewKinds_Coll_charts',
 };
