@@ -118,9 +118,9 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
           );
           viewElementData = viewElementData.map((obs: any) => {
             if (obs.observedProperty) {
-              let propName = obs.observedProperty.replace('hs:', '#');
+              /*let propName = obs.observedProperty.replace('hs:', '#');
               propName = propName[0].toLowerCase() + propName.slice(1);
-              obs.observedProperty = obs.hasFeatureOfInterest + propName;
+              obs.observedProperty = obs.hasFeatureOfInterest + propName;*/
             } else if (obs.forProperty) {
               let propName = obs.forProperty.replace('hs:', '#');
               propName = propName[0].toLowerCase() + propName.slice(1);
