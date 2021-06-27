@@ -9,7 +9,20 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
     yField: 'undefined',
     data: [],
   });
-
+  const createOutliers = (data: any) => {
+    const newOutliers: any = [];
+    if (data.hasUpperOutlier) {
+      Array.isArray(data.hasUpperOutlier)
+        ? data.hasUpperOutlier.forEach((e: any) => newOutliers.push(e.hasSimpleResult))
+        : [data.hasUpperOutlier].forEach((e) => newOutliers.push(e.hasSimpleResult));
+    }
+    if (data.hasLowerOutlier) {
+      Array.isArray(data.hasLowerOutlier)
+        ? data.hasLowerOutlier.forEach((e: any) => newOutliers.push(e.hasSimpleResult))
+        : [data.hasLowerOutlier].forEach((e) => newOutliers.push(e.hasSimpleResult));
+    }
+    return newOutliers;
+  };
   useEffect(() => {
     const data = view.data.map((e: any, idx: number) => {
       const medianDate = moment((Number(moment(e.end).format('x')) + Number(moment(e.begin).format('x'))) / 2);
@@ -20,6 +33,7 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
         median: e.median,
         q3: e.percentile_75,
         high: e.max,
+        outliers: createOutliers(e),
         ...e,
       };
     });
@@ -30,6 +44,8 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
       xField: 'x',
       yField: ['low', 'q1', 'median', 'q3', 'high'],
       groupField: options.groupField,
+      outliersField: 'outliers',
+      outliersStyle: { fill: '#f6f' },
       boxStyle: options.groupField
         ? {}
         : {
