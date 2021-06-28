@@ -36,7 +36,7 @@ export const timeSeriesViewDescrs = [
         '@id': 'rm:line_11', // machine-generated random UUID
         '@type': 'rm:Element',
         type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
-        resultsScope: 'mktp:_8uJ8t6', // reference to data
+        resultsScope: 'mktp:_8uJ8t6_TS', // reference to data
         options: {
           label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
           color: '#4EEC1F',
@@ -120,7 +120,7 @@ export const timeSeriesViewDescrs = [
        * Product 1
        */
       {
-        '@id': 'mktp:_8uJ8t6', // machine-generated random UUID
+        '@id': 'mktp:_8uJ8t6_TS', // machine-generated random UUID
         '@type': 'rm:CollConstr',
         entConstrs: [
           {

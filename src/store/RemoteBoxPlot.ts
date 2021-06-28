@@ -83,7 +83,7 @@ const remoteBoxPlotViewDescrs = [
   {
     '@id': 'mktp:_g7H7gh',
     '@type': 'rm:View',
-    title: 'Product Boxplots',
+    title: 'Массажная подушка роликовая, разброс складских остатков',
     description: 'Marketplace Product Analysis Box-Plot Charts',
     viewKind: 'rm:BoxPlotViewKind',
     //type: 'BoxPlotChart', // control type
@@ -130,6 +130,215 @@ const remoteBoxPlotViewDescrs = [
               '@type': 'rm:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Massager',
               forProperty: 'hs:Stocks',
+              hasUpperOutlier: '?eIri1',
+              hasLowerOutlier: '?eIri2',
+            },
+          },
+          {
+            '@id': 'mktp:_dfd8SDfg', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'sosa:ObservationShape',
+          },
+          {
+            '@id': 'mktp:_Jhd8fg', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'sosa:ObservationShape',
+          },
+        ],
+        orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
+    ],
+  },
+  {
+    '@id': 'mktp:_g7H7gh___Price',
+    '@type': 'rm:View',
+    title: 'Массажная подушка роликовая, разброс цен',
+    description: 'Marketplace Product Analysis Box-Plot Charts',
+    viewKind: 'rm:BoxPlotViewKind',
+    //type: 'BoxPlotChart', // control type
+    type: 'Chart', // control type
+    // child ui elements configs
+    options: {
+      timeUnit: 'day',
+      dateFormat: 'DD.MM.YYYY',
+      axes: { yAxis: { primary: ['median'], secondary: ['max'], ratio: 0.5 } },
+    },
+    elements: [
+      /**
+       * Product 1
+       */
+      {
+        '@id': 'rm:line_11', // machine-generated random UUID
+        '@type': 'rm:Element',
+        type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
+        resultsScope: 'mktp:_8uJ8t6__ee', // reference to data
+        options: {
+          label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
+          color: '#4EEC1F',
+          lineWidth: 2,
+          shape: 'hvh',
+          // lineDash: '',
+        },
+      },
+    ],
+    // datasets constraints, specific to this view (UML aggregation)
+    collsConstrs: [
+      /**
+       * Product 1
+       */
+      {
+        '@id': 'mktp:_8uJ8t6__ee', // machine-generated random UUID
+        '@type': 'rm:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:_uf78Dfg', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'mktp:BoxPlotBucketShape',
+            conditions: {
+              '@id': 'mktp:_u8Yg83', // machine-generated random UUID
+              '@type': 'rm:EntConstrCondition',
+              hasFeatureOfInterest: 'mktp_d:Massager',
+              forProperty: 'hs:Price',
+              hasUpperOutlier: '?eIri1',
+              hasLowerOutlier: '?eIri2',
+            },
+          },
+          {
+            '@id': 'mktp:_dfd8SDfg', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'sosa:ObservationShape',
+          },
+          {
+            '@id': 'mktp:_Jhd8fg', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'sosa:ObservationShape',
+          },
+        ],
+        orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
+    ],
+  },
+  ///////////////////
+  {
+    '@id': 'mktp:_g7H7gh___salesAmountDiff',
+    '@type': 'rm:View',
+    title: 'Массажная подушка роликовая, Изменение объема продаж',
+    description: 'Marketplace Product Analysis Box-Plot Charts',
+    viewKind: 'rm:BoxPlotViewKind',
+    //type: 'BoxPlotChart', // control type
+    type: 'Chart', // control type
+    // child ui elements configs
+    options: {
+      timeUnit: 'day',
+      dateFormat: 'DD.MM.YYYY',
+      axes: { yAxis: { primary: ['median'], secondary: ['max'], ratio: 0.5 } },
+    },
+    elements: [
+      /**
+       * Product 1
+       */
+      {
+        '@id': 'rm:line_11', // machine-generated random UUID
+        '@type': 'rm:Element',
+        type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
+        resultsScope: 'mktp:_8uJ8t6__ee2', // reference to data
+        options: {
+          label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
+          color: '#4EEC1F',
+          lineWidth: 2,
+          shape: 'hvh',
+          // lineDash: '',
+        },
+      },
+    ],
+    // datasets constraints, specific to this view (UML aggregation)
+    collsConstrs: [
+      /**
+       * Product 1
+       */
+      {
+        '@id': 'mktp:_8uJ8t6__ee2', // machine-generated random UUID
+        '@type': 'rm:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:_uf78Dfg', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'mktp:BoxPlotBucketShape',
+            conditions: {
+              '@id': 'mktp:_u8Yg83', // machine-generated random UUID
+              '@type': 'rm:EntConstrCondition',
+              hasFeatureOfInterest: 'mktp_d:Massager',
+              forProperty: 'hs:SalesAmountDiff',
+              hasUpperOutlier: '?eIri1',
+              hasLowerOutlier: '?eIri2',
+            },
+          },
+          {
+            '@id': 'mktp:_dfd8SDfg', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'sosa:ObservationShape',
+          },
+          {
+            '@id': 'mktp:_Jhd8fg', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'sosa:ObservationShape',
+          },
+        ],
+        orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
+    ],
+  },
+  //////////
+  {
+    '@id': 'mktp:_g7H7gh___CommentsCount',
+    '@type': 'rm:View',
+    title: 'Массажная подушка роликовая, разброс кол-ва коментариев',
+    description: 'Marketplace Product Analysis Box-Plot Charts',
+    viewKind: 'rm:BoxPlotViewKind',
+    //type: 'BoxPlotChart', // control type
+    type: 'Chart', // control type
+    // child ui elements configs
+    options: {
+      timeUnit: 'day',
+      dateFormat: 'DD.MM.YYYY',
+      axes: { yAxis: { primary: ['median'], secondary: ['max'], ratio: 0.5 } },
+    },
+    elements: [
+      /**
+       * Product 1
+       */
+      {
+        '@id': 'rm:line_11', // machine-generated random UUID
+        '@type': 'rm:Element',
+        type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
+        resultsScope: 'mktp:_8uJ8t6__ee3', // reference to data
+        options: {
+          label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
+          color: '#4EEC1F',
+          lineWidth: 2,
+          shape: 'hvh',
+          // lineDash: '',
+        },
+      },
+    ],
+    // datasets constraints, specific to this view (UML aggregation)
+    collsConstrs: [
+      /**
+       * Product 1
+       */
+      {
+        '@id': 'mktp:_8uJ8t6__ee3', // machine-generated random UUID
+        '@type': 'rm:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:_uf78Dfg', // machine-generated random UUID
+            '@type': 'rm:EntConstr',
+            schema: 'mktp:BoxPlotBucketShape',
+            conditions: {
+              '@id': 'mktp:_u8Yg83', // machine-generated random UUID
+              '@type': 'rm:EntConstrCondition',
+              hasFeatureOfInterest: 'mktp_d:Massager',
+              forProperty: 'hs:CommentsCount',
               hasUpperOutlier: '?eIri1',
               hasLowerOutlier: '?eIri2',
             },

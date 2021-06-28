@@ -25,14 +25,14 @@
     "lint-staged": "lint-staged"
   },
   "peerDependencies": {
-    "@agentlab/ldkg-ui-react": ">=0.1.9",
+    "@agentlab/ldkg-ui-react": ">=0.1.10",
     "@agentlab/sparql-jsld-client": ">=5.0.0-rc.9",
     "@ant-design/charts": "1.1.3",
     "@ant-design/icons": ">=4.6.2",
     "@antv/data-set": ">=0.11.8",
     "@antv/g2plot": "2.3.19",
     "@rdfjs/data-model": ">=1.2.0",
-    "antd": ">=4.16.3",
+    "antd": ">=4.16.5",
     "json-pointer": ">=0.6.1",
     "jsonpath": ">=1.1.1",
     "lodash-es": ">=4.17.21",
@@ -45,7 +45,7 @@
     "react-error-boundary": ">=3.1.3"
   },
   "dependencies": {
-    "@agentlab/ldkg-ui-react": "^0.1.9",
+    "@agentlab/ldkg-ui-react": "^0.1.10",
     "@agentlab/sparql-jsld-client": "^5.0.0-rc.9",
     "@ant-design/charts": "1.1.3",
     "@ant-design/icons": "^4.6.2",
