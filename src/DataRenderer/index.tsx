@@ -16,15 +16,21 @@ import { MstContext } from '@agentlab/ldkg-ui-react';
 
 import ViewPartMapper, { createEmptyViewPart, viewPartReducer } from './mappers/views';
 import { createComponent } from './mappers/components';
-import { observable } from 'mobx';
 
 function mapToMeta(constraint: any): any {
   const { observedProperty, hasFeatureOfInterest } = constraint.conditions;
   const meta = {
     resultTime: { type: 'timeCat' },
-    observedProperty: {},
   };
-  return { observedProperty, hasFeatureOfInterest, meta };
+  return {
+    ...(observedProperty && { observedProperty }),
+    ...(hasFeatureOfInterest && { hasFeatureOfInterest }),
+    ...(observedProperty &&
+      hasFeatureOfInterest && {
+        propKey: `${hasFeatureOfInterest}#${observedProperty.replace(/^[A-Za-z0-9-]*:/, '').toLowerCase()}`,
+      }),
+    meta,
+  };
 }
 
 export const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.Element => {
@@ -35,8 +41,8 @@ export const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.El
       // map viewDescription constraints to G2 views and geometries
       const mappedViews = viewDescriptions.map(async (viewDescription: any) => {
         const viewKind = viewKinds.find((vk: any) => vk['@id'] === viewDescription.viewKind);
-        const { mappings = [] } = viewKind;
-        const viewPartMapper = ViewPartMapper(mappings);
+        const { mappings = {}, dataMappings = [] } = viewKind;
+        const viewPartMapper = ViewPartMapper(mappings, dataMappings);
         const viewConfig = viewDescription.elements
           .map((viewElement: any) => {
             const elementCollectionConstraint = viewDescription.collsConstrs.find(
@@ -88,8 +94,6 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
   if (!viewDescr) setViewDescr(getSnapshot(viewDescrObs));
   if (!viewKind) setViewKind(getSnapshot(viewKindObs));
   if (!viewConfig && viewDescr && viewKind) {
-    const { mappings = [] } = viewKind;
-    const viewPartMapper = ViewPartMapper(mappings);
     const elemWithMetas = viewDescr.elements.map((viewElem: any) => {
       const elemCollConstr = viewDescr.collsConstrs.find(
         (constraint: { [x: string]: any }) => constraint['@id'] === viewElem.resultsScope,
@@ -109,25 +113,15 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
     // for the rest elemWithMetas and render it later
     // every() here and not filter() cause we did not fugure it out
     if (elemWithMetas.every((e: any) => store.getColl(e.resultsScope)?.data.length > 0)) {
+      const { mappings = {}, dataMappings = [] } = viewKind;
+      const viewPartMapper = ViewPartMapper(mappings, dataMappings);
       const viewConfig2 = elemWithMetas
         .map((elemWithMeta: any) => {
           const dataObs = store.getColl(elemWithMeta.resultsScope);
           // TODO: fix sotring in sparql client and remove sorting below
-          let viewElementData: any = (cloneDeep(getSnapshot(dataObs.data)) as any[]).sort(
+          const viewElementData: any = (cloneDeep(getSnapshot(dataObs.data)) as any[]).sort(
             (a: any, b: any) => new Date(a.resultTime).valueOf() - new Date(b.resultTime).valueOf(),
           );
-          viewElementData = viewElementData.map((obs: any) => {
-            if (obs.observedProperty) {
-              /*let propName = obs.observedProperty.replace('hs:', '#');
-              propName = propName[0].toLowerCase() + propName.slice(1);
-              obs.observedProperty = obs.hasFeatureOfInterest + propName;*/
-            } else if (obs.forProperty) {
-              let propName = obs.forProperty.replace('hs:', '#');
-              propName = propName[0].toLowerCase() + propName.slice(1);
-              obs.forProperty = obs.hasFeatureOfInterest + propName;
-            }
-            return obs;
-          });
           const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, viewElementData);
           return chartViewPart;
         })

@@ -107,9 +107,9 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
       views: updateViews,
       syncViewPadding: true,
       tooltip: {
-        showMarkers: false,
+        showMarkers: true,
         shared: true,
-        showCrosshairs: false,
+        showCrosshairs: true,
       },
     };
 

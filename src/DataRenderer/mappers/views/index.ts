@@ -103,21 +103,24 @@ function assignObjectValue(mappingProperties: any, contextObject: any, propertyN
   return propertyName ? { [propertyName]: mappedPropertiesContainer } : mappedPropertiesContainer;
 }
 
-export default function ViewPartMapper(mappings: any) {
-  const getDataPropertiesMappings = (viewElementGeometry: any) =>
-    Object.keys(mappings)
-      .filter((mappingPropertyStatement: any) => mappings[mappingPropertyStatement].type === 'expr')
-      .reduce((dataMappingFunctions: any, mappingPropertyStatement: any) => {
-        const evaluatedProperty = viewElementGeometry[mappingPropertyStatement];
-        const { dataProperty } = mappings[mappingPropertyStatement];
-        const dataMapping = (dataPoint: any) =>
-          Object.assign(dataPoint, { [evaluatedProperty]: dataPoint[dataProperty] });
-        dataMappingFunctions.push(dataMapping);
-        return dataMappingFunctions;
-      }, []);
+export default function ViewPartMapper(mappings: any, dataMappings: any) {
+  const getDataMappings = (viewElementGeometry: any, element: any) => {
+    const defaultScope = 'default';
+    return dataMappings.map((dm: any) => {
+      const dataProperty = assignObjectValue(dm, {
+        ...viewElementGeometry,
+        ...element,
+      }) as { propertyName: string; value: string; scope: string };
+      const { propertyName, value, scope = defaultScope } = dataProperty;
+      return {
+        data: (dataPoint: any) => ({ ...dataPoint, [propertyName]: dataPoint[value] }),
+        [defaultScope]: (dataPoint: any) => ({ ...dataPoint, [propertyName]: value }),
+      }[scope];
+    });
+  };
 
-  const applyDataMappings = (viewElementGeometry: any, data: any[]) =>
-    getDataPropertiesMappings(viewElementGeometry).reduce(
+  const applyDataMappings = (viewElementGeometry: any, data: any[], element: any) =>
+    getDataMappings(viewElementGeometry, element).reduce(
       (acc: any[], mappingFunction: any) => acc.map(mappingFunction),
       data,
     );
@@ -145,7 +148,7 @@ export default function ViewPartMapper(mappings: any) {
   return {
     createChartViewPart(element: any, viewElementData: any[]) {
       const geometry: Geometry = createGeometry(element);
-      const geometryData = applyDataMappings(geometry, viewElementData);
+      const geometryData = applyDataMappings(geometry, viewElementData, element);
       const geometryMeta = getGeometryMeta(element, geometry);
       const options = extractGeometryOptions(geometry);
       return { geometry, meta: geometryMeta, data: geometryData, options };

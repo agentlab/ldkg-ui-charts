@@ -26,7 +26,7 @@ export const timeSeriesViewDescrs = [
     options: {
       timeUnit: 'day',
       dateFormat: 'DD.MM.YYYY',
-      axes: { yAxis: { primary: ['price'], secondary: ['totalSales'], ratio: 0.5 } },
+      axes: { yAxis: { primary: ['Price'], secondary: ['TotalSales'], ratio: 0.7 } },
     },
     elements: [
       /**
@@ -48,7 +48,7 @@ export const timeSeriesViewDescrs = [
       {
         '@id': 'rm:line_12', // machine-generated random UUID
         '@type': 'rm:Element',
-        type: 'interval', // TODO: +'Bar' (auxillary bars, auxillary lines)
+        type: 'line', // TODO: +'Bar' (auxillary bars, auxillary lines)
         resultsScope: 'mktp:_Kj8d6g5', // reference to data
         options: {
           label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
@@ -76,7 +76,7 @@ export const timeSeriesViewDescrs = [
       {
         '@id': 'rm:line_22', // machine-generated random UUID
         '@type': 'rm:Element',
-        type: 'interval',
+        type: 'line',
         resultsScope: 'mktp:_sD678hf', // reference to data
         options: {
           label: 'Подушка Relax Massage', // TODO: in future should be a data-binding
@@ -104,7 +104,7 @@ export const timeSeriesViewDescrs = [
       {
         '@id': 'rm:line_32', // machine-generated random UUID
         '@type': 'rm:Element',
-        type: 'interval',
+        type: 'line',
         resultsScope: 'mktp:_sd56Fg78', // reference to data
         options: {
           label: 'Подушка HappyGoods', // TODO: in future should be a data-binding
