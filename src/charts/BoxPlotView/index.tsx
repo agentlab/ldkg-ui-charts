@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { Box } from '@ant-design/charts';
 
-const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, description }: any) => {
+const BoxPlotView = ({ views = {}, options = {}, title }: any) => {
   const view = Array.isArray(views) ? views[0] : views;
   const [config, setConfig] = useState<any>({
-    xField: 'undefined',
-    yField: 'undefined',
     data: [],
   });
   const createOutliers = (data: any) => {
@@ -28,12 +26,7 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
       const medianDate = moment((Number(moment(e.end).format('x')) + Number(moment(e.begin).format('x'))) / 2);
       return {
         x: options.groupField ? medianDate.format(options.dateFormat) : medianDate,
-        low: e.min,
-        q1: e.percentile_25,
-        median: e.median,
-        q3: e.percentile_75,
-        high: e.max,
-        outliers: createOutliers(e),
+        ...(options.showOutliers && { outliers: createOutliers(e) }),
         ...e,
       };
     });
@@ -41,9 +34,7 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
       width: 400,
       height: 500,
       data: data,
-      xField: 'x',
-      yField: ['low', 'q1', 'median', 'q3', 'high'],
-      groupField: options.groupField,
+      ...view.geometries[0],
       outliersField: 'outliers',
       outliersStyle: { fill: '#f6f' },
       boxStyle: options.groupField
@@ -54,18 +45,17 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
             fillOpacity: 0.3,
           },
       meta: {
-        x: options.groupField
-          ? {}
-          : {
-              formatter: (val: any) => {
-                return moment(val).format(options.dateFormat);
-              },
-            },
+        [view.geometries[0].xField]: {
+          formatter: (val: any) => moment(val).format(options.dateFormat),
+        },
       },
       animation: false,
+      tooltip: {
+        showCrosshairs: false,
+      },
     };
     setConfig(newConfig);
-  }, [view.data, options, views, title]);
+  }, [view.data, options, views, title, view.geometries]);
   return (
     <React.Fragment>
       <span style={{ fontSize: '2em' }}>{title}</span>
@@ -74,4 +64,4 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
   );
 };
 
-export default TimeSeriesWithAuxiliaryView;
+export default BoxPlotView;

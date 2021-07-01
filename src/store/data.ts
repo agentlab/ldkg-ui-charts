@@ -124,20 +124,7 @@ export const timeSeriesViewKinds = [
       },
       groupField: 'source',
       xField: 'begin',
-      yField: {
-        type: 'expr',
-        value: '(v) => v.replace(/^[^#]*#/, "")',
-        applyTo: '$.forProperty',
-        dataProperty: 'median',
-      },
-      colorField: 'forProperty',
-      adjust: {
-        type: 'object',
-        properties: {
-          type: 'dodge',
-          marginRatio: 0,
-        },
-      },
+      yField: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
       legend: {
         type: 'object',
         properties: {
@@ -155,18 +142,13 @@ export const timeSeriesViewKinds = [
             type: 'object',
             properties: {
               lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
-              stroke: { type: 'pointer', value: '/options/stroke' },
             },
-            wrapper: { type: 'pointer', value: '/forProperty' },
-          },
-          shape: {
-            type: 'pointer',
-            value: '/options/shape',
+            wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
           },
           color: {
             type: 'pointer',
             value: '/options/color',
-            wrapper: { type: 'pointer', value: '/forProperty' },
+            wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
           },
         },
       },
@@ -402,23 +384,21 @@ export const localChartsViewDescrs = [
       timeUnit: 'day',
       dateFormat: 'DD.MM.YYYY',
       groupField: 'source',
-      axes: { yAxis: { primary: ['median'], secondary: ['max'], ratio: 0.5 } },
+      showOutliers: true,
     },
     elements: [
       /**
        * Product 1
        */
       {
-        '@id': 'rm:line_11', // machine-generated random UUID
+        '@id': 'rm:box1', // machine-generated random UUID
         '@type': 'rm:Element',
-        type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
+        type: 'box',
         resultsScope: 'mktp:BoxPlotBucket_0_CollConstr', // reference to data
         options: {
           label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
           color: '#4EEC1F',
           lineWidth: 2,
-          shape: 'hvh',
-          // lineDash: '',
         },
       },
     ],

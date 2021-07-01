@@ -29,12 +29,7 @@ const remoteBoxPlotViewKinds = [
         value: '/type',
       },
       xField: 'begin',
-      yField: {
-        type: 'expr',
-        value: '(v) => v.replace(/^[^#]*#/, "")',
-        applyTo: '$.forProperty',
-        dataProperty: 'median',
-      },
+      yField: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
       colorField: 'forProperty',
       adjust: {
         type: 'object',
@@ -60,18 +55,13 @@ const remoteBoxPlotViewKinds = [
             type: 'object',
             properties: {
               lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
-              stroke: { type: 'pointer', value: '/options/stroke' },
             },
-            wrapper: { type: 'pointer', value: '/forProperty' },
-          },
-          shape: {
-            type: 'pointer',
-            value: '/options/shape',
+            wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
           },
           color: {
             type: 'pointer',
             value: '/options/color',
-            wrapper: { type: 'pointer', value: '/forProperty' },
+            wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
           },
         },
       },
@@ -92,14 +82,14 @@ const remoteBoxPlotViewDescrs = [
     options: {
       timeUnit: 'day',
       dateFormat: 'DD.MM.YYYY',
-      axes: { yAxis: { primary: ['median'], secondary: ['max'], ratio: 0.5 } },
+      showOutliers: true,
     },
     elements: [
       /**
        * Product 1
        */
       {
-        '@id': 'rm:line_11', // machine-generated random UUID
+        '@id': 'rm:box1', // machine-generated random UUID
         '@type': 'rm:Element',
         type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
         resultsScope: 'mktp:_8uJ8t6', // reference to data
@@ -107,8 +97,6 @@ const remoteBoxPlotViewDescrs = [
           label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
           color: '#4EEC1F',
           lineWidth: 2,
-          shape: 'hvh',
-          // lineDash: '',
         },
       },
     ],
