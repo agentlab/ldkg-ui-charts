@@ -9,7 +9,7 @@
  ********************************************************************************/
 import { Geometry } from '@antv/g2plot/lib/adaptor/geometries/base';
 import jp from 'json-pointer';
-import jsonpath from 'jsonpath';
+import { JSONPath } from 'jsonpath-plus';
 import { cloneDeep, isEmpty } from 'lodash-es';
 
 function assignValue(property: any, value: any) {
@@ -33,13 +33,22 @@ function assignPointerValue(property: any, pointer: any, contextObject: any) {
 function assignExpressionValue(property: any, expression: any, subject: any) {
   const { applyTo, value: expressionString } = expression;
   const actualSubject = cloneDeep(subject);
-  // eslint-disable-next-line no-eval
-  const values = jsonpath.apply(actualSubject, applyTo, eval(expressionString));
-  if (values.length !== 1) {
-    console.warn('Failed to evaluate expression', expressionString);
-    return undefined;
+
+  const values = JSONPath({
+    path: applyTo,
+    json: actualSubject,
+  });
+
+  if (expressionString) {
+    // eslint-disable-next-line no-eval
+    const callback = eval(expressionString);
+    if (typeof callback === 'function') {
+      const value = callback(...values);
+      return assignValue(property, value);
+    }
   }
-  return assignValue(property, values[0].value);
+
+  return assignValue(property, values);
 }
 
 function assign(object: any, value: any, wrapper?: any, contextObject?: any, property?: any) {
