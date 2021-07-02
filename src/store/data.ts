@@ -51,6 +51,12 @@ export const timeSeriesViewKinds = [
         applyTo: '$.observedProperty',
       },
       colorField: 'observedFeatureProperty',
+      propKey: {
+        type: 'expr',
+        value:
+          '(observedProperty,hasFeatureOfInterest) => hasFeatureOfInterest + "#" + observedProperty.replace(/^[A-Za-z0-9-]*:/, "").toLowerCase()',
+        applyTo: '$.[observedProperty,hasFeatureOfInterest]',
+      },
       // adjust: {
       //   type: 'object',
       //   properties: {

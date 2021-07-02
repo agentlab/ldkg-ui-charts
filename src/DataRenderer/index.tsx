@@ -25,10 +25,6 @@ function mapToMeta(constraint: any): any {
   return {
     ...(observedProperty && { observedProperty }),
     ...(hasFeatureOfInterest && { hasFeatureOfInterest }),
-    ...(observedProperty &&
-      hasFeatureOfInterest && {
-        propKey: `${hasFeatureOfInterest}#${observedProperty.replace(/^[A-Za-z0-9-]*:/, '').toLowerCase()}`,
-      }),
     meta,
   };
 }
