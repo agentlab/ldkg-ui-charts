@@ -10,7 +10,7 @@
 import { Geometry } from '@antv/g2plot/lib/adaptor/geometries/base';
 import jp from 'json-pointer';
 import { JSONPath } from 'jsonpath-plus';
-import { cloneDeep, isEmpty } from 'lodash-es';
+import { cloneDeep, isEmpty, pickBy } from 'lodash-es';
 
 function assignValue(property: any, value: any) {
   return value !== undefined ? { [property]: value } : {};
@@ -134,7 +134,7 @@ export default function ViewPartMapper(mappings: any, dataMappings: any) {
       data,
     );
 
-  const createGeometry = (element: any) => assignObjectValue(mappings, element);
+  const createGeometry = (element: any): Geometry => assignObjectValue(mappings, element);
 
   const getGeometryMeta = (element: any, viewElementGeometry: Geometry) => {
     const { meta: elementMeta } = element;
@@ -154,11 +154,19 @@ export default function ViewPartMapper(mappings: any, dataMappings: any) {
     return {};
   };
 
+  const computeAdditionalMeta = (viewElement: any) => {
+    const isMetaMappingProperty = (m: any) => m.scope === 'meta';
+    const metaMappings = pickBy(mappings, isMetaMappingProperty);
+    return assignObjectValue(metaMappings, viewElement);
+  };
+
   return {
     createChartViewPart(element: any, viewElementData: any[]) {
-      const geometry: Geometry = createGeometry(element);
-      const geometryData = applyDataMappings(geometry, viewElementData, element);
-      const geometryMeta = getGeometryMeta(element, geometry);
+      const computedMeta = computeAdditionalMeta(element);
+      const mappingContext = { ...element, ...computedMeta };
+      const geometry = createGeometry(mappingContext);
+      const geometryData = applyDataMappings(geometry, viewElementData, mappingContext);
+      const geometryMeta = getGeometryMeta(mappingContext, geometry);
       const options = extractGeometryOptions(geometry);
       return { geometry, meta: geometryMeta, data: geometryData, options };
     },
