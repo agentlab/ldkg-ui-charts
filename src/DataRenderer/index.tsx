@@ -7,78 +7,16 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import React, { useEffect, useState, useContext } from 'react';
-import { cloneDeep } from 'lodash-es';
+import { MstContext } from '@agentlab/ldkg-ui-react';
+import { View } from '@agentlab/ldkg-ui-react/es/models/uischema';
+import { ICollConstr, IEntConstr } from '@agentlab/sparql-jsld-client';
 import { Spin } from 'antd';
+import { cloneDeep, merge, pickBy } from 'lodash-es';
 import { observer } from 'mobx-react-lite';
 import { getSnapshot } from 'mobx-state-tree';
-import { MstContext } from '@agentlab/ldkg-ui-react';
-
-import ViewPartMapper, { createEmptyViewPart, viewPartReducer } from './mappers/views';
+import React, { useContext, useEffect, useState } from 'react';
 import { createComponent } from './mappers/components';
-
-function mapToMeta(constraint: any): any {
-  const { observedProperty, hasFeatureOfInterest } = constraint.conditions;
-  const meta = {
-    resultTime: { type: 'timeCat' },
-  };
-  return {
-    ...(observedProperty && { observedProperty }),
-    ...(hasFeatureOfInterest && { hasFeatureOfInterest }),
-    meta,
-  };
-}
-
-export const DataRenderer = ({ viewKinds, viewDescriptions, data }: any): JSX.Element => {
-  const [views, setViews] = useState<any>([]);
-
-  useEffect(() => {
-    async function loadViews() {
-      // map viewDescription constraints to G2 views and geometries
-      const mappedViews = viewDescriptions.map(async (viewDescription: any) => {
-        const viewKind = viewKinds.find((vk: any) => vk['@id'] === viewDescription.viewKind);
-        const { mappings = {}, dataMappings = [] } = viewKind;
-        const viewPartMapper = ViewPartMapper(mappings, dataMappings);
-        const viewConfig = viewDescription.elements
-          .map((viewElement: any) => {
-            const elementCollectionConstraint = viewDescription.collsConstrs.find(
-              (constraint: { [x: string]: any }) => constraint['@id'] === viewElement.resultsScope,
-            );
-            const viewElementMeta = elementCollectionConstraint?.entConstrs
-              .map((e: any) => mapToMeta(e))
-              .reduce((acc: any, item: any) => ({ ...acc, ...item }), {});
-
-            return { ...viewElementMeta, ...viewElement };
-          })
-          .map((elementWithMeta: any) => {
-            const viewElementData = data[elementWithMeta.resultsScope]?.dataIntrnl ?? [];
-            const chartViewPart = viewPartMapper.createChartViewPart(elementWithMeta, viewElementData);
-            return chartViewPart;
-          })
-          .reduce(viewPartReducer, createEmptyViewPart());
-        const chartConfig = {
-          title: viewDescription.title,
-          description: viewDescription.description,
-          options: viewDescription.options,
-          views: [viewConfig],
-        };
-        const dataViewComponent = await createComponent(viewKind.type);
-        return { View: dataViewComponent, key: viewDescription['@id'], config: chartConfig };
-      });
-      Promise.all(mappedViews).then(setViews);
-    }
-    loadViews();
-  }, [viewDescriptions, data, viewKinds]);
-
-  return (
-    <React.Suspense fallback={<Spin />}>
-      {views.map((item: { View: any; key: any; config: any }) => {
-        const { View, key, config } = item;
-        return <View key={key} {...config} />;
-      })}
-    </React.Suspense>
-  );
-};
+import ViewPartMapper, { createEmptyViewPart, createMeta, viewPartReducer } from './mappers/views';
 
 export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any): JSX.Element => {
   const { store } = useContext(MstContext);
@@ -90,20 +28,17 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
   if (!viewDescr) setViewDescr(getSnapshot(viewDescrObs));
   if (!viewKind) setViewKind(getSnapshot(viewKindObs));
   if (!viewConfig && viewDescr && viewKind) {
-    const elemWithMetas = viewDescr.elements.map((viewElem: any) => {
-      const elemCollConstr = viewDescr.collsConstrs.find(
-        (constraint: { [x: string]: any }) => constraint['@id'] === viewElem.resultsScope,
-      );
-      const viewElemMeta = elemCollConstr?.entConstrs
-        .map((e: any) => mapToMeta(e))
-        .reduce((acc: any, item: any) => ({ ...acc, ...item }), {});
-      const viewElemClear: any = {}; // filter all fields with 'undefined'
-      Object.keys(viewElem).forEach((key) => {
-        const val = viewElem[key];
-        if (val !== undefined) viewElemClear[key] = val;
+    const elemWithMetas = viewDescr.elements
+      .map((viewElem: View) => pickBy(viewElem, (v: PropertyKey) => v !== undefined))
+      .map((viewElem: View) => {
+        const elemCollConstr: ICollConstr = viewDescr.collsConstrs.find(
+          (constraint: ICollConstr) => constraint['@id'] === viewElem.resultsScope,
+        );
+        const viewElemMeta = elemCollConstr.entConstrs
+          .map((e: IEntConstr) => createMeta(e, store.schemas.get(e.schema)))
+          .reduce(merge, {});
+        return { ...viewElemMeta, ...viewElem };
       });
-      return { ...viewElemMeta, ...viewElemClear };
-    });
     // Wait for all ViewDescr.collConstrs data to load
     //TODO: How to render the data, available for elemWithMetas, and detect lazy-loaded data
     // for the rest elemWithMetas and render it later
@@ -146,6 +81,7 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
     <React.Suspense fallback={<Spin />}>
       {views.map((item: { View: any; key: any; config: any }) => {
         const { View, key, config } = item;
+        const { options, views } = config;
         return <View key={key} {...config} />;
       })}
     </React.Suspense>

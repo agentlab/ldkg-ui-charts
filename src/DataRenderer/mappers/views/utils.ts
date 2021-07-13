@@ -7,11 +7,43 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
+import { IEntConstr } from '@agentlab/sparql-jsld-client';
 import { Geometry } from '@antv/g2plot/lib/adaptor/geometries/base';
 import { IView } from '@antv/g2plot/lib/plots/multi-view/types';
+import { Meta } from '@antv/g2plot/lib/types';
+import { JSONSchema6 } from 'json-schema';
 import { merge } from 'lodash-es';
 
 export declare type ViewPart = IView & { options: Record<string, any> };
+
+const dataFormatMetas: Record<string, Meta> = {
+  'date-time': { type: 'timeCat' },
+};
+
+function getSchemaPropertiesMeta(schema: { properties: Map<string, JSONSchema6> }) {
+  return Array.from(schema.properties)
+    .map(([key, value]) => {
+      const { format = '' } = value;
+      const formatMeta = dataFormatMetas[format];
+      return formatMeta ? { [key]: formatMeta } : {};
+    })
+    .reduce((acc, meta) => ({ ...acc, ...meta }), {});
+}
+
+function getPropertyValuesFromConstraint(constraint: IEntConstr, schema: { properties: Map<string, JSONSchema6> }) {
+  const { conditions }: Record<string, any> = constraint;
+  return Array.from(schema.properties.keys())
+    .filter((key) => !key.startsWith('@') && {}.hasOwnProperty.call(conditions, key))
+    .reduce((acc, key) => ({ ...acc, [key]: conditions[key] }), {});
+}
+
+export function createMeta(constraint: IEntConstr, schema?: { properties: Map<string, JSONSchema6> }): any {
+  return schema
+    ? { meta: getSchemaPropertiesMeta(schema), ...getPropertyValuesFromConstraint(constraint, schema) }
+    : {
+        meta: {},
+      };
+}
 
 export const createEmptyViewPart = (): ViewPart => ({
   geometries: [],
