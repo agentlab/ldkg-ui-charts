@@ -6,5 +6,8 @@
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.endOfLine": "lf",
-  "jest.autoRun": "off"
+  "jest.autoRun": "off",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  }
 }
