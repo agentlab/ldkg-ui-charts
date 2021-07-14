@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import { G2, MultiView } from '@ant-design/charts';
+import { G2, Mix } from '@ant-design/charts';
 import { Datum } from '@antv/g2plot/lib/types';
 import 'antd/dist/antd.css';
 import moment, { Moment } from 'moment';
@@ -123,7 +123,7 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {}, title, descript
         <h4 className={styles.subtitle}>{description}</h4>
       </div>
       <DateRangePickerMenu onChange={handleDatesChanged} />
-      <MultiView
+      <Mix
         {...chartConfig}
         onReady={(plt: any) => {
           plt.chart.theme('custom-theme');

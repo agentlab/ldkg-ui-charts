@@ -7,10 +7,8 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import { G2, MultiView } from '@ant-design/charts';
-import { MultiViewConfig } from '@ant-design/charts/es/multiView';
+import { G2, Mix } from '@ant-design/charts';
 import DataSet from '@antv/data-set';
-import { Options } from '@antv/g2plot';
 import React, { useEffect, useState } from 'react';
 
 const data1 = [
@@ -162,7 +160,7 @@ export const DataSetDemo: React.FC = () => {
     }
   };
 
-  const config: MultiViewConfig = {
+  const config: any = {
     syncViewPadding: true,
 
     tooltip: { showMarkers: false, shared: true, showCrosshairs: true },
@@ -304,7 +302,7 @@ export const DataSetDemo: React.FC = () => {
         </label>
       ))}
       {chartData.length > 0 && (
-        <MultiView
+        <Mix
           {...config}
           onReady={(plt: any) => {
             plt.chart.theme('custom-theme');

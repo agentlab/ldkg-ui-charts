@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import { G2, MultiView } from '@ant-design/charts';
+import { G2, Mix } from '@ant-design/charts';
 import React, { useEffect, useState } from 'react';
 
 const data1 = [
@@ -757,7 +757,7 @@ export const MultiViewDodgeDemo: React.FC = () => {
         </label>
       ))}
       {chartData.length > 0 && (
-        <MultiView
+        <Mix
           {...config}
           onReady={(plt: any) => {
             plt.chart.theme('custom-theme');

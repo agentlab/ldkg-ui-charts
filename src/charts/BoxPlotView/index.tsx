@@ -25,7 +25,7 @@ const BoxPlotView = ({ views = {}, options = {}, title }: any) => {
     const data = view.data.map((e: any, idx: number) => {
       const medianDate = moment((Number(moment(e.end).format('x')) + Number(moment(e.begin).format('x'))) / 2);
       return {
-        x: options.groupField ? medianDate.format(options.dateFormat) : medianDate,
+        x: medianDate.format(options.dateFormat),
         ...(options.showOutliers && { outliers: createOutliers(e) }),
         ...e,
       };

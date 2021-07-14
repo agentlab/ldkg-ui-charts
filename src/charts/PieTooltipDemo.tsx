@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import { MultiView } from '@ant-design/charts';
+import { Mix } from '@ant-design/charts';
 import { Pie, PieOptions } from '@antv/g2plot';
 import React from 'react';
 
@@ -251,5 +251,5 @@ export const PieTooltipDemo: React.FC = () => {
     ],
   };
 
-  return <MultiView {...config} />;
+  return <Mix {...config} />;
 };
