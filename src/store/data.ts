@@ -7,9 +7,10 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import moment from 'moment';
 import { rootModelInitialState } from '@agentlab/sparql-jsld-client';
+import moment from 'moment';
 import { groupedBoxPlot } from './LocalBoxPlot';
+import { boxPlotBucketShape, observationShape } from './shapes';
 
 export const viewKindCollConstr = {
   '@id': 'rm:ViewKinds_Coll_charts',
@@ -735,6 +736,12 @@ const viewDataObservations32 = [
 
 export const chartLocalRootModelState = {
   ...rootModelInitialState,
+  schemas: {
+    json: {
+      [observationShape['@id']]: observationShape,
+      [boxPlotBucketShape['@id']]: boxPlotBucketShape,
+    },
+  },
   colls: {
     // ViewDescr
     [viewDescrCollConstr['@id']]: {
