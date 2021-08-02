@@ -35,6 +35,8 @@ const BoxPlotView = forwardRef(({ views = {}, options = {}, title }: any, ref: a
       height: 500,
       data: data,
       ...view.geometries[0],
+      ...view.options,
+      xField: 'x',
       outliersField: 'outliers',
       outliersStyle: { fill: '#f6f' },
       boxStyle: options.groupField
@@ -44,18 +46,14 @@ const BoxPlotView = forwardRef(({ views = {}, options = {}, title }: any, ref: a
             fill: '#1890FF',
             fillOpacity: 0.3,
           },
-      meta: {
-        [view.geometries[0].xField]: {
-          formatter: (val: any) => moment(val).format(options.dateFormat),
-        },
-      },
+      meta: view.meta,
       animation: false,
       tooltip: {
         showCrosshairs: false,
       },
     };
     setConfig(newConfig);
-  }, [view.data, options, views, title, view.geometries]);
+  }, [view.data, options, views, title, view.geometries, view.meta, view.options]);
   return (
     <React.Fragment>
       <span style={{ fontSize: '2em' }}>{title}</span>
