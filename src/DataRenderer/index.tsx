@@ -15,6 +15,7 @@ import { cloneDeep, merge, pickBy } from 'lodash-es';
 import { observer } from 'mobx-react-lite';
 import { getSnapshot } from 'mobx-state-tree';
 import React, { useContext, useEffect, useState } from 'react';
+import Chart from './Chart';
 import { createComponent } from './mappers/components';
 import ViewPartMapper, { createEmptyViewPart, createMeta, viewPartReducer } from './mappers/views';
 
@@ -70,7 +71,8 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
         views: [viewConfig],
       };
       const dataViewComponent = await createComponent(viewKind.type);
-      setViews([{ View: dataViewComponent, key: viewDescr['@id'], config: chartConfig }]);
+      const memoizedDataViewComponent = React.memo(dataViewComponent);
+      setViews([{ View: memoizedDataViewComponent, key: viewDescr['@id'], config: chartConfig }]);
     }
     if (viewDescr && viewKind && viewConfig) {
       console.log('call loadViews');
@@ -82,7 +84,11 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
       {views.map((item: { View: any; key: any; config: any }) => {
         const { View, key, config } = item;
         const { options, views } = config;
-        return <View key={key} {...config} />;
+        return (
+          <Chart key={key} {...config}>
+            <View options={options} views={views} />
+          </Chart>
+        );
       })}
     </React.Suspense>
   );
