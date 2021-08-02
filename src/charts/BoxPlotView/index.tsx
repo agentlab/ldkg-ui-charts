@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
 import { Box } from '@ant-design/charts';
+import moment from 'moment';
+import React, { forwardRef, useEffect, useState } from 'react';
 
-const BoxPlotView = ({ views = {}, options = {}, title }: any) => {
+const BoxPlotView = forwardRef(({ views = {}, options = {}, title }: any, ref: any) => {
   const view = Array.isArray(views) ? views[0] : views;
   const [config, setConfig] = useState<any>({
     data: [],
@@ -59,9 +59,9 @@ const BoxPlotView = ({ views = {}, options = {}, title }: any) => {
   return (
     <React.Fragment>
       <span style={{ fontSize: '2em' }}>{title}</span>
-      <Box {...config} />
+      <Box ref={ref} {...config} />
     </React.Fragment>
   );
-};
+});
 
 export default BoxPlotView;

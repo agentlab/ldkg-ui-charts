@@ -9,10 +9,10 @@
  ********************************************************************************/
 import { G2, Mix } from '@ant-design/charts';
 import 'antd/dist/antd.css';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { configureAxesScales, configureYAxes, getXYScales, scaleDataToTimeUnit } from './utils';
 
-const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {} }: any) => {
+const TimeSeriesWithAuxiliaryView = forwardRef(({ views = {}, options = {} }: any, ref: any) => {
   const [chartConfig, setChartConfig] = useState<any>({});
   const legendItems = useRef<any[]>([]);
 
@@ -74,12 +74,13 @@ const TimeSeriesWithAuxiliaryView = ({ views = {}, options = {} }: any) => {
 
   return (
     <Mix
+      ref={ref}
       {...chartConfig}
       onReady={(plt: any) => {
         plt.chart.theme('custom-theme');
       }}
     />
   );
-};
+});
 
 export default TimeSeriesWithAuxiliaryView;
