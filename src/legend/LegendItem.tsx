@@ -10,6 +10,7 @@
 
 import { Datum } from '@antv/g2plot';
 import React, { useState } from 'react';
+import styles from './LegendItem.module.scss';
 
 const LegendItem = ({ options, onSelect, data = {} }: any) => {
   const { name, color, dataField, uri, enabled: itemEnabled } = options;
@@ -17,10 +18,9 @@ const LegendItem = ({ options, onSelect, data = {} }: any) => {
   return (
     <div
       style={{
-        border: 'solid 2px',
-        borderColor: enabled ? color : 'grey',
+        border: 'solid 1px #d9d9d9',
+        borderLeft: enabled ? `solid 5px ${color}` : 'solid 5px #d9d9d9',
         margin: 2,
-        borderRadius: '10px',
         padding: '5px',
       }}
       onClick={() => {
@@ -34,7 +34,7 @@ const LegendItem = ({ options, onSelect, data = {} }: any) => {
         );
         setEnabled((enabled) => !enabled);
       }}>
-      <>
+      <div className={styles.itemHeader}>
         {uri ? (
           <a href={uri} target='_blank' rel='noopener noreferrer' onClick={(e) => e.stopPropagation()}>
             {name}
@@ -42,7 +42,7 @@ const LegendItem = ({ options, onSelect, data = {} }: any) => {
         ) : (
           <p>{name}</p>
         )}
-      </>
+      </div>
     </div>
   );
 };

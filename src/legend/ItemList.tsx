@@ -11,6 +11,7 @@
 import { G2 } from '@ant-design/charts';
 import React from 'react';
 import LegendItem from './LegendItem';
+import styles from './LegendItem.module.scss';
 
 const ItemList = ({ plot, items }: any) => {
   const handleLegendClick = (field: string, condition: G2.Types.FilterCondition | null) => {
@@ -22,14 +23,15 @@ const ItemList = ({ plot, items }: any) => {
 
     plot?.chart.emit('legend-item:click', G2.Event.fromData(plot?.chart, 'legend-item:click', {}));
   };
-
+  const root = document.documentElement;
+  root.style.setProperty('--legend-item-width', '380px');
   return (
-    <>
+    <div className={styles.itemsContainer}>
       {plot &&
         items.map((item: any) => (
           <LegendItem key={item.uri || item.name} options={item} data={item.itemData} onSelect={handleLegendClick} />
         ))}
-    </>
+    </div>
   );
 };
 
