@@ -11,16 +11,25 @@
 import { G2 } from '@ant-design/charts';
 import React, { useEffect, useState } from 'react';
 import ItemList from './ItemList';
+import withData from './withData';
+import withTooltip from './withTooltip';
+
+const itemListDecorators: any = {
+  data: withData,
+  tooltip: withTooltip,
+};
 
 const Legend = ({ plot }: any): any => {
   const [items, setItems] = useState<any[]>([]);
   const [itemListOptions, setItemListOptions] = useState<any>({});
+  const [legend, setLegend] = useState<any>();
 
   useEffect(() => {
+    // TODO: also analyse chart.options.legends + chart.views -> each options.legends which are not false: there are two cases possible: legends = false and legends = {name: false, name2: false}
     if (plot) {
       const views = plot.options.views || [];
       const view = views[0];
-      const legend = view?.options.legend || {};
+      const legend = view?.options?.legend || {};
 
       if (legend) {
         const chartViews = [...plot.chart.views, plot.chart];
@@ -41,14 +50,22 @@ const Legend = ({ plot }: any): any => {
           itemData,
         }));
         setItems(legendItems);
-
+        setLegend(legend);
         const itemGrouping = [legend.field, chartYFields];
         setItemListOptions({ itemGrouping });
       }
     }
   }, [plot]);
 
-  return items.length ? <ItemList plot={plot} options={itemListOptions} items={items} /> : null;
+  if (items.length) {
+    const ItemListComponent =
+      legend?.decorators?.reduce((acc: any, type: string) => {
+        const decorator = itemListDecorators[type];
+        return decorator ? decorator(acc) : acc;
+      }, ItemList) || ItemList;
+    return <ItemListComponent plot={plot} options={itemListOptions} items={items} />;
+  }
+  return null;
 };
 
 export default Legend;
