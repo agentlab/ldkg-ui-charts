@@ -11,7 +11,7 @@
 import { Datum } from '@antv/g2plot';
 import React, { useState } from 'react';
 
-const LegendItem = ({ options, onSelect }: any) => {
+const LegendItem = ({ options, onSelect, data = {} }: any) => {
   const { name, color, dataField, uri, enabled: itemEnabled } = options;
   const [enabled, setEnabled] = useState<boolean>(itemEnabled);
   return (

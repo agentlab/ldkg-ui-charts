@@ -26,9 +26,9 @@ const ItemList = ({ plot, items }: any) => {
   return (
     <>
       {plot &&
-        items.map((item: any) => {
-          return <LegendItem key={item.name} options={item} data={item.itemData} onSelect={handleLegendClick} />;
-        })}
+        items.map((item: any) => (
+          <LegendItem key={item.uri || item.name} options={item} data={item.itemData} onSelect={handleLegendClick} />
+        ))}
     </>
   );
 };
