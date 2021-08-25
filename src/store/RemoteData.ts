@@ -9,6 +9,7 @@
  ********************************************************************************/
 import { CollState } from '@agentlab/sparql-jsld-client';
 import { timeSeriesViewKinds, viewDescrCollConstr, viewKindCollConstr } from './data';
+import { remoteBoxPlotViewKinds } from './RemoteBoxPlot';
 import { fromProducts } from './timeseries';
 import { qualitative20 } from './utils/colors';
 
@@ -126,8 +127,21 @@ const timeSeriesViewDescrs = [
       dateFormat: 'DD.MM.YYYY',
       axes: { yAxis: { primary: ['Price'], secondary: ['TotalSales'], ratio: 0.7 } },
     },
-    elements,
-    // datasets constraints, specific to this view (UML aggregation)
+    elements: [
+      {
+        '@id': 'rm:TimeSeries_1',
+        '@type': 'rm:TimeSeries',
+        type: 'timeSeries',
+        options: {
+          tooltip: {
+            shared: true,
+            showMarkers: true,
+            showCrosshairs: true,
+          },
+        },
+        elements,
+      },
+    ],
     collsConstrs,
   },
 ];
@@ -139,7 +153,7 @@ export const additionalColls: CollState[] = [
   // ViewKinds Collection
   {
     constr: viewKindCollConstr,
-    data: timeSeriesViewKinds,
+    data: [...timeSeriesViewKinds, ...remoteBoxPlotViewKinds],
     opt: {
       updPeriod: undefined,
       lastSynced: Date.now(),
