@@ -17,14 +17,16 @@ interface MinMaxProps {
 
 const MinMax = ({ values, type }: MinMaxProps) => {
   let min, max;
-  min = max = values[0];
-  let i = values.length;
-  while (i--) {
-    min = min < values[i] ? min : values[i];
-    max = max > values[i] ? max : values[i];
+  if (Array.isArray(values) && values.length > 0) {
+    min = max = values[0];
+    let i = values.length;
+    while (i--) {
+      min = min < values[i] ? min : values[i];
+      max = max > values[i] ? max : values[i];
+    }
+    return <>{type === 'min' ? `MIN:${min}` : `MAX:${max}`}</>;
   }
-
-  return <>{type === 'min' ? `MIN:${min}` : `MAX:${max}`}</>;
+  return <>{type === 'min' ? 'MIN:―' : 'MAX:―'}</>;
 };
 
 export default MinMax;
