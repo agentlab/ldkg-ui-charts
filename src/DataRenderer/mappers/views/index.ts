@@ -122,7 +122,10 @@ export default function ViewPartMapper(mappings: any, dataMappings: any) {
       }) as { propertyName: string; value: string; scope: string };
       const { propertyName, value, scope = defaultScope } = dataProperty;
       return {
-        data: (dataPoint: any) => ({ ...dataPoint, [propertyName]: dataPoint[value] }),
+        data: (dataPoint: any) => ({
+          ...dataPoint,
+          [propertyName]: Array.isArray(value) ? value.map((v: any) => dataPoint[v]) : dataPoint[value],
+        }),
         [defaultScope]: (dataPoint: any) => ({ ...dataPoint, [propertyName]: value }),
       }[scope];
     });
