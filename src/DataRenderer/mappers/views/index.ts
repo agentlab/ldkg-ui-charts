@@ -85,7 +85,7 @@ function assignObjectValue(mappingProperties: any, contextObject: any, propertyN
   Object.keys(mappingProperties).forEach((property: any) => {
     const mappingPropertyType = mappingProperties[property].type ?? 'rawValue';
     let mappedValue;
-    console.log(mappingPropertyType, property);
+    //console.log(mappingPropertyType, property);
     switch (mappingPropertyType) {
       case 'rawValue':
         mappedValue = assignValue(property, mappingProperties[property]);
@@ -112,27 +112,30 @@ function assignObjectValue(mappingProperties: any, contextObject: any, propertyN
   return propertyName ? { [propertyName]: mappedPropertiesContainer } : mappedPropertiesContainer;
 }
 
-export default function ViewPartMapper(mappings: any, dataMappings: any) {
+export default function ViewPartMapper(mappings: any) {
   const getDataMappings = (viewElementGeometry: any, element: any) => {
     const defaultScope = 'default';
-    return dataMappings.map((dm: any) => {
+    return mappings.dataMappings?.map((dm: any) => {
       const dataProperty = assignObjectValue(dm, {
         ...viewElementGeometry,
         ...element,
       }) as { propertyName: string; value: string; scope: string };
       const { propertyName, value, scope = defaultScope } = dataProperty;
       return {
-        data: (dataPoint: any) => ({ ...dataPoint, [propertyName]: dataPoint[value] }),
+        data: (dataPoint: any) => ({
+          ...dataPoint,
+          [propertyName]: Array.isArray(value) ? value.map((v: any) => dataPoint[v]) : dataPoint[value],
+        }),
         [defaultScope]: (dataPoint: any) => ({ ...dataPoint, [propertyName]: value }),
       }[scope];
     });
   };
 
   const applyDataMappings = (viewElementGeometry: any, data: any[], element: any) =>
-    getDataMappings(viewElementGeometry, element).reduce(
+    getDataMappings(viewElementGeometry, element)?.reduce(
       (acc: any[], mappingFunction: any) => acc.map(mappingFunction),
       data,
-    );
+    ) || data;
 
   const createGeometry = (element: any): Geometry => assignObjectValue(mappings, element);
 

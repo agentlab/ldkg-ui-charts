@@ -7,19 +7,17 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import React from 'react';
-import { Meta, Story } from '@storybook/react';
-
-import { Provider } from 'react-redux';
-import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
-import { SparqlClientImpl, rootModelInitialState, createModelFromState } from '@agentlab/sparql-jsld-client';
 import { MstContextProvider } from '@agentlab/ldkg-ui-react';
-
-import { additionalBoxplotColls } from '../src/store/RemoteBoxPlot';
+import { createModelFromState, rootModelInitialState, SparqlClientImpl } from '@agentlab/sparql-jsld-client';
+import { Meta, Story } from '@storybook/react';
+import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
+import React from 'react';
+import { Provider } from 'react-redux';
 import { RemoteDataRenderer } from '../src';
+import { additionalBoxplotColls } from '../src/store/RemoteBoxPlot';
 
 const client = new SparqlClientImpl('https://rdf4j.agentlab.ru/rdf4j-server');
-const rootStore = createModelFromState('mktp', client, rootModelInitialState, additionalBoxplotColls);
+const rootStore = createModelFromState('mktp2', client, rootModelInitialState, additionalBoxplotColls);
 const store: any = asReduxStore(rootStore);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 connectReduxDevtools(require('remotedev'), rootStore);

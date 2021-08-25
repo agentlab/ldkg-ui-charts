@@ -35,7 +35,7 @@ const withTooltip =
             if (data.length > 0) {
               const { x } = view.getXY(data[data.length - 1]);
               if (!isNaN(x)) {
-                chart.showTooltip({ x, y: 0 });
+                view.showTooltip({ x, y: 0 });
               }
             }
           });
@@ -59,6 +59,7 @@ const withTooltip =
         };
 
         chart.tooltip(tooltipOptions);
+        chart.views.forEach((view: G2.View) => view.tooltip(tooltipOptions));
 
         showLastDatapointTooltip();
         plot.on('legend-item:click', showLastDatapointTooltip);

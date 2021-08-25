@@ -7,59 +7,62 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import { MstContext } from '@agentlab/ldkg-ui-react';
-import { View } from '@agentlab/ldkg-ui-react/es/models/uischema';
+import { MstContext, ViewElement } from '@agentlab/ldkg-ui-react';
 import { ICollConstr, IEntConstr } from '@agentlab/sparql-jsld-client';
 import { Spin } from 'antd';
-import { cloneDeep, merge, pickBy } from 'lodash-es';
+import { cloneDeep, merge } from 'lodash-es';
 import { observer } from 'mobx-react-lite';
 import { getSnapshot } from 'mobx-state-tree';
 import React, { useContext, useEffect, useState } from 'react';
 import Chart from './Chart';
 import { createComponent } from './mappers/components';
-import ViewPartMapper, { createEmptyViewPart, createMeta, viewPartReducer } from './mappers/views';
+import ViewPartMapper from './mappers/views';
+import { createEmptyViewPart, createMeta, viewPartReducer } from './mappers/views/utils';
 
-export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any): JSX.Element => {
-  const { store } = useContext(MstContext);
+export const ChartRenderer = ({ viewDescr, viewKind, store }: any): JSX.Element => {
   const [views, setViews] = useState<any>([]);
-  const [viewDescr, setViewDescr] = useState<any | undefined>();
-  const [viewKind, setViewKind] = useState<any | undefined>();
   const [viewConfig, setViewConfig] = useState<any | undefined>();
-  //TODO: How to detect viewDescr modifications?
-  if (!viewDescr) setViewDescr(getSnapshot(viewDescrObs));
-  if (!viewKind) setViewKind(getSnapshot(viewKindObs));
-  if (!viewConfig && viewDescr && viewKind) {
-    const elemWithMetas = viewDescr.elements
-      .map((viewElem: View) => pickBy(viewElem, (v: PropertyKey) => v !== undefined))
-      .map((viewElem: View) => {
-        const elemCollConstr: ICollConstr = viewDescr.collsConstrs.find(
-          (constraint: ICollConstr) => constraint['@id'] === viewElem.resultsScope,
-        );
-        const viewElemMeta = elemCollConstr.entConstrs
-          .map((e: IEntConstr) => createMeta(e, store.schemas.get(e.schema)))
-          .reduce(merge, {});
-        return { ...viewElemMeta, ...viewElem };
-      });
-    // Wait for all ViewDescr.collConstrs data to load
-    //TODO: How to render the data, available for elemWithMetas, and detect lazy-loaded data
-    // for the rest elemWithMetas and render it later
-    // every() here and not filter() cause we did not fugure it out
-    if (elemWithMetas.every((e: any) => store.getColl(e.resultsScope)?.data.length > 0)) {
-      const { mappings = {}, dataMappings = [] } = viewKind;
-      const viewPartMapper = ViewPartMapper(mappings, dataMappings);
-      const viewConfig2 = elemWithMetas
-        .map((elemWithMeta: any) => {
-          const dataObs = store.getColl(elemWithMeta.resultsScope);
-          // TODO: fix sotring in sparql client and remove sorting below
-          const viewElementData: any = (cloneDeep(getSnapshot(dataObs.data)) as any[]).sort(
-            (a: any, b: any) => new Date(a.resultTime).valueOf() - new Date(b.resultTime).valueOf(),
-          );
-          const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, viewElementData);
-          return chartViewPart;
-        })
-        .reduce(viewPartReducer, createEmptyViewPart());
-      setViewConfig(viewConfig2);
+
+  function buildView(element: ViewElement) {
+    const childElementViews = element.elements;
+    if (childElementViews) {
+      const children: any = childElementViews.map(buildView);
+      const elementType = element['@type'];
+      const elementMapping = viewKind.mappings[elementType];
+      if (elementMapping) {
+        const viewPartMapper = ViewPartMapper(elementMapping);
+        const elementOptions = element.options;
+        const childView = children
+          .map((elemWithMeta: any) => {
+            const dataObs = store.getColl(elemWithMeta.resultsScope);
+            // TODO: fix sotring in sparql client and remove sorting below
+            const viewElementData: any = (cloneDeep(getSnapshot(dataObs.data)) as any[]).sort(
+              (a: any, b: any) => new Date(a.resultTime).valueOf() - new Date(b.resultTime).valueOf(),
+            );
+            const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, viewElementData);
+            return chartViewPart as any;
+          })
+          .reduce(viewPartReducer, createEmptyViewPart());
+        return elementOptions ? { ...elementOptions, ...childView } : childView;
+      }
+      return { id: element['@id'], views: children };
+    } else {
+      const elemCollConstr: ICollConstr = viewDescr.collsConstrs.find(
+        (constraint: ICollConstr) => constraint['@id'] === element.resultsScope,
+      );
+      const viewElemMeta = elemCollConstr.entConstrs
+        .map((e: IEntConstr) => createMeta(e, store.schemas.get(e.schema)))
+        .reduce(merge, {});
+      return { id: element['@id'], ...viewElemMeta, ...element };
     }
+  }
+
+  if (!viewConfig && viewDescr && viewKind) {
+    const viewsConfig = viewDescr.elements.map((el: any) => {
+      const view = buildView(el);
+      return view.views ? view : { id: el['@id'], views: [view] };
+    });
+    setViewConfig(viewsConfig.length === 1 ? viewsConfig[0] : viewsConfig);
   }
   // Data & Mapping
   useEffect(() => {
@@ -86,13 +89,13 @@ export const ChartRenderer = observer<any>(({ viewDescrObs, viewKindObs }: any):
         const { options, views } = config;
         return (
           <Chart key={key} {...config}>
-            <View options={options} views={views} />
+            <View options={options} config={views[0]} />
           </Chart>
         );
       })}
     </React.Suspense>
   );
-});
+};
 
 interface ViewData {
   viewDescrCollId: string;
@@ -100,35 +103,42 @@ interface ViewData {
   viewKindCollId: string;
 }
 
+function findElementsRecursive(array: ViewElement[], condition: any): ViewElement[] {
+  const elements = array.map((a) => [
+    ...(condition(a) ? [a] : []),
+    ...findElementsRecursive(a.elements || [], condition).flat(),
+  ]);
+  return elements.flat();
+}
+
 export const RemoteDataRenderer = observer<any>(
   ({ viewDescrCollId, viewDescrId, viewKindCollId }: ViewData): JSX.Element => {
     const { store } = useContext(MstContext);
     // ViewDescr
     const collWithViewDescrsObs = store.getColl(viewDescrCollId);
-    if (!collWithViewDescrsObs) {
-      return <Spin />;
-    } else {
+    if (collWithViewDescrsObs) {
       const viewDescrObs = collWithViewDescrsObs.dataByIri(viewDescrId);
-      if (!viewDescrObs) {
-        console.log('undef viewDescrObs with id', viewDescrId);
-        return <Spin />;
-      } else {
+      if (viewDescrObs) {
         // ViewKind
-        const viewKindId = viewDescrObs.viewKind;
         const collWithViewKindsObs = store.getColl(viewKindCollId);
-        if (!collWithViewKindsObs) {
-          console.log('undef collWithViewKindsObs with id', viewKindCollId);
-          return <Spin />;
-        } else {
+        if (collWithViewKindsObs) {
+          const viewKindId = viewDescrObs.viewKind;
           const viewKindObs = collWithViewKindsObs.dataByIri(viewKindId);
-          if (!viewKindObs) {
-            console.log('undef viewKindObs with id', viewKindId);
-            return <Spin />;
-          } else {
-            return <ChartRenderer viewDescrObs={viewDescrObs} viewKindObs={viewKindObs} />;
+          if (viewKindObs) {
+            const viewDescr = getSnapshot(viewDescrObs) as any;
+            const elements = findElementsRecursive(
+              viewDescr.elements,
+              (el: ViewElement) => el.resultsScope !== undefined,
+            );
+
+            if (elements.every((e: any) => store.getColl(e.resultsScope)?.data.length > 0)) {
+              const viewKind = getSnapshot(viewKindObs);
+              return <ChartRenderer viewDescr={viewDescr} viewKind={viewKind} store={store} />;
+            }
           }
         }
       }
     }
+    return <Spin />;
   },
 );

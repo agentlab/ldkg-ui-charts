@@ -7,69 +7,61 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import moment from 'moment';
-import { variable } from '@rdfjs/data-model';
-
 import { CollState } from '@agentlab/sparql-jsld-client';
-
+import { variable } from '@rdfjs/data-model';
+import moment from 'moment';
 import { viewDescrCollConstr, viewKindCollConstr } from './data';
 
-const remoteBoxPlotViewKinds = [
+export const remoteBoxPlotViewKinds = [
   {
     '@id': 'rm:BoxPlotViewKind',
     '@type': 'rm:ViewKind',
-    //type: 'BoxPlotChart', // control type
     type: 'BoxPlotChart', // control type
     options: {
       // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
     },
     mappings: {
-      type: {
-        type: 'pointer',
-        value: '/type',
-      },
-      xField: 'begin',
-      yField: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
-      colorField: 'forProperty',
-      adjust: {
-        type: 'object',
-        properties: {
-          type: 'dodge',
-          marginRatio: 0,
+      'rm:BoxPlotTimeSeries': {
+        type: {
+          type: 'pointer',
+          value: '/type',
         },
-      },
-      legend: {
-        type: 'object',
-        properties: {
-          link: { type: 'pointer', value: '/hasFeatureOfInterest' },
-          dataField: 'hasFeatureOfInterest',
-          color: { type: 'pointer', value: '/options/color' },
-          text: { type: 'pointer', value: '/options/label' },
-        },
-        wrapper: { type: 'pointer', value: '/hasFeatureOfInterest', options: true },
-      },
-      mapping: {
-        type: 'object',
-        properties: {
-          style: {
-            type: 'object',
-            properties: {
-              lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+        xField: 'begin',
+        yField: 'value',
+        outliersField: 'outliers',
+        colorField: 'hasFeatureOfInterest',
+        mapping: {
+          type: 'object',
+          properties: {
+            style: {
+              type: 'object',
+              properties: {
+                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+              },
+              wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
             },
-            wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
-          },
-          color: {
-            type: 'pointer',
-            value: '/options/color',
-            wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+            shape: {
+              type: 'pointer',
+              value: '/options/shape',
+            },
           },
         },
+        dataMappings: [
+          {
+            propertyName: {
+              type: 'pointer',
+              value: '/yField',
+            },
+            value: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
+            scope: 'data',
+          },
+        ],
       },
     },
   },
 ];
 
-const remoteBoxPlotViewDescrs = [
+export const remoteBoxPlotViewDescrs = [
   {
     '@id': 'mktp:_g7H7gh',
     '@type': 'rm:View',
@@ -85,19 +77,35 @@ const remoteBoxPlotViewDescrs = [
       showOutliers: true,
     },
     elements: [
-      /**
-       * Product 1
-       */
       {
-        '@id': 'rm:box1', // machine-generated random UUID
-        '@type': 'rm:Element',
-        type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
-        resultsScope: 'mktp:_8uJ8t6', // reference to data
+        '@id': 'rm:BoxPlot_1',
+        '@type': 'rm:BoxPlotTimeSeries',
+        type: 'boxPlotTimeSeries',
         options: {
-          label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
-          color: '#4EEC1F',
-          lineWidth: 2,
+          dateFormat: 'DD.MM.YYYY',
+          timeUnit: 'day',
+          tooltip: {
+            showMarkers: false,
+            shared: false,
+            showCrosshairs: false,
+          },
+          legend: false,
         },
+        elements: [
+          /**
+           * Product 1
+           */
+          {
+            '@id': 'rm:box1', // machine-generated random UUID
+            '@type': 'rm:Element',
+            type: 'schema',
+            resultsScope: 'mktp:_8uJ8t6', // reference to data
+            options: {
+              shape: 'box',
+              label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
+            },
+          },
+        ],
       },
     ],
     // datasets constraints, specific to this view (UML aggregation)
@@ -116,7 +124,7 @@ const remoteBoxPlotViewDescrs = [
             conditions: {
               '@id': 'mktp:_u8Yg83', // machine-generated random UUID
               '@type': 'rm:EntConstrCondition',
-              hasFeatureOfInterest: 'mktp_d:Massager',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/2171298/detail.aspx',
               forProperty: 'hs:Stocks',
               hasUpperOutlier: '?eIri1',
               hasLowerOutlier: '?eIri2',

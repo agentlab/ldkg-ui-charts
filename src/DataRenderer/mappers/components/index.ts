@@ -17,7 +17,7 @@ export const createComponent = (type: string) => {
       return importComponent('TimeSeriesWithAuxiliaryView');
     }
     case 'BoxPlotChart': {
-      return importComponent('BoxPlotView');
+      return importComponent('TimeSeriesWithAuxiliaryView');
     }
     default:
       throw new Error(`Unknown type of view kind: ${type}`);
