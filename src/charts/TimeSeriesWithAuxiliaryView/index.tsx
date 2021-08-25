@@ -65,6 +65,7 @@ const TimeSeriesWithAuxiliaryView = forwardRef(({ config = {}, options = {} }: a
         },
         observedFeatureProperty: false,
         hasFeatureOfInterest: false,
+        product: false,
       },
     };
 
