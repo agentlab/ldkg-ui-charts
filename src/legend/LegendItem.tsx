@@ -10,10 +10,11 @@
 
 import { Datum } from '@antv/g2plot';
 import React, { useState } from 'react';
+import Statistic, { StatisticType } from '../statistics/Statistic';
 import styles from './LegendItem.module.scss';
 
 const LegendItem = ({ options, onSelect, data = {} }: any) => {
-  const { name, color, dataField, uri, enabled: itemEnabled } = options;
+  const { name, color, dataField, uri, statistics, enabled: itemEnabled } = options;
   const [enabled, setEnabled] = useState<boolean>(itemEnabled);
   return (
     <div
@@ -43,6 +44,28 @@ const LegendItem = ({ options, onSelect, data = {} }: any) => {
           <p>{name}</p>
         )}
       </div>
+      {enabled && (
+        <div className={styles.itemPropertiesContainer}>
+          {Object.keys(data).map((key: string) => {
+            return statistics?.[key] || data[key].current ? (
+              <div key={key} className={styles.itemProperty}>
+                <div className={styles.itemPropertyName}>{key}</div>
+                <>
+                  {data[key] &&
+                    statistics?.[key]?.map((type: StatisticType, index: number) => (
+                      <div key={index} className={styles.itemPropertyDescription}>
+                        <Statistic type={type} data={data[key]} />
+                      </div>
+                    ))}
+                </>
+                <div key={key} className={styles.itemPropertyValue}>
+                  {data[key].current}
+                </div>
+              </div>
+            ) : null;
+          })}
+        </div>
+      )}
     </div>
   );
 };

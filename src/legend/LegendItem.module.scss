@@ -26,3 +26,37 @@
   grid-gap: 2px;
   padding: 2px;
 }
+
+.itemPropertiesContainer {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 5px 0;
+
+  .itemProperty {
+    display: table-row;
+
+    .itemPropertyName {
+      font-weight: 500;
+    }
+
+    .itemPropertyDescription {
+      display: table-cell;
+      vertical-align: middle;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding: 0 5px;
+      margin: 0 5px;
+    }
+
+    .itemPropertyValue {
+      display: table-cell;
+      width: 10%;
+      vertical-align: middle;
+      padding: 0 5px;
+      margin: 0 5px;
+    }
+  }
+}
