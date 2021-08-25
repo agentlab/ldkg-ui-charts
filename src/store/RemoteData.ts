@@ -8,11 +8,111 @@
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
 import { CollState } from '@agentlab/sparql-jsld-client';
-import { variable } from '@rdfjs/data-model';
-import moment from 'moment';
 import { timeSeriesViewKinds, viewDescrCollConstr, viewKindCollConstr } from './data';
+import { fromProducts } from './timeseries';
+import { qualitative20 } from './utils/colors';
 
-export const timeSeriesViewDescrs = [
+const viewElements = {
+  'hs:Price': {
+    type: 'line',
+    options: {
+      lineWidth: 2,
+      shape: 'hvh',
+      statistics: ['min', 'max', 'deltapercent'],
+    },
+  },
+  'hs:TotalSales': {
+    type: 'line',
+    options: {
+      lineWidth: 2,
+      statistics: ['min', 'max', 'deltaabs'],
+    },
+  },
+};
+
+const productProperties = ['hs:Price', 'hs:TotalSales'];
+
+const products = [
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/13556367/detail.aspx',
+    name: 'Массажер для ног MF-3B Smart Compression, 3 вида массажа, 2 уровня интенсивности, дисплей, подогрев',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/14568528/detail.aspx',
+    name: 'Массажер для спины и шеи / Массажер для плеч / Массажер электрический',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/14641461/detail.aspx',
+    name: 'Массажер подушка для спины и шеи, Premium, 4 функции, 8 шариков, для тела, головы',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/14690297/detail.aspx',
+    name: 'Компрессионный лимфодренажный массажер для ног MFC-40,3 режима,3 уровня интенсивности, прессотерапия',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/14899402/detail.aspx',
+    name: 'Массажный пистолет беспроводной перкуссионный массажер/ Массажер для плеч, спины и шеи ',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/15574020/detail.aspx',
+    name: 'Массажер для спины и шеи/Массажер электрический для массаж спины плеч тела шеи ног Массажная подушка',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/15651968/detail.aspx',
+    name: 'Массажер для шеи / спины / плеч / ног / поясницы универсальный шиацу с подогревом',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/15847178/detail.aspx',
+    name: 'Массажная подушка с термороликами / Массажер электрический / Массажер для плеч / Массажер для спины',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    name: 'Массажная подушка с подогревом для дома и автомобиля / шеи и спины 8 роликов /Массаж шиацу',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/17100027/detail.aspx',
+    name: 'Массажер для шеи ног спины / электрический массажер / массажер подушка',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/17100030/detail.aspx',
+    name: 'Массажер для шеи спины ног / Электрический массажер / Роликовый массажер',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/18291071/detail.aspx',
+    name: 'Массажная подушка с термороликами / Массажер электрический / Массажер для плеч / Массажер для спины',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/18362879/detail.aspx',
+    name: 'Массажная подушка с термороликами для дома и автомобиля/ Массажер для спины и шеи/ Массажер для ног',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/18488809/detail.aspx',
+    name: 'Массажер/Массажная подушка/Подарок на день рождения  юбилей новоселье любимому любимой коллеге/хит',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/19385295/detail.aspx',
+    name: 'Массажер для спины и шеи / Массажер для плеч / Массажер электрический',
+  },
+  { featureOfInterest: 'https://www.wildberries.ru/catalog/2171426/detail.aspx', name: 'Массажер Nozomi MH-102' },
+  { featureOfInterest: 'https://www.wildberries.ru/catalog/25598277/detail.aspx', name: 'Массажер электрический' },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/25739859/detail.aspx',
+    name: 'Электрический массажер для шеи /спины/ плеч/тела/ног/поясницы/ударный, мышечный массажер',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/5400314/detail.aspx',
+    name: 'Массажер для ног MF-4W Massage Bliss, 4 программы, 3 скорости, 2 направления вращения, подогрев',
+  },
+];
+
+const [collsConstrs, elements] = fromProducts(products, productProperties)
+  .withElements(viewElements)
+  .withColors(qualitative20)
+  .limit(5)
+  .shuffle()
+  .build();
+
+const timeSeriesViewDescrs = [
   {
     '@id': 'mktp:_g7H7gh',
     '@type': 'rm:View',
@@ -26,218 +126,9 @@ export const timeSeriesViewDescrs = [
       dateFormat: 'DD.MM.YYYY',
       axes: { yAxis: { primary: ['Price'], secondary: ['TotalSales'], ratio: 0.7 } },
     },
-    elements: [
-      /**
-       * Product 1
-       */
-      {
-        '@id': 'rm:line_11', // machine-generated random UUID
-        '@type': 'rm:Element',
-        type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
-        resultsScope: 'mktp:_8uJ8t6_TS', // reference to data
-        options: {
-          label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
-          color: '#4EEC1F',
-          lineWidth: 2,
-          shape: 'hvh',
-          statistics: ['min', 'max', 'deltapercent'],
-          // lineDash: '',
-        },
-      },
-      {
-        '@id': 'rm:line_12', // machine-generated random UUID
-        '@type': 'rm:Element',
-        type: 'line', // TODO: +'Bar' (auxillary bars, auxillary lines)
-        resultsScope: 'mktp:_Kj8d6g5', // reference to data
-        options: {
-          label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
-          color: '#4EEC1F',
-          lineWidth: 2,
-          statistics: ['min', 'max', 'deltaabs'],
-          // lineDash: '',
-        },
-      },
-      /**
-       * Product 2
-       */
-      {
-        '@id': 'rm:line_21', // machine-generated random UUID
-        '@type': 'rm:Element',
-        type: 'line',
-        resultsScope: 'mktp:_d6Ghkj', // reference to data
-        options: {
-          label: 'Подушка Relax Massage', // TODO: in future should be a data-binding
-          color: '#0B49F2',
-          lineWidth: 2,
-          shape: 'hvh',
-          statistics: ['min', 'max', 'deltapercent'],
-          // lineDash: '',
-        },
-      },
-      {
-        '@id': 'rm:line_22', // machine-generated random UUID
-        '@type': 'rm:Element',
-        type: 'line',
-        resultsScope: 'mktp:_sD678hf', // reference to data
-        options: {
-          label: 'Подушка Relax Massage', // TODO: in future should be a data-binding
-          color: '#0B49F2',
-          lineWidth: 2,
-          statistics: ['min', 'max', 'deltaabs'],
-          // lineDash: '',
-        },
-      },
-      /**
-       * Product 3
-       */
-      {
-        '@id': 'rm:line_31', // machine-generated random UUID
-        '@type': 'rm:Element',
-        type: 'line',
-        resultsScope: 'mktp:_Kh56Df67', // reference to data
-        options: {
-          label: 'Подушка HappyGoods', // TODO: in future should be a data-binding
-          color: '#F20B93',
-          lineWidth: 2,
-          shape: 'hvh',
-          statistics: ['min', 'max', 'deltapercent'],
-          // lineDash: '',
-        },
-      },
-      {
-        '@id': 'rm:line_32', // machine-generated random UUID
-        '@type': 'rm:Element',
-        type: 'line',
-        resultsScope: 'mktp:_sd56Fg78', // reference to data
-        options: {
-          label: 'Подушка HappyGoods', // TODO: in future should be a data-binding
-          color: '#F20B93',
-          lineWidth: 2,
-          statistics: ['min', 'max', 'deltaabs'],
-          // lineDash: '',
-        },
-      },
-    ],
+    elements,
     // datasets constraints, specific to this view (UML aggregation)
-    collsConstrs: [
-      /**
-       * Product 1
-       */
-      {
-        '@id': 'mktp:_8uJ8t6_TS', // machine-generated random UUID
-        '@type': 'rm:CollConstr',
-        entConstrs: [
-          {
-            '@id': 'mktp:_uf78Dfg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
-            schema: 'sosa:ObservationShape',
-            conditions: {
-              '@id': 'mktp:_u8Yg83', // machine-generated random UUID
-              '@type': 'rm:EntConstrCondition',
-              observedProperty: 'hs:Price',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/18247707/detail.aspx',
-            },
-          },
-        ],
-        orderBy: [{ expression: variable('resultTime0'), descending: false }],
-      },
-      {
-        '@id': 'mktp:_Kj8d6g5',
-        '@type': 'rm:CollConstr',
-        entConstrs: [
-          {
-            '@id': 'mktp:_sD529gk',
-            '@type': 'rm:EntConstr',
-            schema: 'sosa:ObservationShape',
-            conditions: {
-              '@id': 'mktp:_kj89Df7',
-              '@type': 'rm:EntConstrCondition',
-              observedProperty: 'hs:TotalSales',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/18247707/detail.aspx',
-            },
-          },
-        ],
-        orderBy: [{ expression: variable('resultTime0'), descending: false }],
-      },
-      /**
-       * Product 2
-       */
-      {
-        '@id': 'mktp:_d6Ghkj',
-        '@type': 'rm:CollConstr',
-        entConstrs: [
-          {
-            '@id': 'mktp:_df67Gf8',
-            '@type': 'rm:EntConstr',
-            schema: 'sosa:ObservationShape',
-            conditions: {
-              '@id': 'mktp:_ld35Fcs',
-              '@type': 'rm:EntConstrCondition',
-              observedProperty: 'hs:Price',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
-            },
-          },
-        ],
-        orderBy: [{ expression: variable('resultTime0'), descending: false }],
-      },
-      {
-        '@id': 'mktp:_sD678hf',
-        '@type': 'rm:CollConstr',
-        entConstrs: [
-          {
-            '@id': 'mktp:_98Kg8Gf',
-            '@type': 'rm:EntConstr',
-            schema: 'sosa:ObservationShape',
-            conditions: {
-              '@id': 'mktp:_kj89dF5',
-              '@type': 'rm:EntConstrCondition',
-              observedProperty: 'hs:TotalSales',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
-            },
-          },
-        ],
-        orderBy: [{ expression: variable('resultTime0'), descending: false }],
-      },
-      /**
-       * Product 3
-       */
-      {
-        '@id': 'mktp:_Kh56Df67',
-        '@type': 'rm:CollConstr',
-        entConstrs: [
-          {
-            '@id': 'mktp:_jd8Hd7w',
-            '@type': 'rm:EntConstr',
-            schema: 'sosa:ObservationShape',
-            conditions: {
-              '@id': 'mktp:_dj7Dsg9',
-              '@type': 'rm:EntConstrCondition',
-              observedProperty: 'hs:Price',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
-            },
-          },
-        ],
-        orderBy: [{ expression: variable('resultTime0'), descending: false }],
-      },
-      {
-        '@id': 'mktp:_sd56Fg78',
-        '@type': 'rm:CollConstr',
-        entConstrs: [
-          {
-            '@id': 'mktp:_kf8Sdf',
-            '@type': 'rm:EntConstr',
-            schema: 'sosa:ObservationShape',
-            conditions: {
-              '@id': 'mktp:_sd9D8hc',
-              '@type': 'rm:EntConstrCondition',
-              observedProperty: 'hs:TotalSales',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
-            },
-          },
-        ],
-        orderBy: [{ expression: variable('resultTime0'), descending: false }],
-      },
-    ],
+    collsConstrs,
   },
 ];
 
@@ -251,7 +142,7 @@ export const additionalColls: CollState[] = [
     data: timeSeriesViewKinds,
     opt: {
       updPeriod: undefined,
-      lastSynced: moment.now(),
+      lastSynced: Date.now(),
       resolveCollConstrs: false, // disable data loading from the server for viewKinds.collConstrs
     },
   },
@@ -261,7 +152,7 @@ export const additionalColls: CollState[] = [
     data: timeSeriesViewDescrs,
     opt: {
       updPeriod: undefined,
-      lastSynced: moment.now(),
+      lastSynced: Date.now(),
       //resolveCollConstrs: false, // 'true' here (by default) triggers data loading from the server
       // for viewDescrs.collConstrs (it loads lazily -- after the first access)
     },
