@@ -114,8 +114,8 @@ function minMax(data: any[]) {
 
 function calculateAxisTicks(data: any[], region: [number, number]) {
   const [start, end] = region;
-
-  const [min, max] = minMax(data);
+  const flattenData = data.flat();
+  const [min, max] = minMax(flattenData);
   const [tickSpacing, tickMin, tickMax] = calculateTicks(5, min, max);
   const minTick = tickMin - ((tickMax - tickMin) * start) / (end - start);
   const maxTick = tickMax + ((tickMax - tickMin) * (1 - end)) / (end - start);
