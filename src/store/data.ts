@@ -52,6 +52,12 @@ export const timeSeriesViewKinds = [
         applyTo: '$.observedProperty',
       },
       colorField: 'observedFeatureProperty',
+      propName: {
+        type: 'expr',
+        value: '(v) => v.replace(/^[A-Za-z0-9-]*:/, "")',
+        applyTo: '$.observedProperty',
+        scope: 'meta',
+      },
       propKey: {
         type: 'expr',
         value:
@@ -69,12 +75,24 @@ export const timeSeriesViewKinds = [
       legend: {
         type: 'object',
         properties: {
-          link: { type: 'pointer', value: '/hasFeatureOfInterest' },
-          dataField: 'hasFeatureOfInterest',
-          color: { type: 'pointer', value: '/options/color' },
-          text: { type: 'pointer', value: '/options/label' },
+          field: 'hasFeatureOfInterest',
+          decorators: ['data', 'tooltip'],
+          items: {
+            type: 'object',
+            properties: {
+              name: { type: 'pointer', value: '/options/label' },
+              uri: { type: 'pointer', value: '/hasFeatureOfInterest' },
+              color: { type: 'pointer', value: '/options/color' },
+              statistics: {
+                type: 'pointer',
+                value: '/options/statistics',
+                wrapper: { type: 'pointer', value: '/propName' },
+              },
+            },
+            wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+          },
         },
-        wrapper: { type: 'pointer', value: '/hasFeatureOfInterest', options: true },
+        wrapper: { type: 'none', options: true },
       },
       mapping: {
         type: 'object',
