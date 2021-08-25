@@ -9,17 +9,16 @@
  ********************************************************************************/
 import { G2, Mix } from '@ant-design/charts';
 import 'antd/dist/antd.css';
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { configureAxesScales, configureYAxes, getXYScales, scaleDataToTimeUnit } from './utils';
 
-const TimeSeriesWithAuxiliaryView = forwardRef(({ views = {}, options = {} }: any, ref: any) => {
+const TimeSeriesWithAuxiliaryView = forwardRef(({ config = {}, options = {} }: any, ref: any) => {
   const [chartConfig, setChartConfig] = useState<any>({});
-  const legendItems = useRef<any[]>([]);
 
   const theme = {
-    colors10: ['#FACDAA', '#F4A49E', '#EE7B91', '#E85285', '#BE408C', '#BE408C'],
-    colors20: ['#FACDAA', '#F4A49E', '#EE7B91', '#E85285', '#BE408C', '#BE408C', '#942D93'],
-    maxColumnWidth: 20,
+    // colors10: ['#FACDAA', '#F4A49E', '#EE7B91', '#E85285', '#BE408C', '#BE408C'],
+    // colors20: ['#FACDAA', '#F4A49E', '#EE7B91', '#E85285', '#BE408C', '#BE408C', '#942D93'],
+    maxColumnWidth: 15,
     minColumnWidth: 4,
     columnWidthRatio: 0.4,
   };
@@ -29,7 +28,7 @@ const TimeSeriesWithAuxiliaryView = forwardRef(({ views = {}, options = {} }: an
 
   useEffect(() => {
     const chartOptions = {};
-    const updateViews = views.map((view: any) => {
+    const updateViews = config.views.map((view: any) => {
       const { timeUnit = null } = options;
       const xyScales = getXYScales(view.meta);
       const { xScales, yScales } = xyScales;
@@ -37,19 +36,13 @@ const TimeSeriesWithAuxiliaryView = forwardRef(({ views = {}, options = {} }: an
       const viewData = timeUnit !== null ? scaleDataToTimeUnit(timeScalesName, timeUnit, view.data) : view.data;
       const { options: viewOptions = {} } = view;
 
-      if (viewOptions.legend) {
-        const viewLegendItems = Object.keys(viewOptions.legend).map((key: PropertyKey) => ({
-          ...viewOptions.legend[key],
-          enabled: true,
-        }));
-        legendItems.current = viewLegendItems;
-      }
-
       return {
         ...view,
         axes: configureYAxes(yScales),
         data: viewData,
-        interactions: [{ type: 'active-region' }],
+        // TODO: check tooltip options propagation
+        //...(viewOptions.tooltip && { tooltip: viewOptions.tooltip }),
+        //...(viewOptions.legend && { legend: viewOptions.legend }), // TODO: copy to the chart's legend option
         meta: configureAxesScales(
           xyScales,
           { ...options.axes, xAxis: { dateFormat: options.dateFormat || 'DD.MM.YYYY' } },
@@ -60,17 +53,22 @@ const TimeSeriesWithAuxiliaryView = forwardRef(({ views = {}, options = {} }: an
 
     const updatedConfig = {
       options: chartOptions,
+      appendPadding: 10,
       views: updateViews,
       syncViewPadding: true,
-      tooltip: {
-        showMarkers: true,
-        shared: true,
-        showCrosshairs: true,
+      tooltip: false,
+      // TODO: check view's color field (if view legend option is false, add it with false, otherwise add it as is)
+      legend: {
+        source: {
+          position: 'right',
+        },
+        observedFeatureProperty: false,
+        hasFeatureOfInterest: false,
       },
     };
 
     setChartConfig(updatedConfig);
-  }, [views, options]);
+  }, [config, options]);
 
   return (
     <Mix
