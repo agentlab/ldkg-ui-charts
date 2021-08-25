@@ -7,12 +7,10 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import moment from 'moment';
-import { variable } from '@rdfjs/data-model';
-
 import { CollState } from '@agentlab/sparql-jsld-client';
-
-import { viewDescrCollConstr, viewKindCollConstr, timeSeriesViewKinds } from './data';
+import { variable } from '@rdfjs/data-model';
+import moment from 'moment';
+import { timeSeriesViewKinds, viewDescrCollConstr, viewKindCollConstr } from './data';
 
 export const timeSeriesViewDescrs = [
   {
@@ -42,6 +40,7 @@ export const timeSeriesViewDescrs = [
           color: '#4EEC1F',
           lineWidth: 2,
           shape: 'hvh',
+          statistics: ['min', 'max', 'deltapercent'],
           // lineDash: '',
         },
       },
@@ -54,6 +53,7 @@ export const timeSeriesViewDescrs = [
           label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
           color: '#4EEC1F',
           lineWidth: 2,
+          statistics: ['min', 'max', 'deltaabs'],
           // lineDash: '',
         },
       },
@@ -70,6 +70,7 @@ export const timeSeriesViewDescrs = [
           color: '#0B49F2',
           lineWidth: 2,
           shape: 'hvh',
+          statistics: ['min', 'max', 'deltapercent'],
           // lineDash: '',
         },
       },
@@ -82,6 +83,7 @@ export const timeSeriesViewDescrs = [
           label: 'Подушка Relax Massage', // TODO: in future should be a data-binding
           color: '#0B49F2',
           lineWidth: 2,
+          statistics: ['min', 'max', 'deltaabs'],
           // lineDash: '',
         },
       },
@@ -98,6 +100,7 @@ export const timeSeriesViewDescrs = [
           color: '#F20B93',
           lineWidth: 2,
           shape: 'hvh',
+          statistics: ['min', 'max', 'deltapercent'],
           // lineDash: '',
         },
       },
@@ -110,6 +113,7 @@ export const timeSeriesViewDescrs = [
           label: 'Подушка HappyGoods', // TODO: in future should be a data-binding
           color: '#F20B93',
           lineWidth: 2,
+          statistics: ['min', 'max', 'deltaabs'],
           // lineDash: '',
         },
       },

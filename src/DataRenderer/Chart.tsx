@@ -10,18 +10,29 @@
 
 import React from 'react';
 import DateRangePickerMenu from '../DateRangePickerMenu';
+import Legend from '../legend/Legend';
 import useG2Chart from './hooks/useG2Chart';
 
-const Chart = ({ children }: any) => {
+const Chart = ({ children, ...rest }: any) => {
+  const { options } = rest;
   const [chart, chartCallbackRef] = useG2Chart();
   return (
     <>
       <DateRangePickerMenu plot={chart} options={{ timeUnit: 'day' }} />
-      {React.Children.map(children, (child: any) =>
-        React.cloneElement(child, {
-          ref: chartCallbackRef,
-        }),
-      )}
+      {React.Children.map(children, (child: any) => (
+        <>
+          {React.cloneElement(child, {
+            ref: chartCallbackRef,
+            ...(options.legend && {
+              options: {
+                ...child.props.options,
+                legend: options.legend,
+              },
+            }),
+          })}
+          <Legend plot={chart} />
+        </>
+      ))}
     </>
   );
 };
