@@ -24,7 +24,7 @@ export function scaleDataToTimeUnit(timeScaleName: string, timeUnit: unitOfTime.
   return timeUnit !== null
     ? data.map((d: any) => ({
         ...d,
-        [timeScaleName]: moment(d.resultTime).startOf(timeUnit).toISOString(),
+        [timeScaleName]: moment(d[timeScaleName]).startOf(timeUnit).toISOString(),
       }))
     : data;
 }
