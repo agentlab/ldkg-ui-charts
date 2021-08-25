@@ -41,7 +41,7 @@ const TimeSeriesWithAuxiliaryView = forwardRef(({ config = {}, options = {} }: a
         axes: configureYAxes(yScales),
         data: viewData,
         // TODO: check tooltip options propagation
-        //...(viewOptions.tooltip && { tooltip: viewOptions.tooltip }),
+        ...(viewOptions.tooltip && { tooltip: viewOptions.tooltip }),
         //...(viewOptions.legend && { legend: viewOptions.legend }), // TODO: copy to the chart's legend option
         meta: configureAxesScales(
           xyScales,

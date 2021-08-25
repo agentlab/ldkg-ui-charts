@@ -16,9 +16,9 @@ export default function useTooltipData(plot: any): G2.Types.Datum | undefined {
 
   useEffect(() => {
     const onTooltipChange = (e: G2.Event) => setTooltipData(e.data);
-    plot?.on('tooltip:change', onTooltipChange);
+    plot?.chart.views.forEach((view: G2.View) => view.on('tooltip:change', onTooltipChange));
     return () => {
-      plot?.off('tooltip:change', onTooltipChange);
+      plot?.chart.views.forEach((view: G2.View) => view.off('tooltip:change', onTooltipChange));
     };
   }, [plot]);
 
