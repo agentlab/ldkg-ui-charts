@@ -25,6 +25,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/ban-types': [
       'error',
@@ -32,6 +33,7 @@ module.exports = {
         extendDefaults: true,
         types: {
           '{}': false,
+          Function: false,
         },
       },
     ],
