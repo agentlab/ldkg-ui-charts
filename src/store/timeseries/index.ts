@@ -6,15 +6,15 @@ import { colorPalette, colors20 } from '../utils/colors';
 function createCollConstr(conditions: any) {
   return {
     '@id': idGenerator.next(),
-    '@type': 'rm:CollConstr',
+    '@type': 'aldkg:CollConstr',
     entConstrs: [
       {
         '@id': idGenerator.next(),
-        '@type': 'rm:EntConstr',
+        '@type': 'aldkg:EntConstr',
         schema: 'sosa:ObservationShape',
         conditions: {
           '@id': idGenerator.next(),
-          '@type': 'rm:EntConstrCondition',
+          '@type': 'aldkg:EntConstrCondition',
           ...conditions,
         },
       },
@@ -24,13 +24,12 @@ function createCollConstr(conditions: any) {
 }
 
 const idGenerator = IDGenerator('mktp', 7);
-const viewElementIdGenerator = IDGenerator('rm', 7);
+const viewElementIdGenerator = IDGenerator('mktp', 7);
 
 function createViewElement(resultsScope: string, options: any) {
   return {
     '@id': viewElementIdGenerator.next(),
-    '@type': 'rm:Element',
-    type: 'line',
+    '@type': 'aldkg:ChartLine',
     resultsScope,
     ...options,
   };

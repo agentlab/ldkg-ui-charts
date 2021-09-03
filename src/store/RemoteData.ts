@@ -7,9 +7,9 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
+import { viewDescrCollConstr, viewKindCollConstr } from '@agentlab/ldkg-ui-react';
 import { CollState } from '@agentlab/sparql-jsld-client';
-import { timeSeriesViewKinds, viewDescrCollConstr, viewKindCollConstr } from './data';
-import { remoteBoxPlotViewKinds } from './RemoteBoxPlot';
+import { timeSeriesViewKinds } from './data';
 import { fromProducts } from './timeseries';
 import { qualitative20 } from './utils/colors';
 
@@ -35,6 +35,18 @@ const productProperties = ['hs:Price', 'hs:TotalSales'];
 
 const products = [
   {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
+    name: 'Массажер для ног MF-3B Smart Compression, 3 вида массажа, 2 уровня интенсивности, дисплей, подогрев',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    name: 'Массажер для ног MF-3B Smart Compression, 3 вида массажа, 2 уровня интенсивности, дисплей, подогрев',
+  },
+  {
+    featureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
+    name: 'Массажер для ног MF-3B Smart Compression, 3 вида массажа, 2 уровня интенсивности, дисплей, подогрев',
+  },
+  /*{
     featureOfInterest: 'https://www.wildberries.ru/catalog/13556367/detail.aspx',
     name: 'Массажер для ног MF-3B Smart Compression, 3 вида массажа, 2 уровня интенсивности, дисплей, подогрев',
   },
@@ -103,7 +115,7 @@ const products = [
   {
     featureOfInterest: 'https://www.wildberries.ru/catalog/5400314/detail.aspx',
     name: 'Массажер для ног MF-4W Massage Bliss, 4 программы, 3 скорости, 2 направления вращения, подогрев',
-  },
+  },*/
 ];
 
 const [collsConstrs, elements] = fromProducts(products, productProperties)
@@ -113,33 +125,39 @@ const [collsConstrs, elements] = fromProducts(products, productProperties)
   .shuffle()
   .build();
 
-const timeSeriesViewDescrs = [
+export const timeSeriesViewDescrs = [
   {
     '@id': 'mktp:_g7H7gh',
-    '@type': 'rm:View',
+    '@type': 'aldkg:ViewDescr',
     title: 'ProductAnalysis',
     description: 'Marketplace Product Analysis Time-series Charts',
-    viewKind: 'rm:TimeSeriesViewKind',
-    type: 'Chart', // control type
-    // child ui elements configs
-    options: {
-      timeUnit: 'day',
-      dateFormat: 'DD.MM.YYYY',
-      axes: { yAxis: { primary: ['Price'], secondary: ['TotalSales'], ratio: 0.7 } },
-    },
+    viewKind: 'mktp:TimeSeriesViewKind',
     elements: [
       {
-        '@id': 'rm:TimeSeries_1',
-        '@type': 'rm:TimeSeries',
-        type: 'timeSeries',
+        '@id': 'mktp:_dw89H7gh_chart',
+        '@type': 'aldkg:Chart', // control type
+        '@parent': 'mktp:TimeSeriesChartViewKind',
+        title: 'ProductAnalysis',
+        // child ui elements configs
         options: {
-          tooltip: {
-            shared: true,
-            showMarkers: true,
-            showCrosshairs: true,
-          },
+          timeUnit: 'day',
+          dateFormat: 'DD.MM.YYYY',
+          axes: { yAxis: { primary: ['Price'], secondary: ['TotalSales'], ratio: 0.7 } },
         },
-        elements,
+        elements: [
+          {
+            '@id': 'mktp:TimeSeries_1',
+            '@type': 'aldkg:TimeSeries',
+            options: {
+              tooltip: {
+                shared: true,
+                showMarkers: true,
+                showCrosshairs: true,
+              },
+            },
+            elements,
+          },
+        ],
       },
     ],
     collsConstrs,
@@ -153,11 +171,11 @@ export const additionalColls: CollState[] = [
   // ViewKinds Collection
   {
     constr: viewKindCollConstr,
-    data: [...timeSeriesViewKinds, ...remoteBoxPlotViewKinds],
+    data: [...timeSeriesViewKinds /*, ...remoteBoxPlotViewKinds*/],
     opt: {
       updPeriod: undefined,
       lastSynced: Date.now(),
-      resolveCollConstrs: false, // disable data loading from the server for viewKinds.collConstrs
+      //resolveCollConstrs: false, // disable data loading from the server for viewKinds.collConstrs
     },
   },
   // ViewDescrs Collection
