@@ -15,7 +15,7 @@ import {
   registerMstViewKindSchema,
   viewDescrCollConstr,
 } from '@agentlab/ldkg-ui-react';
-import { rootModelInitialState } from '@agentlab/sparql-jsld-client';
+import { rootModelInitialState, SparqlClientImpl } from '@agentlab/sparql-jsld-client';
 import { Meta, Story } from '@storybook/react';
 import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
 import React from 'react';
@@ -23,7 +23,6 @@ import { Provider } from 'react-redux';
 import { chartsRenderers } from '../src';
 import { additionalColls, denormalizedObservationsViewDescrs } from '../src/store/DenormalizedObservationsData';
 import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/store/MstViewElements';
-import SparqlClient from '../src/utils/SparqlClient';
 
 const renderers = [...antdLayoutRenderers, ...chartsRenderers];
 
@@ -36,7 +35,10 @@ const Template: Story = (args: any) => {
   registerMstViewKindSchema(MstTimeSeriesChartVKElement);
   registerMstViewKindSchema(MstBoxPlotChartVKElement);
 
-  const client = new SparqlClient('https://rdf4j.agentlab.ru/rdf4j-server');
+  const client = new SparqlClientImpl(
+    'https://rdf4j.agentlab.ru/rdf4j-server',
+    'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp/namespaces',
+  );
   const rootStore = createUiModelFromState('mktp-fed', client, rootModelInitialState, additionalColls);
   const store: any = asReduxStore(rootStore);
   // eslint-disable-next-line @typescript-eslint/no-var-requires
