@@ -1,12 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import babel from 'rollup-plugin-babel';
+import autoprefixer from 'autoprefixer';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
-
-import autoprefixer from 'autoprefixer';
-//import cssnano from 'cssnano';
 //import { terser } from 'rollup-plugin-terser';
 
 export default {
@@ -15,13 +14,11 @@ export default {
   output: [
     /*{
       dir: './lib',
-      //file: 'lib/ldkg-ui-diags.cjs.js',
       format: 'cjs',
       sourcemap: true,
     },*/
     {
       dir: './es',
-      //file: 'es/ldkg-ui-diags.esm.js',
       format: 'esm',
       sourcemap: true,
     },
@@ -33,20 +30,11 @@ export default {
     peerDepsExternal(),
     resolve(),
     commonjs(),
-    typescript({ declaration: true, outDir: './es' }),
-    /*postcss({
-      plugins: [
-        autoprefixer(),
-        cssnano({
-          preset: 'default',
-        }),
-      ],
-      inject: false,
-      minimize: false,
-      sourceMap: false,
-      //extensions: ['.less', '.css'],
-      //use: [['less', { javascriptEnabled: true }]],
-    }),*/
+    typescript({
+      tsconfig: './tsconfig-build.json',
+      declaration: true,
+      outDir: './es',
+    }),
     postcss({
       plugins: [autoprefixer()],
       sourceMap: true,

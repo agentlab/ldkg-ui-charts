@@ -13,10 +13,10 @@ const importComponent = (name: string) => lazy(() => import(`../../../charts/${n
 
 export const createComponent = (type: string) => {
   switch (type) {
-    case 'TimeSeriesChart': {
+    case 'aldkg:TimeSeriesChart': {
       return importComponent('TimeSeriesWithAuxiliaryView');
     }
-    case 'BoxPlotChart': {
+    case 'aldkg:BoxPlotChart': {
       return importComponent('TimeSeriesWithAuxiliaryView');
     }
     default:
