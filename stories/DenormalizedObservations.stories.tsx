@@ -24,14 +24,13 @@ import { chartsRenderers } from '../src';
 import { additionalColls, denormalizedObservationsViewDescrs } from '../src/store/DenormalizedObservationsData';
 import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/store/MstViewElements';
 
-const renderers = [...antdLayoutRenderers, ...chartsRenderers];
-
 export default {
   title: 'DenormalizedObservations',
   component: Form,
 } as Meta;
 
 const Template: Story = (args: any) => {
+  const renderers = [...antdLayoutRenderers, ...chartsRenderers];
   registerMstViewKindSchema(MstTimeSeriesChartVKElement);
   registerMstViewKindSchema(MstBoxPlotChartVKElement);
 

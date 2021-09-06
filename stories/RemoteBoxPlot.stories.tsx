@@ -23,14 +23,13 @@ import { chartsRenderers } from '../src';
 import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/store/MstViewElements';
 import { additionalBoxplotColls, remoteBoxPlotViewDescrs } from '../src/store/RemoteBoxPlot';
 
-const renderers = [...chartsRenderers];
-
 export default {
   title: 'RemoteBoxPlot',
   component: Form,
 } as Meta;
 
 const Template: Story = (args: any) => {
+  const renderers = [...chartsRenderers];
   registerMstViewKindSchema(MstTimeSeriesChartVKElement);
   registerMstViewKindSchema(MstBoxPlotChartVKElement);
 
