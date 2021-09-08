@@ -31,6 +31,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { chartsRenderers } from '../src';
 import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/store/MstViewElements';
+import { boxPlotBucketShape, observationShape } from '../src/store/shapes';
 
 const buildCustomTooltip = (property: string) => (title: any, items: any) => {
   const data = items[0]?.data || {};
@@ -53,11 +54,20 @@ const Template: Story = ({ additionalColls, viewDescrId, viewDescrCollId }: any)
   registerMstViewKindSchema(MstTimeSeriesChartVKElement);
   registerMstViewKindSchema(MstBoxPlotChartVKElement);
 
+  const rootModelState = {
+    ...rootModelInitialState,
+    schemas: {
+      json: {
+        [observationShape['@id']]: observationShape,
+        [boxPlotBucketShape['@id']]: boxPlotBucketShape,
+      },
+    },
+  };
   const client = new SparqlClientImpl(
     'https://rdf4j.agentlab.ru/rdf4j-server',
     'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp/namespaces',
   );
-  const rootStore = createUiModelFromState('mktp-fed', client, rootModelInitialState, additionalColls);
+  const rootStore = createUiModelFromState('mktp-fed', client, rootModelState, additionalColls);
   const store: any = asReduxStore(rootStore);
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   connectReduxDevtools(require('remotedev'), rootStore);
@@ -170,6 +180,7 @@ const viewKindsCats = [
                 '@type': 'aldkg:Array',
                 resultsScope: 'mktp:ProductCards_in_Category_Coll',
                 options: {
+                  connections: [{ to: 'mktp:_u8Yg83', by: 'product' }],
                   draggable: true,
                   resizeableHeader: true,
                   height: 'all-empty-space',
@@ -414,7 +425,7 @@ const viewDescrsCats = [
             conditions: {
               '@id': 'mktp:_u8Yg83', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              product: 'https://www.wildberries.ru/catalog/9485114/detail.aspx',
+              product: undefined,
             },
           },
         ],

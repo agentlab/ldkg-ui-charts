@@ -28,7 +28,7 @@
   },
   "peerDependencies": {
     "@agentlab/ldkg-ui-react": ">=0.1.12",
-    "@agentlab/sparql-jsld-client": "^5.0.0-rc.11",
+    "@agentlab/sparql-jsld-client": "^5.0.0-rc.12",
     "@ant-design/charts": "1.1.3",
     "@ant-design/icons": ">=4.6.4",
     "@antv/data-set": ">=0.11.8",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@agentlab/ldkg-ui-react": "^0.1.12",
-    "@agentlab/sparql-jsld-client": "^5.0.0-rc.11",
+    "@agentlab/sparql-jsld-client": "^5.0.0-rc.12",
     "@ant-design/charts": "^1.1.20",
     "@ant-design/icons": "^4.6.4",
     "@antv/data-set": "^0.11.8",
