@@ -33,8 +33,8 @@ function getSchemaPropertiesMeta(schema: { properties: Map<string, JSONSchema6> 
 function getPropertyValuesFromConstraint(constraint: IEntConstr, schema: { properties: Map<string, JSONSchema6> }) {
   const { conditions }: Record<string, any> = constraint;
   return Array.from(schema.properties.keys())
-    .filter((key) => !key.startsWith('@') && {}.hasOwnProperty.call(conditions, key))
-    .reduce((acc, key) => ({ ...acc, [key]: conditions[key] }), {});
+    .filter((key) => !key.startsWith('@'))
+    .reduce((acc, key) => ({ ...acc, [key]: conditions.get(key) }), {});
 }
 
 export function createMeta(constraint: IEntConstr, schema?: { properties: Map<string, JSONSchema6> }): any {
