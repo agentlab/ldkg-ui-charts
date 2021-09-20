@@ -42,6 +42,7 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
   });
   const [views, setViews] = useState<any>([]);
   const [viewConfig, setViewConfig] = useState<any | undefined>();
+  const [isDataReady, setIsDataReady] = useState<boolean>(false);
 
   function buildView(element: any) {
     if (isStateTreeNode(element)) element = getSnapshot(element);
@@ -112,26 +113,23 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
 
   //TODO: It should be refactored to support lazy loading and should pick up data change with a help of observer HOC
   // today data change is lost into the deeper data map functions
-  const elements = findElementsRecursive(viewDescr.elements, (el: IViewDescrElement) => el.resultsScope !== undefined);
-  let isAllNotEmpty = true;
-  elements.forEach((e: any) => {
-    if (!store.getColl(e.resultsScope) || store.getColl(e.resultsScope)?.data.length <= 0) {
-      isAllNotEmpty = false;
-      console.log('ChartRenderer - data - empty', e.resultsScope);
+  useEffect(() => {
+    if (isDataReady) {
+      console.log('ChartRenderer - data = OK');
+      if (viewDescrElement && viewKindElement) {
+        const viewsConfig = viewDescrElement?.elements?.map((el: any) => {
+          const view = buildView(el);
+          return view.views ? view : { id: el['@id'], views: [view] };
+        });
+        console.log('setViewConfig');
+        setViewConfig(viewsConfig?.length === 1 ? viewsConfig[0] : viewsConfig);
+      } else {
+        console.log('did not setViewConfig', { viewConfig, viewDescrElement, viewKindElement });
+      }
+    } else {
+      console.log('ChartRenderer - data != OK');
     }
-  });
-  if (isAllNotEmpty) {
-    console.log('ChartRenderer - data = OK');
-    if (!viewConfig && viewDescrElement && viewKindElement) {
-      const viewsConfig = viewDescrElement?.elements?.map((el: any) => {
-        const view = buildView(el);
-        return view.views ? view : { id: el['@id'], views: [view] };
-      });
-      setViewConfig(viewsConfig?.length === 1 ? viewsConfig[0] : viewsConfig);
-    }
-  } else {
-    console.log('ChartRenderer - data != OK');
-  }
+  }, [isDataReady, store, viewDescrElement, viewKindElement]);
 
   // Data & Mapping
   useEffect(() => {
@@ -150,8 +148,26 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
     if (viewDescrElement && viewKindElement && viewConfig) {
       console.log('call loadViews');
       loadViews(viewDescrElement);
+    } else {
+      console.log('did not call loadViews', { viewDescrElement, viewKindElement, viewConfig });
     }
   }, [store, viewConfig, viewDescrElement, viewKindElement]);
+
+  const elements = findElementsRecursive(viewDescr.elements, (el: IViewDescrElement) => el.resultsScope !== undefined);
+  let isAllNotEmpty = true;
+  elements.forEach((e: any) => {
+    if (!store.getColl(e.resultsScope) || store.getColl(e.resultsScope)?.data.length <= 0) {
+      isAllNotEmpty = false;
+      console.log('ChartRenderer - data - empty', e.resultsScope);
+    }
+  });
+  if (isAllNotEmpty) console.log('ChartRenderer - data = OK 1', { isAllNotEmpty, isDataReady });
+  if (isAllNotEmpty !== isDataReady) {
+    console.log('setIsDataReady', { isAllNotEmpty, isDataReady });
+    setIsDataReady(isAllNotEmpty);
+  }
+  if (!isAllNotEmpty) return <Spin />;
+
   return (
     <React.Suspense fallback={<Spin />}>
       {views.map((item: { View: any; key: any; config: any }) => {

@@ -24,14 +24,13 @@ import { additionalCollsLocal, localChartsViewDescrs } from '../src/store/data';
 import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/store/MstViewElements';
 import { boxPlotBucketShape, observationShape } from '../src/store/shapes';
 
-const renderers = [...chartsRenderers];
-
 export default {
   title: 'DataRenderer',
   component: Form,
 } as Meta;
 
 const Template: Story = (args: any) => {
+  const renderers = [...chartsRenderers];
   registerMstViewKindSchema(MstTimeSeriesChartVKElement);
   registerMstViewKindSchema(MstBoxPlotChartVKElement);
 
