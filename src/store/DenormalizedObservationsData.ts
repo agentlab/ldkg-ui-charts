@@ -46,7 +46,33 @@ export const denormalizedObservationsViewKinds = [
                   value: '/options/color',
                   wrapper: { type: 'pointer', value: '/product' },
                 },
+                shape: {
+                  type: 'pointer',
+                  value: '/options/shape',
+                },
               },
+            },
+            legend: {
+              type: 'object',
+              properties: {
+                field: 'product', // TODO: replace with color field?
+                decorators: ['data', 'tooltip'],
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'pointer', value: '/options/label' },
+                    uri: { type: 'pointer', value: '/product' },
+                    color: { type: 'pointer', value: '/options/color' },
+                    statistics: {
+                      type: 'pointer',
+                      value: '/options/statistics',
+                      wrapper: { type: 'pointer', value: '/options/property' },
+                    },
+                  },
+                  wrapper: { type: 'pointer', value: '/product' },
+                },
+              },
+              wrapper: { type: 'none', options: true },
             },
             dataMappings: [],
           },
