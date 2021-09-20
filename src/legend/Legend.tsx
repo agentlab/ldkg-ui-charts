@@ -9,6 +9,7 @@
  ********************************************************************************/
 
 import { G2 } from '@ant-design/charts';
+import { merge } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import ItemList from './ItemList';
 import withData from './withData';
@@ -28,8 +29,10 @@ const Legend = ({ plot }: any): any => {
     // TODO: also analyse chart.options.legends + chart.views -> each options.legends which are not false: there are two cases possible: legends = false and legends = {name: false, name2: false}
     if (plot) {
       const views = plot.options.views || [];
-      const view = views[0];
-      const legend = view?.options?.legend || {};
+      const legend = views
+        .filter((v: any) => v.options.legend !== false)
+        .map((v: any) => v.options.legend)
+        .reduce((acc: any, v: any) => merge(acc, v), {});
 
       if (legend) {
         const chartViews = [...plot.chart.views, plot.chart];
