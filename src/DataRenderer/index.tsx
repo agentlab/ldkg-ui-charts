@@ -72,7 +72,8 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
         const elementOptions = element.options;
         const childView = children
           .map((elemWithMeta: any) => {
-            let dataObs = store.getColl(elemWithMeta.resultsScope);
+            const resultsScope = elemWithMeta.resultsScope;
+            let dataObs = store.getColl(resultsScope);
             dataObs = dataObs.dataJs; // instead of getSnapshot()
 
             // TODO: fix sotring in sparql client and remove sorting below
@@ -89,7 +90,7 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
               }
             }
             console.log('buildView - childElementViews - data', dataObs);
-            const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, dataObs);
+            const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, { resultsScope, data: dataObs });
             return chartViewPart as any;
           })
           .reduce(viewPartReducer, createEmptyViewPart());

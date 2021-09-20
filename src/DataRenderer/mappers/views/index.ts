@@ -164,14 +164,15 @@ export default function ViewPartMapper(mappings: any) {
   };
 
   return {
-    createChartViewPart(element: any, viewElementData: any[]) {
+    createChartViewPart(element: any, viewElementData: any) {
+      const { data, resultsScope } = viewElementData;
       const computedMeta = computeAdditionalMeta(element);
       const mappingContext = { ...element, ...computedMeta };
       const geometry = createGeometry(mappingContext);
-      const geometryData = applyDataMappings(geometry, viewElementData, mappingContext);
+      const geometryData = applyDataMappings(geometry, data, mappingContext);
       const geometryMeta = getGeometryMeta(mappingContext, geometry);
       const options = extractGeometryOptions(geometry);
-      return { geometry, meta: geometryMeta, data: geometryData, options };
+      return { geometry, meta: geometryMeta, data: { resultsScope, data: geometryData }, options };
     },
   };
 }

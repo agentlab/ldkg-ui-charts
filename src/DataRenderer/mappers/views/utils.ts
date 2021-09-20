@@ -14,7 +14,7 @@ import { Meta } from '@antv/g2plot/lib/types';
 import { JSONSchema6 } from 'json-schema';
 import { merge } from 'lodash-es';
 
-export declare type ViewPart = IView & { options: Record<string, any> };
+export declare type ViewPart = IView & { options: Record<string, any>; resultScopes: Record<string, any> };
 
 const dataFormatMetas: Record<string, Meta> = {
   'date-time': { type: 'timeCat' },
@@ -51,17 +51,23 @@ export const createEmptyViewPart = (): ViewPart => ({
   meta: {},
   axes: {},
   options: {},
+  resultScopes: {},
 });
 
 function compareGeometries(g1: Geometry, g2: Geometry) {
   return g1.type === g2.type && g1.xField === g2.xField && g1.yField === g2.yField && g1.colorField === g2.colorField;
 }
 
-export function viewPartReducer(view: ViewPart, geometryViewPart: any, idx: number, sourceArray: Geometry[]): IView {
+export function viewPartReducer(
+  viewPart: ViewPart,
+  geometryViewPart: any,
+  idx: number,
+  sourceArray: Geometry[],
+): IView {
   const { geometry, meta, data, options } = geometryViewPart;
-  const existingGeometry: any = view.geometries.find((g: Geometry) => compareGeometries(geometry, g));
+  const existingGeometry: any = viewPart.geometries.find((g: Geometry) => compareGeometries(geometry, g));
   if (!existingGeometry) {
-    view.geometries.push({ ...geometry, mapping: { ...geometry.mapping } });
+    viewPart.geometries.push({ ...geometry, mapping: { ...geometry.mapping } });
   } else {
     const itemMapping: any = geometry.mapping;
     Object.keys(itemMapping).forEach((key: any) => {
@@ -72,12 +78,16 @@ export function viewPartReducer(view: ViewPart, geometryViewPart: any, idx: numb
       }
     });
   }
-  view.data.push(...data);
-  Object.assign(view.options, merge(view.options, options));
-  Object.assign(view.meta, meta);
+  const { data: viewPartData, resultsScope } = data;
+  if (!viewPart.resultScopes[resultsScope]) {
+    viewPart.resultScopes[resultsScope] = viewPartData;
+    viewPart.data.push(...viewPartData);
+  }
+  Object.assign(viewPart.options, merge(viewPart.options, options));
+  Object.assign(viewPart.meta, meta);
 
   if (idx === sourceArray.length - 1) {
-    const geometriesWithCategoryMappings = view.geometries.map((g: any) => {
+    const geometriesWithCategoryMappings = viewPart.geometries.map((g: any) => {
       const categoryMappins = Object.keys(g.mapping)
         .filter((key: any) => ['color', 'style', 'size'].includes(key))
         .reduce((acc: any, key: any) => {
@@ -92,8 +102,8 @@ export function viewPartReducer(view: ViewPart, geometryViewPart: any, idx: numb
         }, {});
       return { ...g, mapping: { ...g.mapping, ...categoryMappins } };
     });
-    Object.assign(view.geometries, geometriesWithCategoryMappings);
+    Object.assign(viewPart.geometries, geometriesWithCategoryMappings);
   }
 
-  return view;
+  return viewPart;
 }
