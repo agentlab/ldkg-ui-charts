@@ -9,35 +9,74 @@
  ********************************************************************************/
 import { viewDescrCollConstr, viewKindCollConstr } from '@agentlab/ldkg-ui-react';
 import { CollState } from '@agentlab/sparql-jsld-client';
-import { timeSeriesViewKinds } from './data';
+import { denormalizedObservationsViewKinds } from './DenormalizedObservationsData';
 import { fromProducts } from './timeseries';
 import { qualitative20 } from './utils/colors';
 
 const viewElements = {
-  'hs:Price': {
+  'hs:price': {
     type: 'line',
     options: {
       lineWidth: 2,
       shape: 'hvh',
+      property: 'price',
       statistics: ['min', 'max', 'deltapercent'],
     },
   },
-  'hs:TotalSales': {
+  'hs:totalSales': {
     type: 'line',
     options: {
       lineWidth: 2,
+      property: 'totalSales',
+      statistics: ['min', 'max', 'deltaabs'],
+    },
+  },
+  'hs:stocks': {
+    type: 'line',
+    options: {
+      lineWidth: 2,
+      property: 'stocks',
       statistics: ['min', 'max', 'deltaabs'],
     },
   },
 };
 
-const productProperties = ['hs:Price', 'hs:TotalSales'];
+const productProperties = ['hs:price', 'hs:totalSales', 'hs:stocks'];
 
 const products = [
   {
-    featureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
-    name: 'Массажер для ног MF-3B Smart Compression, 3 вида массажа, 2 уровня интенсивности, дисплей, подогрев',
+    product: 'https://www.wildberries.ru/catalog/11138350/detail.aspx',
+    name: 'Mellingward / Маятник "Манэки нэко с мешком богатства" / Талисман на удачу / Игрушка антистресс, 6 x 7 x 13 см',
   },
+  {
+    product: 'https://www.wildberries.ru/catalog/10477056/detail.aspx',
+    name: 'Miland / Сквиш Пончик',
+  },
+  {
+    product: 'https://www.wildberries.ru/catalog/10477059/detail.aspx',
+    name: 'Miland / Сквиш Красивая сова',
+  },
+  {
+    product: 'https://www.wildberries.ru/catalog/10477060/detail.aspx',
+    name: 'Miland / Сквиш Волшебный единорог',
+  },
+  {
+    product: 'https://www.wildberries.ru/catalog/10477061/detail.aspx',
+    name: 'Miland / Сквиш Забавный смайлик',
+  },
+  {
+    product: 'https://www.wildberries.ru/catalog/10477062/detail.aspx',
+    name: 'Miland / Сквиш Милая собака',
+  },
+  {
+    product: 'https://www.wildberries.ru/catalog/10477064/detail.aspx',
+    name: 'Miland / Сквиш Забавный единорог (цвета в ассортименте)',
+  },
+  {
+    product: 'https://www.wildberries.ru/catalog/10584519/detail.aspx',
+    name: 'BRADEX / Стреляющий зверь Динозавр',
+  },
+  /*
   {
     featureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
     name: 'Массажер для ног MF-3B Smart Compression, 3 вида массажа, 2 уровня интенсивности, дисплей, подогрев',
@@ -46,7 +85,7 @@ const products = [
     featureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
     name: 'Массажер для ног MF-3B Smart Compression, 3 вида массажа, 2 уровня интенсивности, дисплей, подогрев',
   },
-  /*{
+  {
     featureOfInterest: 'https://www.wildberries.ru/catalog/13556367/detail.aspx',
     name: 'Массажер для ног MF-3B Smart Compression, 3 вида массажа, 2 уровня интенсивности, дисплей, подогрев',
   },
@@ -142,20 +181,63 @@ export const timeSeriesViewDescrs = [
         options: {
           timeUnit: 'day',
           dateFormat: 'DD.MM.YYYY',
-          axes: { yAxis: { primary: ['Price'], secondary: ['TotalSales'], ratio: 0.7 } },
+          interactions: [{ type: 'sibling-tooltip' }],
         },
         elements: [
           {
             '@id': 'mktp:TimeSeries_1',
-            '@type': 'aldkg:TimeSeries',
+            '@type': 'aldkg:TimeSeriesPlot',
             options: {
-              tooltip: {
-                shared: true,
-                showMarkers: true,
-                showCrosshairs: true,
-              },
+              tooltip: false,
             },
-            elements,
+            elements: [
+              {
+                '@id': 'mktp:TimeSeries_Price',
+                '@type': 'aldkg:TimeSeries',
+                options: {
+                  legend: false,
+                  tooltip: {
+                    showCrosshairs: true,
+                    shared: true,
+                    showMarkers: true,
+                  },
+                  region: {
+                    start: {
+                      x: 0,
+                      y: 0,
+                    },
+                    end: {
+                      x: 1,
+                      y: 0.48,
+                    },
+                  },
+                },
+                elements: elements['price'],
+              },
+              {
+                '@id': 'mktp:TimeSeries_Sales',
+                '@type': 'aldkg:TimeSeries',
+                options: {
+                  legend: false,
+                  tooltip: {
+                    showCrosshairs: true,
+                    shared: true,
+                    showMarkers: true,
+                  },
+                  region: {
+                    start: {
+                      x: 0,
+                      y: 0.52,
+                    },
+                    end: {
+                      x: 1,
+                      y: 1,
+                    },
+                  },
+                },
+                elements: elements['totalSales'],
+              },
+            ],
           },
         ],
       },
@@ -171,7 +253,7 @@ export const additionalColls: CollState[] = [
   // ViewKinds Collection
   {
     constr: viewKindCollConstr,
-    data: [...timeSeriesViewKinds /*, ...remoteBoxPlotViewKinds*/],
+    data: [...denormalizedObservationsViewKinds /*, ...remoteBoxPlotViewKinds*/],
     opt: {
       updPeriod: undefined,
       lastSynced: Date.now(),

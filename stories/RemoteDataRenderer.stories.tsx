@@ -33,8 +33,12 @@ const Template: Story = (args: any) => {
   registerMstViewKindSchema(MstTimeSeriesChartVKElement);
   registerMstViewKindSchema(MstBoxPlotChartVKElement);
 
-  const client = new SparqlClientImpl('https://rdf4j.agentlab.ru/rdf4j-server');
-  const rootStore = createUiModelFromState('mktp', client, rootModelInitialState, additionalColls);
+  const client = new SparqlClientImpl(
+    'https://rdf4j.agentlab.ru/rdf4j-server',
+    'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp/namespaces',
+  );
+
+  const rootStore = createUiModelFromState('mktp-fed', client, rootModelInitialState, additionalColls);
   const store: any = asReduxStore(rootStore);
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   connectReduxDevtools(require('remotedev'), rootStore);
