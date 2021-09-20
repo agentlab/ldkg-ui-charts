@@ -16,6 +16,18 @@ import chain from '../utils/chain';
 import useTooltip from './useTooltip';
 import useTooltipData from './useTooltipData';
 
+function updateTooltipOptions(plot: any) {
+  const chart: G2.Chart = plot.chart;
+  const tooltipOptions: G2.Types.TooltipCfg = {
+    showMarkers: true,
+    shared: true,
+    showCrosshairs: true,
+    customContent: (title) => `<div>${title}<div>`,
+  };
+  chart.tooltip(false);
+  chart.views.forEach((view: G2.View) => view.tooltip(tooltipOptions));
+}
+
 const withTooltip =
   (Component: any) =>
   ({ plot, options, items }: any) => {
@@ -25,48 +37,32 @@ const withTooltip =
     const showLastDatapointTooltip = useCallback(() => {
       const chart = plot.chart as G2.View;
       // TODO: also analyse chart.options.legends + chart.views -> each options.legends which are not false: there are two cases possible: legends = false and legends = {name: false, name2: false}
-      const { tooltip } = plot.chart.getOptions();
-      if (tooltip && typeof tooltip !== 'boolean') {
-        const shared = (tooltip as G2.Types.TooltipCfg).shared;
-        if (shared) {
-          plot.chart.forceFit();
-          chart.views.forEach((view: G2.View) => {
-            const data = view.getData();
-            if (data.length > 0) {
-              const { x } = view.getXY(data[data.length - 1]);
-              if (!isNaN(x)) {
-                view.showTooltip({ x, y: 0 });
-              }
-            }
-          });
-          window.addEventListener('resize', showLastDatapointTooltip);
-          return () => {
-            window.removeEventListener('resize', showLastDatapointTooltip);
-          };
+
+      plot.chart.forceFit();
+      chart.views.forEach((view: G2.View) => {
+        const data = view.getData();
+        if (data.length > 0) {
+          const { x } = view.getXY(data[data.length - 1]);
+          if (!isNaN(x)) {
+            view.showTooltip({ x, y: 0 });
+          }
         }
-      }
-      return;
+      });
+      window.addEventListener('resize', showLastDatapointTooltip);
+      return () => {
+        window.removeEventListener('resize', showLastDatapointTooltip);
+      };
     }, [plot]);
     useTooltip(plot, undefined, showLastDatapointTooltip);
     useEffect(() => {
       if (plot) {
-        const chart: G2.Chart = plot.chart;
-        const tooltipOptions: G2.Types.TooltipCfg = {
-          showMarkers: true,
-          shared: true,
-          showCrosshairs: true,
-          customContent: (title) => `<div>${title}</div>`,
-        };
-
-        chart.tooltip(tooltipOptions);
-        chart.views.forEach((view: G2.View) => view.tooltip(tooltipOptions));
-
+        updateTooltipOptions(plot);
         showLastDatapointTooltip();
         plot.on('legend-item:click', showLastDatapointTooltip);
-        plot?.on('data:filter', showLastDatapointTooltip);
+        plot.on('data:filter', showLastDatapointTooltip);
         return () => {
           plot.off('legend-item:click', showLastDatapointTooltip);
-          plot?.off('data:filter', showLastDatapointTooltip);
+          plot.off('data:filter', showLastDatapointTooltip);
         };
       }
       return;
