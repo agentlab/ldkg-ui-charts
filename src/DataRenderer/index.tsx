@@ -52,7 +52,7 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
     // it will be great to localize all ViewKindElement to Control mapping metadata together into one place
     element = cloneDeep(element);
     if (element['@type'] === 'aldkg:Chart') element.type = 'chart';
-    else if (element['@type'] === 'aldkg:TimeSeriesPlot') element.type = 'timeSeries';
+    else if (element['@type'] === 'aldkg:TimeSeriesPlot') element.type = 'timeSeriesPlot';
     else if (element['@type'] === 'aldkg:TimeSeries') element.type = 'timeSeries';
     else if (element['@type'] === 'aldkg:ChartLine') element.type = 'line';
     else if (element['@type'] === 'aldkg:BoxPlotChart') element.type = 'BoxPlotChart';

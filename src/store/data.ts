@@ -247,7 +247,7 @@ export const localChartsViewDescrs = [
         options: {
           dateFormat: 'DD.MM.YYYY',
           timeUnit: 'day',
-          axes: { yAxis: { primary: ['Price'], secondary: ['TotalSales'], ratio: 0.5 } },
+          interactions: [{ type: 'sibling-tooltip' }],
         },
         elements: [
           {
@@ -394,7 +394,7 @@ export const localChartsViewDescrs = [
               },
               {
                 '@id': 'mktp:BoxPlot_1',
-                '@type': 'aldkg:TimeSeriesPlot',
+                '@type': 'aldkg:BoxPlotTimeSeries',
                 options: {
                   region: {
                     start: {
@@ -420,7 +420,7 @@ export const localChartsViewDescrs = [
                   //
                   {
                     '@id': 'mktp:box1', // machine-generated random UUID
-                    '@type': 'aldkg:BoxPlot',
+                    '@type': 'aldkg:BoxPlotSchema',
                     type: 'schema',
                     resultsScope: 'mktp:BoxPlotBucket_0_CollConstr_1', // reference to data
                     options: {
@@ -651,13 +651,13 @@ export const localChartsViewDescrs = [
 ];
 
 /**
- * Product 1 https://www.wildberries.ru/catalog/16170086/detail.aspx?targetUrl=ST
+ * Product 1 https://www.wildberries.ru/catalog/15570386/detail.aspx?targetUrl=ST
  */
 const viewDataObservations11 = [
   {
     '@id': 'Observation/10011',
     '@type': 'sosa:Observation',
-    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
     observedProperty: 'hs:Price',
     madeBySensor: 'scrapers/35',
     hasSimpleResult: 3599,
@@ -666,7 +666,7 @@ const viewDataObservations11 = [
   {
     '@id': 'Observation/10012',
     '@type': 'sosa:Observation',
-    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
     observedProperty: 'hs:Price',
     madeBySensor: 'scrapers/35',
     hasSimpleResult: 1295,
@@ -675,7 +675,7 @@ const viewDataObservations11 = [
   {
     '@id': 'Observation/10013',
     '@type': 'sosa:Observation',
-    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
     observedProperty: 'hs:Price',
     madeBySensor: 'scrapers/35',
     hasSimpleResult: 1245,
@@ -684,7 +684,7 @@ const viewDataObservations11 = [
   {
     '@id': 'Observation/10014',
     '@type': 'sosa:Observation',
-    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
     observedProperty: 'hs:Price',
     madeBySensor: 'scrapers/35',
     hasSimpleResult: 1395,
@@ -693,7 +693,7 @@ const viewDataObservations11 = [
   {
     '@id': 'Observation/10015',
     '@type': 'sosa:Observation',
-    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
     observedProperty: 'hs:Price',
     madeBySensor: 'scrapers/35',
     hasSimpleResult: 1495,
@@ -705,7 +705,7 @@ const viewDataObservations12 = [
   {
     '@id': 'Observation/10021',
     '@type': 'sosa:Observation',
-    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
     observedProperty: 'hs:TotalSales',
     madeBySensor: 'scrapers/35',
     hasSimpleResult: 10000,
@@ -714,7 +714,7 @@ const viewDataObservations12 = [
   {
     '@id': 'Observation/10022',
     '@type': 'sosa:Observation',
-    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
     observedProperty: 'hs:TotalSales',
     madeBySensor: 'scrapers/35',
     hasSimpleResult: 16000,
@@ -723,7 +723,7 @@ const viewDataObservations12 = [
   {
     '@id': 'Observation/10023',
     '@type': 'sosa:Observation',
-    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
     observedProperty: 'hs:TotalSales',
     madeBySensor: 'scrapers/35',
     hasSimpleResult: 18000,
@@ -732,7 +732,7 @@ const viewDataObservations12 = [
   {
     '@id': 'Observation/10024',
     '@type': 'sosa:Observation',
-    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
     observedProperty: 'hs:TotalSales',
     madeBySensor: 'scrapers/35',
     hasSimpleResult: 14000,
@@ -741,7 +741,7 @@ const viewDataObservations12 = [
   {
     '@id': 'Observation/10025',
     '@type': 'sosa:Observation',
-    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
+    hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
     observedProperty: 'hs:TotalSales',
     madeBySensor: 'scrapers/35',
     hasSimpleResult: 12800,
