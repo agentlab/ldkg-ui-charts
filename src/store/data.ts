@@ -7,442 +7,428 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import { rootModelInitialState } from '@agentlab/sparql-jsld-client';
+import { viewDescrCollConstr, viewKindCollConstr } from '@agentlab/ldkg-ui-react';
+import { CollState } from '@agentlab/sparql-jsld-client';
 import { variable } from '@rdfjs/data-model';
 import moment from 'moment';
 import { groupedBoxPlot } from './LocalBoxPlot';
-import { boxPlotBucketShape, observationShape } from './shapes';
-
-export const viewKindCollConstr = {
-  '@id': 'rm:ViewKinds_Coll_charts',
-  entConstrs: [
-    {
-      '@id': 'rm:ViewKinds_EntConstr0',
-      schema: 'rm:ViewKindShape',
-    },
-  ],
-};
-
-export const viewDescrCollConstr = {
-  '@id': 'rm:Views_Coll_charts',
-  entConstrs: [
-    {
-      '@id': 'rm:Views_EntConstr0',
-      schema: 'rm:ViewShape',
-    },
-  ],
-};
 
 export const timeSeriesViewKinds = [
   {
-    '@id': 'rm:TimeSeriesViewKind',
-    '@type': 'rm:ViewKind',
-    type: 'TimeSeriesChart', // control type
-    options: {
-      // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
-    },
-    mappings: {
-      'rm:BoxPlotTimeSeries': {
-        type: {
-          type: 'pointer',
-          value: '/type',
+    '@id': 'mktp:TimeSeriesViewKind',
+    '@type': 'aldkg:ViewKind',
+    elements: [
+      {
+        '@id': 'mktp:TimeSeriesChartViewKind',
+        '@type': 'aldkg:TimeSeriesChart', // control type
+        options: {
+          // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
         },
-        xField: 'begin',
-        yField: 'value',
-        colorField: 'source',
-        outliersField: 'outliers',
-        adjust: {
-          type: 'object',
-          properties: {
-            type: 'dodge',
-            marginRatio: 0.5,
-          },
-        },
-        mapping: {
-          type: 'object',
-          properties: {
-            style: {
+        mappings: {
+          'aldkg:BoxPlotTimeSeries': {
+            type: {
+              type: 'pointer',
+              value: '/type',
+            },
+            xField: 'begin',
+            yField: 'value',
+            colorField: 'source',
+            outliersField: 'outliers',
+            adjust: {
               type: 'object',
               properties: {
-                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                type: 'dodge',
+                marginRatio: 0.5,
               },
-              wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
             },
-            color: {
-              type: 'pointer',
-              value: '/options/color',
-              wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
-            },
-            shape: {
-              type: 'pointer',
-              value: '/options/shape',
-            },
-          },
-        },
-        dataMappings: [
-          {
-            propertyName: {
-              type: 'pointer',
-              value: '/yField',
-            },
-            value: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
-            scope: 'data',
-          },
-        ],
-      },
-      'rm:TimeSeries': {
-        '@id': 'rm:Mapping_1',
-        '@type': 'rm:TimeSeries',
-        type: {
-          type: 'pointer',
-          value: '/type',
-        },
-        xField: 'resultTime',
-        yField: {
-          type: 'expr',
-          value: '(v) => v.replace(/^[A-Za-z0-9-]*:/, "")',
-          applyTo: '$.observedProperty',
-        },
-        colorField: 'observedFeatureProperty',
-        propName: {
-          type: 'expr',
-          value: '(v) => v.replace(/^[A-Za-z0-9-]*:/, "")',
-          applyTo: '$.observedProperty',
-          scope: 'meta',
-        },
-        propKey: {
-          type: 'expr',
-          value:
-            '(observedProperty,hasFeatureOfInterest) => hasFeatureOfInterest + "#" + observedProperty.replace(/^[A-Za-z0-9-]*:/, "").toLowerCase()',
-          applyTo: '$.[observedProperty,hasFeatureOfInterest]',
-          scope: 'meta',
-        },
-        legend: {
-          type: 'object',
-          properties: {
-            field: 'hasFeatureOfInterest',
-            decorators: ['data', 'tooltip'],
-            items: {
+            mapping: {
               type: 'object',
               properties: {
-                name: { type: 'pointer', value: '/options/label' },
-                uri: { type: 'pointer', value: '/hasFeatureOfInterest' },
-                color: { type: 'pointer', value: '/options/color' },
-                statistics: {
+                style: {
+                  type: 'object',
+                  properties: {
+                    lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                  },
+                  wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+                },
+                color: {
                   type: 'pointer',
-                  value: '/options/statistics',
-                  wrapper: { type: 'pointer', value: '/propName' },
+                  value: '/options/color',
+                  wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+                },
+                shape: {
+                  type: 'pointer',
+                  value: '/options/shape',
                 },
               },
-              wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
             },
+            dataMappings: [
+              {
+                propertyName: {
+                  type: 'pointer',
+                  value: '/yField',
+                },
+                value: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
+                scope: 'data',
+              },
+            ],
           },
-          wrapper: { type: 'none', options: true },
-        },
-        mapping: {
-          type: 'object',
-          properties: {
-            style: {
+          'aldkg:TimeSeries': {
+            '@id': 'mktp:Mapping_1',
+            '@type': 'aldkg:TimeSeries',
+            type: {
+              type: 'pointer',
+              value: '/type',
+            },
+            xField: 'resultTime',
+            yField: {
+              type: 'expr',
+              value: '(v) => v.replace(/^[A-Za-z0-9-]*:/, "")',
+              applyTo: '$.observedProperty',
+            },
+            colorField: 'observedFeatureProperty',
+            propName: {
+              type: 'expr',
+              value: '(v) => v.replace(/^[A-Za-z0-9-]*:/, "")',
+              applyTo: '$.observedProperty',
+              scope: 'meta',
+            },
+            propKey: {
+              type: 'expr',
+              value:
+                '(observedProperty,hasFeatureOfInterest) => hasFeatureOfInterest + "#" + observedProperty.replace(/^[A-Za-z0-9-]*:/, "").toLowerCase()',
+              applyTo: '$.[observedProperty,hasFeatureOfInterest]',
+              scope: 'meta',
+            },
+            legend: {
               type: 'object',
               properties: {
-                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
-                stroke: { type: 'pointer', value: '/options/stroke' },
+                field: 'hasFeatureOfInterest',
+                decorators: ['data', 'tooltip'],
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'pointer', value: '/options/label' },
+                    uri: { type: 'pointer', value: '/hasFeatureOfInterest' },
+                    color: { type: 'pointer', value: '/options/color' },
+                    statistics: {
+                      type: 'pointer',
+                      value: '/options/statistics',
+                      wrapper: { type: 'pointer', value: '/propName' },
+                    },
+                  },
+                  wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+                },
               },
-              wrapper: { type: 'pointer', value: '/propKey' },
+              wrapper: { type: 'none', options: true },
             },
-            shape: {
-              type: 'pointer',
-              value: '/options/shape',
+            mapping: {
+              type: 'object',
+              properties: {
+                style: {
+                  type: 'object',
+                  properties: {
+                    lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                    stroke: { type: 'pointer', value: '/options/stroke' },
+                  },
+                  wrapper: { type: 'pointer', value: '/propKey' },
+                },
+                shape: {
+                  type: 'pointer',
+                  value: '/options/shape',
+                },
+                color: {
+                  type: 'pointer',
+                  value: '/options/color',
+                  wrapper: { type: 'pointer', value: '/propKey' },
+                },
+              },
             },
-            color: {
-              type: 'pointer',
-              value: '/options/color',
-              wrapper: { type: 'pointer', value: '/propKey' },
-            },
+            dataMappings: [
+              {
+                propertyName: {
+                  type: 'pointer',
+                  value: '/yField',
+                },
+                value: 'hasSimpleResult',
+                scope: 'data',
+              },
+              {
+                propertyName: 'observedFeatureProperty',
+                value: {
+                  type: 'pointer',
+                  value: '/propKey',
+                },
+              },
+            ],
           },
         },
-        dataMappings: [
-          {
-            propertyName: {
-              type: 'pointer',
-              value: '/yField',
-            },
-            value: 'hasSimpleResult',
-            scope: 'data',
-          },
-          {
-            propertyName: 'observedFeatureProperty',
-            value: {
-              type: 'pointer',
-              value: '/propKey',
-            },
-          },
-        ],
       },
-    },
+    ],
   },
   {
-    '@id': 'rm:GroupedBoxPlotViewKind',
-    '@type': 'rm:ViewKind',
-    type: 'BoxPlotChart', // control type
-    options: {
-      // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
-    },
-    mappings: {
-      'rm:BoxPlotTimeSeries': {
-        type: {
-          type: 'pointer',
-          value: '/type',
+    '@id': 'mktp:GroupedBoxPlotViewKind',
+    '@type': 'aldkg:ViewKind',
+    elements: [
+      {
+        '@id': 'mktp:BoxPlotChartViewKind',
+        '@type': 'aldkg:BoxPlotChart', // control type
+        options: {
+          // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
         },
-        xField: 'begin',
-        yField: 'value',
-        colorField: 'source',
-        outliersField: 'outliers',
-        adjust: {
-          type: 'object',
-          properties: {
-            type: 'dodge',
-            marginRatio: 0,
-          },
-        },
-        mapping: {
-          type: 'object',
-          properties: {
-            style: {
+        mappings: {
+          'aldkg:BoxPlotTimeSeries': {
+            type: {
+              type: 'pointer',
+              value: '/type',
+            },
+            xField: 'begin',
+            yField: 'value',
+            colorField: 'source',
+            outliersField: 'outliers',
+            adjust: {
               type: 'object',
               properties: {
-                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                type: 'dodge',
+                marginRatio: 0,
               },
-              wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
             },
-            color: {
-              type: 'pointer',
-              value: '/options/color',
-              wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+            mapping: {
+              type: 'object',
+              properties: {
+                style: {
+                  type: 'object',
+                  properties: {
+                    lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                  },
+                  wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+                },
+                color: {
+                  type: 'pointer',
+                  value: '/options/color',
+                  wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+                },
+                shape: {
+                  type: 'pointer',
+                  value: '/options/shape',
+                },
+              },
             },
-            shape: {
-              type: 'pointer',
-              value: '/options/shape',
-            },
+            dataMappings: [
+              {
+                propertyName: {
+                  type: 'pointer',
+                  value: '/yField',
+                },
+                value: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
+                scope: 'data',
+              },
+            ],
           },
         },
-        dataMappings: [
-          {
-            propertyName: {
-              type: 'pointer',
-              value: '/yField',
-            },
-            value: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
-            scope: 'data',
-          },
-        ],
       },
-    },
+    ],
   },
 ];
 
 export const localChartsViewDescrs = [
   {
-    '@id': 'mh:ChartView',
-    '@type': 'rm:View',
+    '@id': 'mktp:ChartView',
+    '@type': 'aldkg:ViewDescr',
     title: 'ProductAnalysis',
     description: 'Marketplace Product Analysis Time-series Charts',
-    viewKind: 'rm:TimeSeriesViewKind',
-    type: 'Chart', // control type
-    // child ui elements configs
-    options: {
-      dateFormat: 'DD.MM.YYYY',
-      timeUnit: 'day',
-      axes: { yAxis: { primary: ['Price'], secondary: ['TotalSales'], ratio: 0.5 } },
-    },
+    viewKind: 'mktp:TimeSeriesViewKind',
     elements: [
       {
-        '@id': 'rm:TimeSeries_1',
-        '@type': 'rm:TimeSeriesPlot',
-        type: 'timeSeries',
+        '@id': 'mktp:_d84gh_chart',
+        '@type': 'aldkg:Chart', // control type
+        '@parent': 'mktp:TimeSeriesChartViewKind',
+        // child ui elements configs
         options: {
-          legend: false,
+          dateFormat: 'DD.MM.YYYY',
+          timeUnit: 'day',
+          interactions: [{ type: 'sibling-tooltip' }],
         },
         elements: [
           {
-            '@id': 'rm:TimeSeries_Price',
-            '@type': 'rm:TimeSeries',
-            type: 'timeSeries',
+            '@id': 'mktp:TimeSeries_1',
+            '@type': 'aldkg:TimeSeriesPlot',
             options: {
               legend: false,
-              tooltip: {
-                showCrosshairs: true,
-                shared: true,
-                showMarkers: true,
-              },
-              region: {
-                start: {
-                  x: 0,
-                  y: 0,
-                },
-                end: {
-                  x: 0.33,
-                  y: 1,
-                },
-              },
             },
             elements: [
-              /**
-               * Product 1
-               */
               {
-                '@id': 'rm:line_11', // machine-generated random UUID
-                '@type': 'rm:Element',
-                type: 'line', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
-                resultsScope: 'sosa:Observations_11_CollConstr', // reference to data
+                '@id': 'mktp:TimeSeries_Price',
+                '@type': 'aldkg:TimeSeries',
                 options: {
-                  label: 'Продукт 1', // TODO: in future should be a data-binding
-                  color: '#4EEC1F',
-                  lineWidth: 2,
-                  shape: 'hvh',
-                  // lineDash: '',
+                  legend: false,
+                  tooltip: {
+                    showCrosshairs: true,
+                    shared: true,
+                    showMarkers: true,
+                  },
+                  region: {
+                    start: {
+                      x: 0,
+                      y: 0,
+                    },
+                    end: {
+                      x: 0.33,
+                      y: 1,
+                    },
+                  },
                 },
+                elements: [
+                  //
+                  // Product 1
+                  ///
+                  {
+                    '@id': 'mktp:line_11', // machine-generated random UUID
+                    '@type': 'aldkg:ChartLine', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
+                    resultsScope: 'sosa:Observations_11_CollConstr', // reference to data
+                    options: {
+                      label: 'Продукт 1', // TODO: in future should be a data-binding
+                      color: '#4EEC1F',
+                      lineWidth: 2,
+                      shape: 'hvh',
+                      // lineDash: '',
+                    },
+                  },
+                  //
+                  // Product 2
+                  //
+                  {
+                    '@id': 'mktp:line_21', // machine-generated random UUID
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'sosa:Observations_21_CollConstr', // reference to data
+                    options: {
+                      label: 'Продукт 2', // TODO: in future should be a data-binding
+                      color: '#0B49F2',
+                      lineWidth: 2,
+                      shape: 'hvh',
+                      // lineDash: '',
+                    },
+                  },
+                  //
+                  // Product 3
+                  //
+                  {
+                    '@id': 'mktp:line_31', // machine-generated random UUID
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'sosa:Observations_31_CollConstr', // reference to data
+                    options: {
+                      label: 'Продукт 3', // TODO: in future should be a data-binding
+                      color: '#F20B93',
+                      lineWidth: 2,
+                      shape: 'hvh',
+                      // lineDash: '',
+                    },
+                  },
+                ],
               },
-              /**
-               * Product 2
-               */
               {
-                '@id': 'rm:line_21', // machine-generated random UUID
-                '@type': 'rm:Element',
-                type: 'line',
-                resultsScope: 'sosa:Observations_21_CollConstr', // reference to data
+                '@id': 'mktp:TimeSeries_Sales',
+                '@type': 'aldkg:TimeSeries',
                 options: {
-                  label: 'Продукт 2', // TODO: in future should be a data-binding
-                  color: '#0B49F2',
-                  lineWidth: 2,
-                  shape: 'hvh',
-                  // lineDash: '',
+                  legend: false,
+                  tooltip: {
+                    showCrosshairs: true,
+                    shared: true,
+                    showMarkers: true,
+                  },
+                  region: {
+                    start: {
+                      x: 0.33,
+                      y: 0,
+                    },
+                    end: {
+                      x: 0.66,
+                      y: 1,
+                    },
+                  },
                 },
+                elements: [
+                  //
+                  // Product 1
+                  //
+                  {
+                    '@id': 'mktp:line_12', // machine-generated random UUID
+                    '@type': 'aldkg:ChartLine', // TODO: +'Bar' (auxillary bars, auxillary lines)
+                    resultsScope: 'sosa:Observations_12_CollConstr', // reference to data
+                    options: {
+                      label: 'Продукт 1', // TODO: in future should be a data-binding
+                      color: '#4EEC1F',
+                      lineWidth: 2,
+                      // lineDash: '',
+                    },
+                  },
+                  //
+                  // Product 2
+                  //
+                  {
+                    '@id': 'mktp:line_22', // machine-generated random UUID
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'sosa:Observations_22_CollConstr', // reference to data
+                    options: {
+                      label: 'Продукт 2', // TODO: in future should be a data-binding
+                      color: '#0B49F2',
+                      lineWidth: 2,
+                      // lineDash: '',
+                    },
+                  },
+                  //
+                  // Product 3
+                  //
+                  {
+                    '@id': 'mktp:line_32', // machine-generated random UUID
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'sosa:Observations_32_CollConstr', // reference to data
+                    options: {
+                      label: 'Продукт 3', // TODO: in future should be a data-binding
+                      color: '#F20B93',
+                      lineWidth: 2,
+                      // lineDash: '',
+                    },
+                  },
+                ],
               },
-              /**
-               * Product 3
-               */
               {
-                '@id': 'rm:line_31', // machine-generated random UUID
-                '@type': 'rm:Element',
-                type: 'line',
-                resultsScope: 'sosa:Observations_31_CollConstr', // reference to data
+                '@id': 'mktp:BoxPlot_1',
+                '@type': 'aldkg:BoxPlotTimeSeries',
                 options: {
-                  label: 'Продукт 3', // TODO: in future should be a data-binding
-                  color: '#F20B93',
-                  lineWidth: 2,
-                  shape: 'hvh',
-                  // lineDash: '',
+                  region: {
+                    start: {
+                      x: 0.66,
+                      y: 0,
+                    },
+                    end: {
+                      x: 1,
+                      y: 1,
+                    },
+                  },
+                  dateFormat: 'DD.MM.YYYY',
+                  timeUnit: 'day',
+                  tooltip: {
+                    showMarkers: false,
+                    shared: false,
+                    showCrosshairs: false,
+                  },
                 },
-              },
-            ],
-          },
-          {
-            '@id': 'rm:TimeSeries_Sales',
-            '@type': 'rm:TimeSeries',
-            type: 'timeSeries',
-            options: {
-              legend: false,
-              tooltip: {
-                showCrosshairs: true,
-                shared: true,
-                showMarkers: true,
-              },
-              region: {
-                start: {
-                  x: 0.33,
-                  y: 0,
-                },
-                end: {
-                  x: 0.66,
-                  y: 1,
-                },
-              },
-            },
-            elements: [
-              /**
-               * Product 1
-               */
-              {
-                '@id': 'rm:line_12', // machine-generated random UUID
-                '@type': 'rm:Element',
-                type: 'line', // TODO: +'Bar' (auxillary bars, auxillary lines)
-                resultsScope: 'sosa:Observations_12_CollConstr', // reference to data
-                options: {
-                  label: 'Продукт 1', // TODO: in future should be a data-binding
-                  color: '#4EEC1F',
-                  lineWidth: 2,
-                  // lineDash: '',
-                },
-              },
-              /**
-               * Product 2
-               */
-              {
-                '@id': 'rm:line_22', // machine-generated random UUID
-                '@type': 'rm:Element',
-                type: 'line',
-                resultsScope: 'sosa:Observations_22_CollConstr', // reference to data
-                options: {
-                  label: 'Продукт 2', // TODO: in future should be a data-binding
-                  color: '#0B49F2',
-                  lineWidth: 2,
-                  // lineDash: '',
-                },
-              },
-              /**
-               * Product 3
-               */
-              {
-                '@id': 'rm:line_32', // machine-generated random UUID
-                '@type': 'rm:Element',
-                type: 'line',
-                resultsScope: 'sosa:Observations_32_CollConstr', // reference to data
-                options: {
-                  label: 'Продукт 3', // TODO: in future should be a data-binding
-                  color: '#F20B93',
-                  lineWidth: 2,
-                  // lineDash: '',
-                },
-              },
-            ],
-          },
-          {
-            '@id': 'rm:BoxPlot_1',
-            '@type': 'rm:BoxPlotTimeSeries',
-            type: 'boxPlotTimeSeries',
-            options: {
-              region: {
-                start: {
-                  x: 0.66,
-                  y: 0,
-                },
-                end: {
-                  x: 1,
-                  y: 1,
-                },
-              },
-              dateFormat: 'DD.MM.YYYY',
-              timeUnit: 'day',
-              tooltip: {
-                showMarkers: false,
-                shared: false,
-                showCrosshairs: false,
-              },
-            },
-            elements: [
-              /**
-               * Product 1
-               */
-              {
-                '@id': 'rm:box1', // machine-generated random UUID
-                '@type': 'rm:BoxPlot',
-                type: 'schema',
-                resultsScope: 'mktp:BoxPlotBucket_0_CollConstr_1', // reference to data
-                options: {
-                  shape: 'box',
-                  label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
-                },
+                elements: [
+                  //
+                  // Product 1
+                  //
+                  {
+                    '@id': 'mktp:box1', // machine-generated random UUID
+                    '@type': 'aldkg:BoxPlotSchema',
+                    type: 'schema',
+                    resultsScope: 'mktp:BoxPlotBucket_0_CollConstr_1', // reference to data
+                    options: {
+                      shape: 'box',
+                      label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
+                    },
+                  },
+                ],
               },
             ],
           },
@@ -451,20 +437,20 @@ export const localChartsViewDescrs = [
     ],
     // datasets constraints, specific to this view (UML aggregation)
     collsConstrs: [
-      /**
-       * Product 1
-       */
+      //
+      // Product 1
+      //
       {
         '@id': 'sosa:Observations_11_CollConstr', // machine-generated random UUID
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'sosa:Observations_11_EntConstr_0', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
               '@id': 'sosa:Observations_11_EntConstr_0_Condition', // machine-generated random UUID
-              '@type': 'rm:EntConstrCondition',
+              '@type': 'aldkg:EntConstrCondition',
               observedProperty: 'hs:Price',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
             },
@@ -473,35 +459,35 @@ export const localChartsViewDescrs = [
       },
       {
         '@id': 'sosa:Observations_12_CollConstr',
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'sosa:Observations_12_EntConstr_0',
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
               '@id': 'sosa:Observations_12_EntConstr_0_Condition',
-              '@type': 'rm:EntConstrCondition',
+              '@type': 'aldkg:EntConstrCondition',
               observedProperty: 'hs:TotalSales',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15570386/detail.aspx',
             },
           },
         ],
       },
-      /**
-       * Product 2
-       */
+      //
+      // Product 2
+      //
       {
         '@id': 'sosa:Observations_21_CollConstr',
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'sosa:Observations_21_EntConstr_0',
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
               '@id': 'sosa:Observations_21_EntConstr_0_Condition',
-              '@type': 'rm:EntConstrCondition',
+              '@type': 'aldkg:EntConstrCondition',
               observedProperty: 'hs:Price',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
             },
@@ -510,35 +496,35 @@ export const localChartsViewDescrs = [
       },
       {
         '@id': 'sosa:Observations_22_CollConstr',
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'sosa:Observations_22_EntConstr_0',
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
               '@id': 'sosa:Observations_22_EntConstr_0_Condition',
-              '@type': 'rm:EntConstrCondition',
+              '@type': 'aldkg:EntConstrCondition',
               observedProperty: 'hs:TotalSales',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/16170086/detail.aspx',
             },
           },
         ],
       },
-      /**
-       * Product 3
-       */
+      //
+      // Product 3
+      //
       {
         '@id': 'sosa:Observations_31_CollConstr',
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'sosa:Observations_31_EntConstr_0',
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
               '@id': 'sosa:Observations_31_EntConstr_0_Condition',
-              '@type': 'rm:EntConstrCondition',
+              '@type': 'aldkg:EntConstrCondition',
               observedProperty: 'hs:Price',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
             },
@@ -547,35 +533,35 @@ export const localChartsViewDescrs = [
       },
       {
         '@id': 'sosa:Observations_32_CollConstr',
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'sosa:Observations_32_EntConstr_0',
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
             conditions: {
               '@id': 'sosa:Observations_32_EntConstr_0_Condition',
-              '@type': 'rm:EntConstrCondition',
+              '@type': 'aldkg:EntConstrCondition',
               observedProperty: 'hs:TotalSales',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/15622789/detail.aspx',
             },
           },
         ],
       },
-      /**
-       * Product 1
-       */
+      //
+      // Product 1
+      //
       {
         '@id': 'mktp:BoxPlotBucket_0_CollConstr_1', // machine-generated random UUID
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'mktp:BoxPlotBucket_0_CollConstr_0', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
               '@id': 'mktp:BoxPlotBucket_0_CollConstr_0_0', // machine-generated random UUID
-              '@type': 'rm:EntConstrCondition',
+              '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Massager',
               forProperty: 'hs:Price',
             },
@@ -587,67 +573,72 @@ export const localChartsViewDescrs = [
   },
   {
     '@id': 'mh:BoxPlot',
-    '@type': 'rm:View',
+    '@type': 'aldkg:ViewDescr',
     title: 'Разброс цены продукта, по маркетплейсам',
     description: 'Marketplace Product Analysis Box-Plot Charts',
-    viewKind: 'rm:GroupedBoxPlotViewKind',
-    //type: 'BoxPlotChart', // control type
-    type: 'Chart', // control type
-    // child ui elements configs
-    options: {
-      timeUnit: 'day',
-      dateFormat: 'DD.MM.YYYY',
-      groupField: 'source',
-      showOutliers: true,
-    },
+    viewKind: 'mktp:GroupedBoxPlotViewKind',
     elements: [
       {
-        '@id': 'rm:BoxPlot_1',
-        '@type': 'rm:BoxPlotTimeSeries',
-        type: 'boxPlotTimeSeries',
+        '@id': 'mktp:as45d57gh_chart',
+        //'@type': 'aldkg:BoxPlotChart', // control type
+        '@type': 'aldkg:Chart', // control type
+        '@parent': 'mktp:BoxPlotChartViewKind',
+        title: 'Разброс цены продукта, по маркетплейсам',
+        // child ui elements configs
         options: {
-          dateFormat: 'DD.MM.YYYY',
           timeUnit: 'day',
-          tooltip: {
-            showMarkers: false,
-            shared: false,
-            showCrosshairs: false,
-          },
+          dateFormat: 'DD.MM.YYYY',
+          groupField: 'source',
+          showOutliers: true,
         },
         elements: [
-          /**
-           * Product 1
-           */
           {
-            '@id': 'rm:box1', // machine-generated random UUID
-            '@type': 'rm:BoxPlot',
-            type: 'schema',
-            resultsScope: 'mktp:BoxPlotBucket_0_CollConstr', // reference to data
+            '@id': 'mktp:BoxPlot_1',
+            '@type': 'aldkg:BoxPlotTimeSeries',
             options: {
-              shape: 'box',
-              label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
-              //color: '#4EEC1F',
+              dateFormat: 'DD.MM.YYYY',
+              timeUnit: 'day',
+              tooltip: {
+                showMarkers: false,
+                shared: false,
+                showCrosshairs: false,
+              },
             },
+            elements: [
+              //
+              // Product 1
+              //
+              {
+                '@id': 'mktp:box1', // machine-generated random UUID
+                '@type': 'aldkg:BoxPlotSchema',
+                resultsScope: 'mktp:BoxPlotBucket_0_CollConstr', // reference to data
+                options: {
+                  shape: 'box',
+                  label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
+                  //color: '#4EEC1F',
+                },
+              },
+            ],
           },
         ],
       },
     ],
     // datasets constraints, specific to this view (UML aggregation)
     collsConstrs: [
-      /**
-       * Product 1
-       */
+      //
+      // Product 1
+      //
       {
         '@id': 'mktp:BoxPlotBucket_0_CollConstr', // machine-generated random UUID
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'mktp:BoxPlotBucket_0_CollConstr_0', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
               '@id': 'mktp:BoxPlotBucket_0_CollConstr_0_0', // machine-generated random UUID
-              '@type': 'rm:EntConstrCondition',
+              '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Massager',
               forProperty: 'hs:Price',
             },
@@ -956,108 +947,108 @@ const viewDataObservations32 = [
   },
 ];
 
-export const chartLocalRootModelState = {
-  ...rootModelInitialState,
-  schemas: {
-    json: {
-      [observationShape['@id']]: observationShape,
-      [boxPlotBucketShape['@id']]: boxPlotBucketShape,
-    },
-  },
-  colls: {
-    // ViewDescr
-    [viewDescrCollConstr['@id']]: {
-      '@id': viewDescrCollConstr['@id'],
-      collConstr: viewDescrCollConstr,
-      dataIntrnl: localChartsViewDescrs,
-      updPeriod: undefined,
-      lastSynced: moment.now(),
-      resolveCollConstrs: false,
-    },
-    // ViewKindDescr
-    [viewKindCollConstr['@id']]: {
-      '@id': viewKindCollConstr['@id'],
-      collConstr: viewKindCollConstr,
-      dataIntrnl: timeSeriesViewKinds,
-      updPeriod: undefined,
-      lastSynced: moment.now(),
-      resolveCollConstrs: false,
-    },
-
-    // Data
-    /**
-     * Product 1
-     */
-    [localChartsViewDescrs[0].collsConstrs?.[0]['@id'] || '']: {
-      '@id': localChartsViewDescrs[0].collsConstrs?.[0]['@id'],
-      collConstr: localChartsViewDescrs[0].collsConstrs?.[0]['@id'], // reference by @id
-      dataIntrnl: viewDataObservations11,
-      updPeriod: undefined,
-      lastSynced: moment.now(),
-      resolveCollConstrs: false,
-    },
-    [localChartsViewDescrs[0].collsConstrs?.[1]['@id'] || '']: {
-      '@id': localChartsViewDescrs[0].collsConstrs?.[1]['@id'],
-      collConstr: localChartsViewDescrs[0].collsConstrs?.[1]['@id'], // reference by @id
-      dataIntrnl: viewDataObservations12,
-      updPeriod: undefined,
-      lastSynced: moment.now(),
-      resolveCollConstrs: false,
-    },
-    /**
-     * Product 2
-     */
-    [localChartsViewDescrs[0].collsConstrs?.[2]['@id'] || '']: {
-      '@id': localChartsViewDescrs[0].collsConstrs?.[2]['@id'],
-      collConstr: localChartsViewDescrs[0].collsConstrs?.[2]['@id'], // reference by @id
-      dataIntrnl: viewDataObservations21,
-      updPeriod: undefined,
-      lastSynced: moment.now(),
-      resolveCollConstrs: false,
-    },
-
-    [localChartsViewDescrs[0].collsConstrs?.[3]['@id'] || '']: {
-      '@id': localChartsViewDescrs[0].collsConstrs?.[3]['@id'],
-      collConstr: localChartsViewDescrs[0].collsConstrs?.[3]['@id'], // reference by @id
-      dataIntrnl: viewDataObservations22,
-      updPeriod: undefined,
-      lastSynced: moment.now(),
-      resolveCollConstrs: false,
-    },
-    /**
-     * Product 3
-     */
-    [localChartsViewDescrs[0].collsConstrs?.[4]['@id'] || '']: {
-      '@id': localChartsViewDescrs[0].collsConstrs?.[4]['@id'],
-      collConstr: localChartsViewDescrs[0].collsConstrs?.[4]['@id'], // reference by @id
-      dataIntrnl: viewDataObservations31,
-      updPeriod: undefined,
-      lastSynced: moment.now(),
-      resolveCollConstrs: false,
-    },
-    [localChartsViewDescrs[0].collsConstrs?.[5]['@id'] || '']: {
-      '@id': localChartsViewDescrs[0].collsConstrs?.[5]['@id'],
-      collConstr: localChartsViewDescrs[0].collsConstrs?.[5]['@id'], // reference by @id
-      dataIntrnl: viewDataObservations32,
-      updPeriod: undefined,
-      lastSynced: moment.now(),
-      resolveCollConstrs: false,
-    },
-    [localChartsViewDescrs[0].collsConstrs?.[6]['@id'] || '']: {
-      '@id': localChartsViewDescrs[0].collsConstrs?.[6]['@id'],
-      collConstr: localChartsViewDescrs[0].collsConstrs?.[6]['@id'], // reference by @id
-      dataIntrnl: groupedBoxPlot,
-      updPeriod: undefined,
-      lastSynced: moment.now(),
-      resolveCollConstrs: false,
-    },
-    [localChartsViewDescrs[1].collsConstrs?.[0]['@id'] || '']: {
-      '@id': localChartsViewDescrs[1].collsConstrs?.[0]['@id'],
-      collConstr: localChartsViewDescrs[1].collsConstrs?.[0]['@id'], // reference by @id
-      dataIntrnl: groupedBoxPlot,
+export const additionalCollsLocal: CollState[] = [
+  // ViewKinds Collection
+  {
+    constr: viewKindCollConstr,
+    data: timeSeriesViewKinds,
+    opt: {
       updPeriod: undefined,
       lastSynced: moment.now(),
       resolveCollConstrs: false,
     },
   },
-};
+  // ViewDescrs Collection
+  {
+    constr: viewDescrCollConstr,
+    data: localChartsViewDescrs,
+    opt: {
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+  },
+
+  // Data
+  //
+  // Product 1
+  //
+  {
+    constr: localChartsViewDescrs[0].collsConstrs?.[0]['@id'], // reference by @id
+    data: viewDataObservations11,
+    opt: {
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+  },
+  {
+    constr: localChartsViewDescrs[0].collsConstrs?.[1]['@id'], // reference by @id
+    data: viewDataObservations12,
+    opt: {
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+  },
+  //
+  // Product 2
+  //
+  {
+    constr: localChartsViewDescrs[0].collsConstrs?.[2]['@id'], // reference by @id
+    data: viewDataObservations21,
+    opt: {
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+  },
+  {
+    constr: localChartsViewDescrs[0].collsConstrs?.[3]['@id'], // reference by @id
+    data: viewDataObservations22,
+    opt: {
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+  },
+  //
+  // Product 3
+  //
+  {
+    constr: localChartsViewDescrs[0].collsConstrs?.[4]['@id'], // reference by @id
+    data: viewDataObservations31,
+    opt: {
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+  },
+  {
+    constr: localChartsViewDescrs[0].collsConstrs?.[5]['@id'], // reference by @id
+    data: viewDataObservations32,
+    opt: {
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+  },
+  {
+    constr: localChartsViewDescrs[0].collsConstrs?.[6]['@id'], // reference by @id
+    data: groupedBoxPlot,
+    opt: {
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+  },
+  {
+    constr: localChartsViewDescrs[1].collsConstrs?.[0]['@id'], // reference by @id
+    data: groupedBoxPlot,
+    opt: {
+      updPeriod: undefined,
+      lastSynced: moment.now(),
+      resolveCollConstrs: false,
+    },
+  },
+];

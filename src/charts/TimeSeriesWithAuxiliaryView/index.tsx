@@ -40,6 +40,7 @@ const TimeSeriesWithAuxiliaryView = forwardRef(({ config = {}, options = {} }: a
         ...view,
         axes: configureYAxes(yScales),
         data: viewData,
+        ...(options.interactions && { interactions: options.interactions }),
         // TODO: check tooltip options propagation
         ...(viewOptions.tooltip && { tooltip: viewOptions.tooltip }),
         //...(viewOptions.legend && { legend: viewOptions.legend }), // TODO: copy to the chart's legend option
@@ -64,6 +65,7 @@ const TimeSeriesWithAuxiliaryView = forwardRef(({ config = {}, options = {} }: a
         },
         observedFeatureProperty: false,
         hasFeatureOfInterest: false,
+        product: false,
       },
     };
 

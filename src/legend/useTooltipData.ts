@@ -9,18 +9,46 @@
  ********************************************************************************/
 
 import { G2 } from '@ant-design/charts';
+import { Data } from '@antv/g2plot';
+import { merge } from 'lodash-es';
 import { useEffect, useState } from 'react';
+import chain from '../utils/chain';
 
-export default function useTooltipData(plot: any): G2.Types.Datum | undefined {
-  const [tooltipData, setTooltipData] = useState<G2.Types.Datum | undefined>();
+const groupItemsData = (itemsData: G2.Types.TooltipItem[], itemGrouping: any) => {
+  const [dataField, propertyFields] = itemGrouping;
+  return chain(itemsData)
+    .map((tooltipItem: G2.Types.TooltipItem) => tooltipItem.data)
+    .groupBy(dataField)
+    .mapValues((itemData: Data) =>
+      itemData.reduce((acc, data) => {
+        propertyFields.forEach((field: string) => {
+          if (data[field]) {
+            acc[field] = { current: data[field] };
+          }
+        });
+        return acc;
+      }, {}),
+    )
+    .value();
+};
 
+export default function useTooltipData(plot: any, options: any): G2.Types.Datum {
+  const [tooltipData, setTooltipData] = useState<G2.Types.Datum>({});
   useEffect(() => {
-    const onTooltipChange = (e: G2.Event) => setTooltipData(e.data);
+    const onTooltipChange = (e: G2.Event) => {
+      const currentTooltipData = e.data;
+      if (currentTooltipData) {
+        setTooltipData((previousData: any) => {
+          const delta = groupItemsData(currentTooltipData.items, options.itemGrouping);
+          return merge({ ...previousData }, delta);
+        });
+      }
+    };
     plot?.chart.views.forEach((view: G2.View) => view.on('tooltip:change', onTooltipChange));
     return () => {
       plot?.chart.views.forEach((view: G2.View) => view.off('tooltip:change', onTooltipChange));
     };
-  }, [plot]);
+  }, [options.itemGrouping, plot]);
 
   return tooltipData;
 }

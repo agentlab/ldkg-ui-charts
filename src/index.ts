@@ -7,21 +7,18 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
+export * as BoxPlotView from './charts/BoxPlotView';
 export * from './charts/Chart';
 export * from './charts/DataSetDemo';
 export * from './charts/GaugeChart';
 export * from './charts/MultiViewDodgeDemo';
 export * from './charts/PieTooltipDemo';
 export * from './charts/RadarChart';
-
 export * as TimeSeriesWithAuxiliaryView from './charts/TimeSeriesWithAuxiliaryView';
-export * as BoxPlotView from './charts/BoxPlotView';
-
 export * from './DataRenderer';
-
 export * as DateRangePickerMenu from './DateRangePickerMenu';
-
 // test data
-export * from './store/RemoteData';
-export * from './store/RemoteBoxPlot';
 export * from './store/data';
+export * from './store/MstViewElements';
+export * from './store/RemoteBoxPlot';
+export * from './store/RemoteData';

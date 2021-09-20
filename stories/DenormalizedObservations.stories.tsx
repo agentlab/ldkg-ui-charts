@@ -8,6 +8,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
 import {
+  antdLayoutRenderers,
   createUiModelFromState,
   Form,
   MstContextProvider,
@@ -20,16 +21,16 @@ import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { chartsRenderers } from '../src';
+import { additionalColls, denormalizedObservationsViewDescrs } from '../src/store/DenormalizedObservationsData';
 import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/store/MstViewElements';
-import { additionalBoxplotColls, remoteBoxPlotViewDescrs } from '../src/store/RemoteBoxPlot';
 
 export default {
-  title: 'RemoteBoxPlot',
+  title: 'DenormalizedObservations',
   component: Form,
 } as Meta;
 
 const Template: Story = (args: any) => {
-  const renderers = [...chartsRenderers];
+  const renderers = [...antdLayoutRenderers, ...chartsRenderers];
   registerMstViewKindSchema(MstTimeSeriesChartVKElement);
   registerMstViewKindSchema(MstBoxPlotChartVKElement);
 
@@ -37,18 +38,18 @@ const Template: Story = (args: any) => {
     'https://rdf4j.agentlab.ru/rdf4j-server',
     'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp/namespaces',
   );
-  const rootStore = createUiModelFromState('mktp-fed', client, rootModelInitialState, additionalBoxplotColls);
+  const rootStore = createUiModelFromState('mktp-fed', client, rootModelInitialState, additionalColls);
   const store: any = asReduxStore(rootStore);
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   connectReduxDevtools(require('remotedev'), rootStore);
   return (
     <Provider store={store}>
       <MstContextProvider store={rootStore} renderers={renderers}>
-        <Form viewDescrId={remoteBoxPlotViewDescrs[0]['@id']} viewDescrCollId={viewDescrCollConstr['@id']} />
+        <Form viewDescrId={denormalizedObservationsViewDescrs[0]['@id']} viewDescrCollId={viewDescrCollConstr['@id']} />
       </MstContextProvider>
     </Provider>
   );
 };
-export const RemoteBoxPlot = Template.bind({});
+export const DenormalizedObservations = Template.bind({});
 
-RemoteBoxPlot.args = {};
+DenormalizedObservations.args = {};

@@ -7,150 +7,161 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
+import { viewDescrCollConstr, viewKindCollConstr } from '@agentlab/ldkg-ui-react';
 import { CollState } from '@agentlab/sparql-jsld-client';
 import { variable } from '@rdfjs/data-model';
 import moment from 'moment';
-import { viewDescrCollConstr, viewKindCollConstr } from './data';
 
 export const remoteBoxPlotViewKinds = [
   {
-    '@id': 'rm:BoxPlotViewKind',
-    '@type': 'rm:ViewKind',
-    type: 'BoxPlotChart', // control type
-    options: {
-      // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
-    },
-    mappings: {
-      'rm:BoxPlotTimeSeries': {
-        type: {
-          type: 'pointer',
-          value: '/type',
+    '@id': 'mktp:BoxPlotViewKind',
+    '@type': 'aldkg:ViewKind',
+    elements: [
+      {
+        '@id': 'mktp:BoxPlotChartViewKind',
+        '@type': 'aldkg:BoxPlotChart', // control type
+        options: {
+          // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
         },
-        xField: 'begin',
-        yField: 'value',
-        outliersField: 'outliers',
-        colorField: 'hasFeatureOfInterest',
-        mapping: {
-          type: 'object',
-          properties: {
-            style: {
+        mappings: {
+          'aldkg:BoxPlotTimeSeries': {
+            type: {
+              type: 'pointer',
+              value: '/type',
+            },
+            xField: 'begin',
+            yField: 'value',
+            outliersField: 'outliers',
+            colorField: 'hasFeatureOfInterest',
+            mapping: {
               type: 'object',
               properties: {
-                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                style: {
+                  type: 'object',
+                  properties: {
+                    lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                  },
+                  wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+                },
+                shape: {
+                  type: 'pointer',
+                  value: '/options/shape',
+                },
               },
-              wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
             },
-            shape: {
-              type: 'pointer',
-              value: '/options/shape',
-            },
+            dataMappings: [
+              {
+                propertyName: {
+                  type: 'pointer',
+                  value: '/yField',
+                },
+                value: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
+                scope: 'data',
+              },
+            ],
           },
         },
-        dataMappings: [
-          {
-            propertyName: {
-              type: 'pointer',
-              value: '/yField',
-            },
-            value: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
-            scope: 'data',
-          },
-        ],
       },
-    },
+    ],
   },
 ];
 
 export const remoteBoxPlotViewDescrs = [
   {
     '@id': 'mktp:_g7H7gh',
-    '@type': 'rm:View',
+    '@type': 'aldkg:ViewDescr',
     title: 'Массажная подушка роликовая, разброс складских остатков',
     description: 'Marketplace Product Analysis Box-Plot Charts',
-    viewKind: 'rm:BoxPlotViewKind',
-    //type: 'BoxPlotChart', // control type
-    type: 'Chart', // control type
-    // child ui elements configs
-    options: {
-      timeUnit: 'day',
-      dateFormat: 'DD.MM.YYYY',
-      showOutliers: true,
-    },
+    viewKind: 'mktp:BoxPlotViewKind',
     elements: [
       {
-        '@id': 'rm:BoxPlot_1',
-        '@type': 'rm:BoxPlotTimeSeries',
-        type: 'boxPlotTimeSeries',
+        '@id': 'mktp:_dj457gh_chart',
+        //''@type': 'aldkg:BoxPlotChart', // control type
+        '@type': 'aldkg:Chart', // control type
+        '@parent': 'mktp:BoxPlotChartViewKind',
+        title: 'Массажная подушка роликовая, разброс складских остатков',
+        // child ui elements configs
         options: {
-          dateFormat: 'DD.MM.YYYY',
           timeUnit: 'day',
-          tooltip: {
-            showMarkers: false,
-            shared: false,
-            showCrosshairs: false,
-          },
-          legend: false,
+          dateFormat: 'DD.MM.YYYY',
+          showOutliers: true,
         },
         elements: [
-          /**
-           * Product 1
-           */
           {
-            '@id': 'rm:box1', // machine-generated random UUID
-            '@type': 'rm:Element',
-            type: 'schema',
-            resultsScope: 'mktp:_8uJ8t6', // reference to data
+            '@id': 'mktp:BoxPlot_1',
+            '@type': 'aldkg:BoxPlotTimeSeries',
             options: {
-              shape: 'box',
-              label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
+              dateFormat: 'DD.MM.YYYY',
+              timeUnit: 'day',
+              tooltip: {
+                showMarkers: false,
+                shared: false,
+                showCrosshairs: false,
+              },
+              legend: false,
             },
+            elements: [
+              //
+              // Product 1
+              //
+              {
+                '@id': 'mktp:box1', // machine-generated random UUID
+                //TODO: Very strange name for this element type! Not something BoxPlot-related, but 'schema'?
+                '@type': 'aldkg:BoxPlotSchema',
+                resultsScope: 'mktp:_8uJ8t6', // reference to data
+                options: {
+                  shape: 'box',
+                  label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
+                },
+              },
+            ],
           },
         ],
       },
     ],
     // datasets constraints, specific to this view (UML aggregation)
     collsConstrs: [
-      /**
-       * Product 1
-       */
+      //
+      // Product 1
+      //
       {
         '@id': 'mktp:_8uJ8t6', // machine-generated random UUID
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'mktp:_uf78Dfg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
               '@id': 'mktp:_u8Yg83', // machine-generated random UUID
-              '@type': 'rm:EntConstrCondition',
-              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/2171298/detail.aspx',
+              '@type': 'aldkg:EntConstrCondition',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/10322023/detail.aspx',
               forProperty: 'hs:Stocks',
-              hasUpperOutlier: '?eIri1',
-              hasLowerOutlier: '?eIri2',
+              //hasUpperOutlier: '?eIri1',
+              //hasLowerOutlier: '?eIri2',
             },
           },
-          {
+          /*{
             '@id': 'mktp:_dfd8SDfg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
           },
           {
             '@id': 'mktp:_Jhd8fg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
-          },
+          },*/
         ],
         orderBy: [{ expression: variable('begin0'), descending: false }],
       },
     ],
   },
-  {
+  /*{
     '@id': 'mktp:_g7H7gh___Price',
-    '@type': 'rm:View',
+    '@type': 'aldkg:ViewDescr',
     title: 'Массажная подушка роликовая, разброс цен',
     description: 'Marketplace Product Analysis Box-Plot Charts',
-    viewKind: 'rm:BoxPlotViewKind',
+    viewKind: 'mktp:BoxPlotViewKind',
     //type: 'BoxPlotChart', // control type
     type: 'Chart', // control type
     // child ui elements configs
@@ -160,9 +171,9 @@ export const remoteBoxPlotViewDescrs = [
       axes: { yAxis: { primary: ['median'], secondary: ['max'], ratio: 0.5 } },
     },
     elements: [
-      /**
-       * Product 1
-       */
+      //
+      // Product 1
+      //
       {
         '@id': 'rm:line_11', // machine-generated random UUID
         '@type': 'rm:Element',
@@ -179,20 +190,20 @@ export const remoteBoxPlotViewDescrs = [
     ],
     // datasets constraints, specific to this view (UML aggregation)
     collsConstrs: [
-      /**
-       * Product 1
-       */
+      //
+      // Product 1
+      //
       {
         '@id': 'mktp:_8uJ8t6__ee', // machine-generated random UUID
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'mktp:_uf78Dfg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
               '@id': 'mktp:_u8Yg83', // machine-generated random UUID
-              '@type': 'rm:EntConstrCondition',
+              '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Massager',
               forProperty: 'hs:Price',
               hasUpperOutlier: '?eIri1',
@@ -201,12 +212,12 @@ export const remoteBoxPlotViewDescrs = [
           },
           {
             '@id': 'mktp:_dfd8SDfg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
           },
           {
             '@id': 'mktp:_Jhd8fg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
           },
         ],
@@ -217,10 +228,10 @@ export const remoteBoxPlotViewDescrs = [
   ///////////////////
   {
     '@id': 'mktp:_g7H7gh___salesAmountDiff',
-    '@type': 'rm:View',
+    '@type': 'aldkg:ViewDescr',
     title: 'Массажная подушка роликовая, Изменение объема продаж',
     description: 'Marketplace Product Analysis Box-Plot Charts',
-    viewKind: 'rm:BoxPlotViewKind',
+    viewKind: 'mktp:BoxPlotViewKind',
     //type: 'BoxPlotChart', // control type
     type: 'Chart', // control type
     // child ui elements configs
@@ -230,9 +241,9 @@ export const remoteBoxPlotViewDescrs = [
       axes: { yAxis: { primary: ['median'], secondary: ['max'], ratio: 0.5 } },
     },
     elements: [
-      /**
-       * Product 1
-       */
+      //
+      // Product 1
+      //
       {
         '@id': 'rm:line_11', // machine-generated random UUID
         '@type': 'rm:Element',
@@ -249,20 +260,20 @@ export const remoteBoxPlotViewDescrs = [
     ],
     // datasets constraints, specific to this view (UML aggregation)
     collsConstrs: [
-      /**
-       * Product 1
-       */
+      //
+      // Product 1
+      //
       {
         '@id': 'mktp:_8uJ8t6__ee2', // machine-generated random UUID
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'mktp:_uf78Dfg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
               '@id': 'mktp:_u8Yg83', // machine-generated random UUID
-              '@type': 'rm:EntConstrCondition',
+              '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Massager',
               forProperty: 'hs:SalesAmountDiff',
               hasUpperOutlier: '?eIri1',
@@ -271,12 +282,12 @@ export const remoteBoxPlotViewDescrs = [
           },
           {
             '@id': 'mktp:_dfd8SDfg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
           },
           {
             '@id': 'mktp:_Jhd8fg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
           },
         ],
@@ -287,10 +298,10 @@ export const remoteBoxPlotViewDescrs = [
   //////////
   {
     '@id': 'mktp:_g7H7gh___CommentsCount',
-    '@type': 'rm:View',
+    '@type': 'aldkg:ViewDescr',
     title: 'Массажная подушка роликовая, разброс кол-ва коментариев',
     description: 'Marketplace Product Analysis Box-Plot Charts',
-    viewKind: 'rm:BoxPlotViewKind',
+    viewKind: 'mktp:BoxPlotViewKind',
     //type: 'BoxPlotChart', // control type
     type: 'Chart', // control type
     // child ui elements configs
@@ -300,9 +311,9 @@ export const remoteBoxPlotViewDescrs = [
       axes: { yAxis: { primary: ['median'], secondary: ['max'], ratio: 0.5 } },
     },
     elements: [
-      /**
-       * Product 1
-       */
+      //
+      // Product 1
+      //
       {
         '@id': 'rm:line_11', // machine-generated random UUID
         '@type': 'rm:Element',
@@ -319,20 +330,20 @@ export const remoteBoxPlotViewDescrs = [
     ],
     // datasets constraints, specific to this view (UML aggregation)
     collsConstrs: [
-      /**
-       * Product 1
-       */
+      //
+      // Product 1
+      //
       {
         '@id': 'mktp:_8uJ8t6__ee3', // machine-generated random UUID
-        '@type': 'rm:CollConstr',
+        '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
             '@id': 'mktp:_uf78Dfg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
               '@id': 'mktp:_u8Yg83', // machine-generated random UUID
-              '@type': 'rm:EntConstrCondition',
+              '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Massager',
               forProperty: 'hs:CommentsCount',
               hasUpperOutlier: '?eIri1',
@@ -341,19 +352,19 @@ export const remoteBoxPlotViewDescrs = [
           },
           {
             '@id': 'mktp:_dfd8SDfg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
           },
           {
             '@id': 'mktp:_Jhd8fg', // machine-generated random UUID
-            '@type': 'rm:EntConstr',
+            '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
           },
         ],
         orderBy: [{ expression: variable('begin0'), descending: false }],
       },
     ],
-  },
+  },*/
 ];
 
 /**
@@ -367,7 +378,7 @@ export const additionalBoxplotColls: CollState[] = [
     opt: {
       updPeriod: undefined,
       lastSynced: moment.now(),
-      resolveCollConstrs: false, // disable data loading from the server for viewKinds.collConstrs
+      //resolveCollConstrs: false, // disable data loading from the server for viewKinds.collConstrs
     },
   },
   // ViewDescrs Collection
