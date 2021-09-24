@@ -25,7 +25,7 @@ import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/st
 import { boxPlotBucketShape, observationShape } from '../src/store/shapes';
 
 export default {
-  title: 'GroupedBoxPlot',
+  title: '1 Control/GroupedBoxPlot',
   component: Form,
 } as Meta;
 

@@ -24,7 +24,7 @@ import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/st
 import { additionalColls, timeSeriesViewDescrs } from '../src/store/RemoteData';
 
 export default {
-  title: 'RemoteDataRenderer',
+  title: '1 Control/RemoteDataRenderer',
   component: Form,
 } as Meta;
 

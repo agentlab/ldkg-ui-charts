@@ -24,7 +24,7 @@ import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/st
 import { additionalBoxplotColls, remoteBoxPlotViewDescrs } from '../src/store/RemoteBoxPlot';
 
 export default {
-  title: 'RemoteBoxPlot',
+  title: '1 Control/RemoteBoxPlot',
   component: Form,
 } as Meta;
 

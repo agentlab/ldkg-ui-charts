@@ -25,7 +25,7 @@ import { additionalColls, denormalizedObservationsViewDescrs } from '../src/stor
 import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/store/MstViewElements';
 
 export default {
-  title: 'DenormalizedObservations',
+  title: '1 Control/DenormalizedObservations',
   component: Form,
 } as Meta;
 

@@ -7,13 +7,12 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
+import { Meta, Story } from '@storybook/react';
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-
 import { RadarChart } from '../src/charts/RadarChart';
 
 export default {
-  title: 'RadarChart',
+  title: '1 Control/RadarChart',
   component: RadarChart,
   argTypes: {
     backgroundColor: { control: 'color' },
