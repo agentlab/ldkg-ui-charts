@@ -8,7 +8,6 @@
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
 import {
-  antdCells,
   antdControlRenderers,
   antdDataControlRenderers,
   antdLayoutRenderers,
@@ -39,6 +38,16 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
+  parameters: {
+    backgrounds: {
+      default: 'grey',
+      values: [
+        { name: 'black', value: 'rgba(0, 0, 0, 1)' },
+        { name: 'grey', value: 'rgba(230, 235, 242, 0.5)' },
+        { name: 'white', value: 'rgba(255,255,255, 1)' },
+      ],
+    },
+  },
 } as Meta;
 
 export const Full: Story<{}> = () => {
@@ -60,17 +69,8 @@ export const Full: Story<{}> = () => {
   connectReduxDevtools(require('remotedev'), rootStore);
   return (
     <Provider store={store}>
-      <MstContextProvider store={rootStore} renderers={antdRenderers} cells={antdCells}>
-        <div
-          style={{
-            //height: '1000px',
-            width: '100%',
-            backgroundColor: 'rgba(230, 235, 242, 0.5)',
-            margin: '0 auto',
-            padding: '5px',
-          }}>
-          <Form viewDescrId={viewDescrs[0]['@id']} viewDescrCollId={viewDescrCollConstr['@id']} />
-        </div>
+      <MstContextProvider store={rootStore} renderers={antdRenderers} cells={cells}>
+        <Form viewDescrId={viewDescrs[0]['@id']} viewDescrCollId={viewDescrCollConstr['@id']} />
       </MstContextProvider>
     </Provider>
   );
