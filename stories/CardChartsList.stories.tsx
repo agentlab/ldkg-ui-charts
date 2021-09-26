@@ -21,13 +21,17 @@ import {
   viewDescrCollConstr,
   viewKindCollConstr,
 } from '@agentlab/ldkg-ui-react';
-import { CollState, JSONSchema6forRdf, rootModelInitialState, SparqlClientImpl } from '@agentlab/sparql-jsld-client';
+import { CollState, rootModelInitialState, SparqlClientImpl } from '@agentlab/sparql-jsld-client';
 import { variable } from '@rdfjs/data-model';
 import { Meta, Story } from '@storybook/react';
 import moment from 'moment';
 import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
 import React from 'react';
 import { Provider } from 'react-redux';
+import {
+  HSObservationShapeSchemaForCardsListShape,
+  productCardShapeSchemaForCardsListShape,
+} from '../src/store/shapes';
 
 export default {
   title: '2 Complex Controls/CardCharts List',
@@ -72,297 +76,6 @@ export const Full: Story<{}> = () => {
   );
 };
 
-const ProductCardShapeSchemaForCardsList: JSONSchema6forRdf = {
-  $schema: 'http://json-schema.org/draft-07/schema#',
-  '@id': 'hs:ProductCardShapeForCardsList',
-  '@type': 'sh:NodeShape',
-  title: 'Карточка товара',
-  description: '',
-  targetClass: 'hs:ProductCard',
-  type: 'object',
-  '@context': {
-    '@type': 'rdf:type',
-    hasObservations: {
-      '@reverse': 'hs:product',
-    },
-    identifier: {
-      '@id': 'hs:identifier',
-      '@type': '@id',
-    },
-    name: {
-      '@id': 'hs:name',
-      '@type': 'xsd:string',
-    },
-    brand: {
-      '@id': 'hs:brand',
-      '@type': '@id',
-    },
-    country: {
-      '@id': 'hs:country',
-      '@type': 'xsd:string',
-    },
-    price: {
-      '@id': 'hs:price',
-      '@type': 'xsd:int',
-    },
-    saleValue: {
-      '@id': 'hs:saleValue',
-      '@type': 'xsd:int',
-    },
-    seller: {
-      '@id': 'hs:seller',
-      '@type': '',
-    },
-    //imageUrl: {
-    //  '@id': 'hs:imageUrl',
-    //  '@type': '',
-    //},
-    //
-    categoryPopularity: {
-      '@id': 'hs:categoryPopularity',
-      '@type': 'xsd:double',
-    },
-    questionsCount: {
-      '@id': 'hs:questionsCount',
-      '@type': 'xsd:int',
-    },
-    commentsCount: {
-      '@id': 'hs:commentsCount',
-      '@type': 'xsd:int',
-    },
-    photosCount: {
-      '@id': 'hs:photosCount',
-      '@type': 'xsd:int',
-    },
-    starsValue: {
-      '@id': 'hs:starsValue',
-      '@type': 'xsd:int',
-    },
-    //
-    lastMonthSalesAmount: {
-      '@id': 'hs:lastMonthSalesAmount',
-      '@type': 'xsd:int',
-    },
-    lastMonthSalesValue: {
-      '@id': 'hs:lastMonthSalesValue',
-      '@type': 'xsd:int',
-    },
-    perMonthSalesAmount: {
-      '@id': 'hs:perMonthSalesAmount',
-      '@type': 'xsd:int',
-    },
-    perMonthSalesValue: {
-      '@id': 'hs:perMonthSalesValue',
-      '@type': 'xsd:int',
-    },
-    prevMonthSalesAmount: {
-      '@id': 'hs:prevMonthSalesAmount',
-      '@type': 'xsd:int',
-    },
-    prevMonthSalesValue: {
-      '@id': 'hs:prevMonthSalesValue',
-      '@type': 'xsd:int',
-    },
-    //
-    salesAmountDiff: {
-      '@id': 'hs:salesAmountDiff',
-      '@type': 'xsd:int',
-    },
-    totalSales: {
-      '@id': 'hs:totalSales',
-      '@type': 'xsd:int',
-    },
-    totalSalesDiff: {
-      '@id': 'hs:totalSalesDiff',
-      '@type': 'xsd:int',
-    },
-    //
-    stocks: {
-      '@id': 'hs:stocks',
-      '@type': 'xsd:int',
-    },
-    stocksDiffOrders: {
-      '@id': 'hs:stocksDiffOrders',
-      '@type': 'xsd:int',
-    },
-    stocksDiffReturns: {
-      '@id': 'hs:stocksDiffReturns',
-      '@type': 'xsd:int',
-    },
-  },
-  properties: {
-    '@id': {
-      title: 'URI',
-      type: 'string',
-      format: 'iri',
-    },
-    '@type': {
-      title: 'Тип',
-      type: 'string',
-      format: 'iri',
-    },
-    hasObservations: {
-      type: 'array',
-      items: {
-        type: 'object',
-      },
-    },
-    identifier: {
-      title: 'ИД HunterSales',
-      type: 'string',
-      format: 'iri',
-    },
-    name: {
-      title: 'Название',
-      type: 'string',
-    },
-    brand: {
-      title: 'Бренд',
-      type: 'string',
-      format: 'iri',
-    },
-    country: {
-      title: 'Страна',
-      type: 'string',
-    },
-    price: {
-      title: 'Цена',
-      type: 'integer',
-    },
-    saleValue: {
-      title: 'Размер скидки',
-      type: 'integer',
-    },
-    seller: {
-      title: 'Продавец',
-      type: 'string',
-      format: 'iri',
-    },
-    //imageUrl: {
-    //  title: 'Изображение товара',
-    //  type: 'array',
-    //  items: {
-    //    type: 'string',
-    //    format: 'iri',
-    //  },
-    //},
-    //
-    categoryPopularity: {
-      title: 'Популярность категории',
-      type: 'number',
-    },
-    questionsCount: {
-      title: 'Кол-во вопросов',
-      type: 'integer',
-    },
-    commentsCount: {
-      title: 'Кол-во комментариев',
-      type: 'integer',
-    },
-    photosCount: {
-      title: 'Кол-во фото',
-      type: 'integer',
-    },
-    starsValue: {
-      title: 'Кол-во звезд',
-      type: 'integer',
-    },
-    //
-    lastMonthSalesAmount: {
-      title: 'Продажи за последний месяц',
-      type: 'integer',
-    },
-    lastMonthSalesValue: {
-      title: 'Выручка за последний месяц',
-      type: 'integer',
-    },
-    perMonthSalesAmount: {
-      title: 'Средние продажи за месяц',
-      type: 'integer',
-    },
-    perMonthSalesValue: {
-      title: 'Средняя выручка за месяц',
-      type: 'integer',
-    },
-    prevMonthSalesAmount: {
-      title: 'Средние продажи за прошлый месяц',
-      type: 'integer',
-    },
-    prevMonthSalesValue: {
-      title: 'Средняя выручка за прошлый месяц',
-      type: 'integer',
-    },
-    //
-    salesAmountDiff: {
-      title: 'Изменение объема продаж',
-      type: 'integer',
-    },
-    totalSales: {
-      title: 'Купили более * раз',
-      type: 'integer',
-    },
-    totalSalesDiff: {
-      title: 'Купили более * раз (изменение)',
-      type: 'integer',
-    },
-    //
-    stocks: {
-      title: 'Остатки в шт',
-      type: 'integer',
-    },
-    stocksDiffOrders: {
-      title: 'Поступления-Возвраты в шт (изменение)',
-      type: 'integer',
-    },
-    stocksDiffReturns: {
-      title: 'Заказы в шт (изменение)',
-      type: 'integer',
-    },
-  },
-  required: ['@id', '@type', 'name', 'lastMonthSalesValue', 'hasObservations'],
-};
-
-const HSObservationShapeSchemaForCardsList: JSONSchema6forRdf = {
-  $schema: 'http://json-schema.org/draft-07/schema#',
-  '@id': 'hs:HSObservationShapeForCardsList',
-  '@type': 'sh:NodeShape',
-  title: '',
-  description: '',
-  targetClass: 'hs:HSObservation',
-  type: 'object',
-  '@context': {
-    '@type': 'rdf:type',
-    parsedAt: {
-      '@id': 'hs:parsedAt',
-      '@type': 'xsd:dateTime',
-    },
-    price: {
-      '@id': 'hs:price',
-      '@type': 'xsd:int',
-    },
-  },
-  properties: {
-    '@id': {
-      title: 'URI',
-      type: 'string',
-      format: 'iri',
-    },
-    '@type': {
-      title: 'Тип',
-      type: 'string',
-      format: 'iri',
-    },
-    parsedAt: {
-      type: 'string',
-      format: 'date-time',
-    },
-    price: {
-      type: 'integer',
-    },
-  },
-  required: ['@id', '@type', 'parsedAt', 'price'],
-};
-
 const viewKinds = [
   {
     '@id': 'mktp:CardCellGridViewKind',
@@ -376,7 +89,7 @@ const viewKinds = [
             '@id': 'mktp:ViewKind_Cards_Coll_Ent0',
             '@type': 'aldkg:EntConstr',
             //TODO: schema: 'hs:ProductCardCardsListShape',
-            schema: ProductCardShapeSchemaForCardsList,
+            schema: productCardShapeSchemaForCardsListShape,
             conditions: {
               hasObservations: '?eIri1',
             },
@@ -387,7 +100,7 @@ const viewKinds = [
             '@id': 'mktp:ViewKind_Cards_Coll_Ent1',
             '@type': 'aldkg:EntConstr',
             //TODO: schema: 'hs:HSObservationCardsListShape',
-            schema: HSObservationShapeSchemaForCardsList,
+            schema: HSObservationShapeSchemaForCardsListShape,
             conditions: {
               parsedAt: {
                 relation: 'after',
