@@ -105,17 +105,32 @@ export function configureYAxes(yScales: any): Record<string, Axis> {
   );
 }
 
-function minMax(data: any[]) {
+function minMax(data: number[]) {
   return data.reduce(
     (accumulator, currentValue) => [Math.min(currentValue, accumulator[0]), Math.max(currentValue, accumulator[1])],
     [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
   );
 }
 
-function calculateAxisTicks(data: any[], region: [number, number]) {
+function getMinDelta(num: number) {
+  const minDigit =
+    Math.floor(num) === num
+      ? num.toString().replace(/.*(?=[1-9]0*$)/, '')
+      : num.toString().replace(/\d(?=.*[1-9]$)/g, '0');
+  return +minDigit.replace(/[1-9]/, '1');
+}
+
+function calculateAxisTicks(data: number[], region: [number, number]) {
   const [start, end] = region;
   const flattenData = data.flat();
-  const [min, max] = minMax(flattenData);
+  let [min, max] = minMax(flattenData);
+
+  if (min === max) {
+    const minDelta = getMinDelta(max);
+    min -= minDelta;
+    max += minDelta;
+  }
+
   const [tickSpacing, tickMin, tickMax] = calculateTicks(5, min, max);
   const minTick = tickMin - ((tickMax - tickMin) * start) / (end - start);
   const maxTick = tickMax + ((tickMax - tickMin) * (1 - end)) / (end - start);
