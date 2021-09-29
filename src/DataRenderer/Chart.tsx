@@ -8,21 +8,23 @@
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import DateRangePickerMenu from '../DateRangePickerMenu';
 import Legend from '../legend/Legend';
-import useG2Chart from './hooks/useG2Chart';
 
 const Chart = ({ children, ...rest }: any) => {
   const { options } = rest;
-  const [chart, chartCallbackRef] = useG2Chart();
+  const [chart, setChart] = useState();
+  const onChartReady = useCallback((chart) => {
+    setChart(chart);
+  }, []);
   return (
     <>
       <DateRangePickerMenu plot={chart} options={{ timeUnit: 'day' }} />
       {React.Children.map(children, (child: any) => (
         <>
           {React.cloneElement(child, {
-            ref: chartCallbackRef,
+            onChartReady,
             ...(options.legend && {
               options: {
                 ...child.props.options,

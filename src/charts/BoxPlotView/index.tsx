@@ -1,12 +1,10 @@
 import { Box } from '@ant-design/charts';
 import moment from 'moment';
-import React, { forwardRef, useEffect, useState } from 'react';
+import React from 'react';
 
-const BoxPlotView = forwardRef(({ views = {}, options = {}, title }: any, ref: any) => {
+const BoxPlotView = ({ views = {}, options = {}, title, onChartReady }: any) => {
   const view = Array.isArray(views) ? views[0] : views;
-  const [config, setConfig] = useState<any>({
-    data: [],
-  });
+
   const createOutliers = (data: any) => {
     const newOutliers: any = [];
     if (data.hasUpperOutlier) {
@@ -21,45 +19,44 @@ const BoxPlotView = forwardRef(({ views = {}, options = {}, title }: any, ref: a
     }
     return newOutliers;
   };
-  useEffect(() => {
-    const data = view.data.map((e: any, idx: number) => {
-      const medianDate = moment((Number(moment(e.end).format('x')) + Number(moment(e.begin).format('x'))) / 2);
-      return {
-        x: medianDate.format(options.dateFormat),
-        ...(options.showOutliers && { outliers: createOutliers(e) }),
-        ...e,
-      };
-    });
-    const newConfig = {
-      width: 400,
-      height: 500,
-      data: data,
-      ...view.geometries[0],
-      ...view.options,
-      xField: 'x',
-      outliersField: 'outliers',
-      outliersStyle: { fill: '#f6f' },
-      boxStyle: options.groupField
-        ? {}
-        : {
-            stroke: '#545454',
-            fill: '#1890FF',
-            fillOpacity: 0.3,
-          },
-      meta: view.meta,
-      animation: false,
-      tooltip: {
-        showCrosshairs: false,
-      },
+
+  const data = view.data.map((e: any, idx: number) => {
+    const medianDate = moment((Number(moment(e.end).format('x')) + Number(moment(e.begin).format('x'))) / 2);
+    return {
+      x: medianDate.format(options.dateFormat),
+      ...(options.showOutliers && { outliers: createOutliers(e) }),
+      ...e,
     };
-    setConfig(newConfig);
-  }, [view.data, options, views, title, view.geometries, view.meta, view.options]);
+  });
+  const newConfig = {
+    width: 400,
+    height: 500,
+    data: data,
+    ...view.geometries[0],
+    ...view.options,
+    xField: 'x',
+    outliersField: 'outliers',
+    outliersStyle: { fill: '#f6f' },
+    boxStyle: options.groupField
+      ? {}
+      : {
+          stroke: '#545454',
+          fill: '#1890FF',
+          fillOpacity: 0.3,
+        },
+    meta: view.meta,
+    animation: false,
+    tooltip: {
+      showCrosshairs: false,
+    },
+  };
+
   return (
     <React.Fragment>
       <span style={{ fontSize: '2em' }}>{title}</span>
-      <Box ref={ref} {...config} />
+      <Box {...newConfig} onReady={onChartReady} />
     </React.Fragment>
   );
-});
+};
 
 export default BoxPlotView;
