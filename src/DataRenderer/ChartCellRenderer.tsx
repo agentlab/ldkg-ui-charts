@@ -48,11 +48,15 @@ export const ChartCellRenderer = observer<RenderCellProps>((props): JSX.Element 
   const dataViewComponent = createComponent(viewKindElement['@type']);
   const Component = React.memo(dataViewComponent);
 
+  const { height }: any = chartConfig.options;
+
   return (
-    <React.Suspense fallback={<Spin />}>
-      <Chart {...chartConfig}>
-        <Component options={chartConfig.options} config={chartConfig.config} />
-      </Chart>
-    </React.Suspense>
+    <div style={{ height, minHeight: 32, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <React.Suspense fallback={<Spin />}>
+        <Chart {...chartConfig}>
+          <Component options={chartConfig.options} config={chartConfig.config} />
+        </Chart>
+      </React.Suspense>
+    </div>
   );
 });
