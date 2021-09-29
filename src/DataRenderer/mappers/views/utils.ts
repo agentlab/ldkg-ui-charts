@@ -7,9 +7,9 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import { IEntConstr } from '@agentlab/sparql-jsld-client';
+import { IEntConstrJsOpt } from '@agentlab/sparql-jsld-client';
 import { Geometry } from '@antv/g2plot/lib/adaptor/geometries/base';
-import { IView } from '@antv/g2plot/lib/plots/multi-view/types';
+import { IView } from '@antv/g2plot/lib/plots/mix/types';
 import { Meta } from '@antv/g2plot/lib/types';
 import { JSONSchema6 } from 'json-schema';
 import { merge } from 'lodash-es';
@@ -30,14 +30,17 @@ function getSchemaPropertiesMeta(schema: { properties: Map<string, JSONSchema6> 
     .reduce((acc, meta) => ({ ...acc, ...meta }), {});
 }
 
-function getPropertyValuesFromConstraint(constraint: IEntConstr, schema: { properties: Map<string, JSONSchema6> }) {
+function getPropertyValuesFromConstraint(
+  constraint: IEntConstrJsOpt,
+  schema: { properties: Map<string, JSONSchema6> },
+) {
   const { conditions }: Record<string, any> = constraint;
   return Array.from(schema.properties.keys())
     .filter((key) => !key.startsWith('@'))
     .reduce((acc, key) => ({ ...acc, [key]: conditions.get(key) }), {});
 }
 
-export function createMeta(constraint: IEntConstr, schema?: { properties: Map<string, JSONSchema6> }): any {
+export function createMeta(constraint: IEntConstrJsOpt, schema?: { properties: Map<string, JSONSchema6> }): any {
   return schema
     ? { meta: getSchemaPropertiesMeta(schema), ...getPropertyValuesFromConstraint(constraint, schema) }
     : {
