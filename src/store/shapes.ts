@@ -500,6 +500,7 @@ export const HSObservationShapeSchemaForCardsListShape = {
       format: 'date-time',
     },
     price: {
+      title: 'Цена',
       type: 'integer',
     },
   },

@@ -23,9 +23,13 @@ const dataFormatMetas: Record<string, Meta> = {
 function getSchemaPropertiesMeta(schema: { properties: Map<string, JSONSchema6> }) {
   return Array.from(schema.properties)
     .map(([key, value]) => {
-      const { format = '' } = value;
-      const formatMeta = dataFormatMetas[format];
-      return formatMeta ? { [key]: formatMeta } : {};
+      const { format, title } = value;
+      return {
+        [key]: {
+          ...(format && dataFormatMetas[format]),
+          ...(title && { alias: title }),
+        },
+      };
     })
     .reduce((acc, meta) => ({ ...acc, ...meta }), {});
 }

@@ -9,7 +9,7 @@
  ********************************************************************************/
 import { Meta } from '@antv/g2plot';
 import { Axis } from '@antv/g2plot/lib/types/axis';
-import { intersection, partition, pick, range, remove, values } from 'lodash-es';
+import { capitalize, intersection, partition, pick, range, remove, values } from 'lodash-es';
 import moment, { unitOfTime } from 'moment';
 
 export function getXYScales(scales: Record<string, Meta>) {
@@ -83,7 +83,7 @@ function makeYAxisConfiguration(yAxis: any, yScales: Record<string, Meta>, data:
       return groupAxes.reduce(
         (acc: any, axis: any) => ({
           ...acc,
-          [axis]: range,
+          [axis]: { ...yScales[axis], ...range },
         }),
         {},
       );
@@ -94,12 +94,12 @@ function makeYAxisConfiguration(yAxis: any, yScales: Record<string, Meta>, data:
     }));
 }
 
-export function configureYAxes(yScales: any): Record<string, Axis> {
+export function configureYAxes(yScales: Record<string, Meta>): Record<string, Axis> {
   const yScaleNames = Object.keys(yScales);
   return yScaleNames.reduce(
     (acc: any, scaleName: string) => ({
       ...acc,
-      [scaleName]: { title: { text: scaleName.charAt(0).toUpperCase() + scaleName.slice(1) } },
+      [scaleName]: { title: { text: capitalize(yScales[scaleName].alias || scaleName) } },
     }),
     {},
   );

@@ -8,6 +8,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
 import {
+  antdCells,
   antdControlRenderers,
   antdDataControlRenderers,
   antdLayoutRenderers,
@@ -27,6 +28,7 @@ import moment from 'moment';
 import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
 import React from 'react';
 import { Provider } from 'react-redux';
+import { cellRenderers, MstTimeSeriesChartVKElement } from '../src';
 import {
   HSObservationShapeSchemaForCardsListShape,
   productCardShapeSchemaForCardsListShape,
@@ -57,7 +59,7 @@ export const Full: Story<{}> = () => {
     ...antdDataControlRenderers,
   ];
   registerMstViewKindSchema(MstVerticalLayout);
-
+  registerMstViewKindSchema(MstTimeSeriesChartVKElement);
   const client = new SparqlClientImpl(
     'https://rdf4j.agentlab.ru/rdf4j-server',
     'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp/namespaces',
@@ -67,6 +69,7 @@ export const Full: Story<{}> = () => {
   const store: any = asReduxStore(rootStore);
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   connectReduxDevtools(require('remotedev'), rootStore);
+  const cells = [...antdCells, ...cellRenderers];
   return (
     <Provider store={store}>
       <MstContextProvider store={rootStore} renderers={antdRenderers} cells={cells}>
@@ -142,11 +145,11 @@ const viewKinds = [
                   '@id': 'mktp:_94hfT67',
                   '@type': 'aldkg:CardLayout',
                   elements: [
-                    {
-                      '@id': 'mktp:_kje733js',
-                      '@type': 'aldkg:ImageCell',
-                      scope: 'imageUrl',
-                    },
+                    // {
+                    //   '@id': 'mktp:_kje733js',
+                    //   '@type': 'aldkg:ImageCell',
+                    //   scope: 'imageUrl',
+                    // },
                     {
                       '@id': 'mktp:_jw563df',
                       '@type': 'aldkg:Control',
@@ -248,8 +251,49 @@ const viewKinds = [
                       },
                     },
                     {
-                      '@id': 'mktp:_385hgf67',
-                      '@type': 'aldkg:G2',
+                      '@id': 'mktp:TreeTableChartVKElement',
+                      '@type': 'aldkg:TimeSeriesChart', // control type
+                      scope: 'hasObservations',
+                      mappings: {
+                        'aldkg:TimeSeriesPlot': {
+                          '@id': 'mktp:Mapping_1',
+                          '@type': 'aldkg:TimeSeries',
+                          type: {
+                            type: 'pointer',
+                            value: '/type',
+                          },
+                          yField: 'price',
+                          xField: 'parsedAt',
+                          dataMappings: [],
+                        },
+                      },
+                      // child ui elements configs
+                      options: {
+                        showDatePicker: false,
+                        dateFormat: 'DD.MM.YYYY',
+                        timeUnit: 'day',
+                        height: 200,
+                      },
+                      elements: [
+                        {
+                          '@id': 'mktp:TimeSeries_1',
+                          '@type': 'aldkg:TimeSeriesPlot',
+                          options: {
+                            legend: false,
+                            tooltip: {
+                              showCrosshairs: false,
+                              showMarkers: true,
+                            },
+                          },
+                          elements: [
+                            {
+                              '@id': 'mktp:line_1', // machine-generated random UUID
+                              '@type': 'aldkg:ChartLine', // TODO: +'Bar'/'Pie' (auxillary bars, auxillary lines)
+                              resultsScope: 'mktp:ViewKind_Cards_Coll', // reference to data
+                            },
+                          ],
+                        },
+                      ],
                     },
                     {
                       '@id': 'mktp:_jfg789df',
