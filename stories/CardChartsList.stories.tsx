@@ -273,6 +273,7 @@ const viewKinds = [
                         dateFormat: 'DD.MM.YYYY',
                         timeUnit: 'day',
                         height: 200,
+                        yAxes: false,
                       },
                       elements: [
                         {
