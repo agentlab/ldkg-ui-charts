@@ -20,7 +20,7 @@ const Chart = ({ children, ...rest }: any) => {
   }, []);
   return (
     <>
-      <DateRangePickerMenu plot={chart} options={{ timeUnit: 'day' }} />
+      {options.showDatePicker && <DateRangePickerMenu plot={chart} options={{ timeUnit: 'day' }} />}
       {React.Children.map(children, (child: any) => (
         <>
           {React.cloneElement(child, {
