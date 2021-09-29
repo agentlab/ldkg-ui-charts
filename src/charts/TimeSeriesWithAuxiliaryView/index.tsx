@@ -52,6 +52,8 @@ const TimeSeriesWithAuxiliaryView = ({ config = {}, options = {}, onChartReady }
   const chartConfig: any = {
     options: chartOptions,
     appendPadding: 10,
+    ...(options.height && { height: options.height }),
+    ...(options.weight && { weight: options.weight }),
     views: updateViews,
     syncViewPadding: true,
     tooltip: false,
