@@ -9,7 +9,7 @@
  ********************************************************************************/
 import { Meta } from '@antv/g2plot';
 import { Axis } from '@antv/g2plot/lib/types/axis';
-import { intersection, partition, pick, range, remove, values } from 'lodash-es';
+import { capitalize, intersection, partition, pick, range, remove, values } from 'lodash-es';
 import moment, { unitOfTime } from 'moment';
 
 export function getXYScales(scales: Record<string, Meta>) {
@@ -83,7 +83,7 @@ function makeYAxisConfiguration(yAxis: any, yScales: Record<string, Meta>, data:
       return groupAxes.reduce(
         (acc: any, axis: any) => ({
           ...acc,
-          [axis]: range,
+          [axis]: { ...yScales[axis], ...range },
         }),
         {},
       );
@@ -94,28 +94,43 @@ function makeYAxisConfiguration(yAxis: any, yScales: Record<string, Meta>, data:
     }));
 }
 
-export function configureYAxes(yScales: any): Record<string, Axis> {
+export function configureYAxes(yScales: Record<string, Meta>): Record<string, Axis> {
   const yScaleNames = Object.keys(yScales);
   return yScaleNames.reduce(
     (acc: any, scaleName: string) => ({
       ...acc,
-      [scaleName]: { title: { text: scaleName.charAt(0).toUpperCase() + scaleName.slice(1) } },
+      [scaleName]: { title: { text: capitalize(yScales[scaleName].alias || scaleName) } },
     }),
     {},
   );
 }
 
-function minMax(data: any[]) {
+function minMax(data: number[]) {
   return data.reduce(
     (accumulator, currentValue) => [Math.min(currentValue, accumulator[0]), Math.max(currentValue, accumulator[1])],
     [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
   );
 }
 
-function calculateAxisTicks(data: any[], region: [number, number]) {
+function getMinDelta(num: number) {
+  const minDigit =
+    Math.floor(num) === num
+      ? num.toString().replace(/.*(?=[1-9]0*$)/, '')
+      : num.toString().replace(/\d(?=.*[1-9]$)/g, '0');
+  return +minDigit.replace(/[1-9]/, '1');
+}
+
+function calculateAxisTicks(data: number[], region: [number, number]) {
   const [start, end] = region;
   const flattenData = data.flat();
-  const [min, max] = minMax(flattenData);
+  let [min, max] = minMax(flattenData);
+
+  if (min === max) {
+    const minDelta = getMinDelta(max);
+    min -= minDelta;
+    max += minDelta;
+  }
+
   const [tickSpacing, tickMin, tickMax] = calculateTicks(5, min, max);
   const minTick = tickMin - ((tickMax - tickMin) * start) / (end - start);
   const maxTick = tickMax + ((tickMax - tickMin) * (1 - end)) / (end - start);

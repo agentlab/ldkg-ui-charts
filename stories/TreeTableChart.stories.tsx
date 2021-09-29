@@ -39,7 +39,7 @@ const buildCustomTooltip = (property: string) => (title: any, items: any) => {
 };
 
 export default {
-  title: 'Tree-Table-Chart',
+  title: '2 Complex Controls/Tree-Table-Chart',
   component: Form,
 } as Meta;
 
@@ -72,11 +72,13 @@ const Template: Story = ({ additionalColls, viewDescrId, viewDescrCollId }: any)
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   connectReduxDevtools(require('remotedev'), rootStore);
   return (
-    <Provider store={store}>
-      <MstContextProvider store={rootStore} renderers={renderers} cells={antdCells}>
-        <Form viewDescrId={viewDescrId} viewDescrCollId={viewDescrCollId} />
-      </MstContextProvider>
-    </Provider>
+    <div style={{ height: 'calc(100vh - 32px)' }}>
+      <Provider store={store}>
+        <MstContextProvider store={rootStore} renderers={renderers} cells={antdCells}>
+          <Form viewDescrId={viewDescrId} viewDescrCollId={viewDescrCollId} />
+        </MstContextProvider>
+      </Provider>
+    </div>
   );
 };
 
@@ -127,12 +129,16 @@ const viewKindsCats = [
             '@id': 'mktp:_934Jfg7',
             '@type': 'aldkg:SplitPaneLayout',
             options: {
+              style: {
+                width: '100%',
+                height: '50%',
+              },
+              height: 'all-empty-space',
+              width: 'all-empty-space',
               defaultSize: {
                 'mktp:MarketplacesTabs': '17%',
                 'mktp:CategoryCardsTable': '83%',
               },
-              //height: 500,
-              //width: 'all-empty-space',
             },
             elements: [
               {
@@ -828,12 +834,16 @@ const viewKindsProds = [
             '@id': 'mktp:_934Jfg7',
             '@type': 'aldkg:SplitPaneLayout',
             options: {
+              style: {
+                width: '100%',
+                height: '50%',
+              },
+              height: 'all-empty-space',
+              width: 'all-empty-space',
               defaultSize: {
                 'mktp:ProductTree': '17%',
                 'mktp:ProductCardsTable': '83%',
               },
-              //height: 500,
-              //width: 'all-empty-space',
             },
             elements: [
               {

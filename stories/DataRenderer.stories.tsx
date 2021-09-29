@@ -25,7 +25,7 @@ import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/st
 import { boxPlotBucketShape, observationShape } from '../src/store/shapes';
 
 export default {
-  title: 'DataRenderer',
+  title: '1 Control/DataRenderer',
   component: Form,
 } as Meta;
 

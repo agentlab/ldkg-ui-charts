@@ -7,13 +7,12 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
+import { Meta, Story } from '@storybook/react';
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-
 import { GaugeChart } from '../src/charts/GaugeChart';
 
 export default {
-  title: 'GaugeChart',
+  title: '1 Control/GaugeChart',
   component: GaugeChart,
   argTypes: {
     backgroundColor: { control: 'color' },

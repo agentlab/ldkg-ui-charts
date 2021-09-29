@@ -14,7 +14,7 @@ import { MultiViewDodgeDemo } from '../src/charts/MultiViewDodgeDemo';
 import { PieTooltipDemo } from '../src/charts/PieTooltipDemo';
 
 export default {
-  title: 'ChartDemo',
+  title: '1 Control/ChartDemo',
 } as Meta;
 
 export const PieTooltip = (): ReactNode => <PieTooltipDemo />;
