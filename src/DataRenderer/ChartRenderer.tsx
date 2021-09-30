@@ -38,6 +38,13 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
   const [viewConfig, setViewConfig] = useState<any | undefined>();
   const [isDataReady, setIsDataReady] = useState<boolean>(false);
 
+  const resultsScope = viewDescrElement?.resultsScope;
+  let lastSynced;
+  if (resultsScope) {
+    const coll = store.getColl(resultsScope);
+    lastSynced = coll?.lastSynced;
+  }
+
   //TODO: It should be refactored to support lazy loading and should pick up data change with a help of observer HOC
   // today data change is lost into the deeper data map functions
   useEffect(() => {
@@ -72,7 +79,7 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
     } else {
       console.log('ChartRenderer - data != OK');
     }
-  }, [isDataReady, store, viewDescrElement, viewKindElement]);
+  }, [isDataReady, store, viewDescrElement, viewKindElement, lastSynced]);
 
   // Data & Mapping
   useEffect(() => {

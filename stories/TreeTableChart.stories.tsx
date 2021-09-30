@@ -443,6 +443,7 @@ const viewDescrsCats = [
         '@id': 'mktp:_g7H7gh_chart',
         '@type': 'aldkg:Chart',
         '@parent': 'mktp:TreeTableChartVKElement',
+        resultsScope: 'mktp:_8uJ8t6',
         title: 'Показатели продукта',
         options: {
           timeUnit: 'day',
