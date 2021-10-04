@@ -36,13 +36,15 @@ const Legend = ({ plot }: any): any => {
 
       if (legend) {
         const chartViews = [...plot.chart.views, plot.chart];
-        const chartYFields = chartViews
+        const chartYScales = chartViews
           .map((v: G2.View) => v.getYScales())
           .flat()
-          .map((scale) => scale.field)
-          .filter((field) => field) as string[];
-        const itemData = chartYFields
-          .map((field) => ({ [field]: {} }))
+          .filter((scale) => scale.field);
+
+        const chartYFields = chartYScales.map((scale) => scale.field);
+
+        const itemData = chartYScales
+          .map((scale) => ({ [scale.field || 'undefined']: { ...(scale.alias && { alias: scale.alias }) } }))
           .reduce((acc, field): any => ({ ...acc, ...field }), {});
 
         const legendItems = Object.entries(legend.items || {}).map(([itemKey, item]: [string, any]) => ({

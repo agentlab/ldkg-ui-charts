@@ -57,10 +57,11 @@ const withData =
       return mapValues(prev, (data: any, key: any) =>
         next[key]
           ? {
+              ...prev[key],
               values: next[key].values,
               current: data?.current ?? next[key]?.current,
             }
-          : { values: [], current: null },
+          : { ...prev[key], values: [], current: null },
       );
     }
 
