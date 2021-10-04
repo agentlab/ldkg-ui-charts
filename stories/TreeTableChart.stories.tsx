@@ -433,6 +433,7 @@ const viewDescrsCats = [
               '@type': 'aldkg:EntConstrCondition',
               product: undefined,
             },
+            service: 'http://192.168.1.33:8090/sparql',
           },
         ],
         orderBy: [{ expression: variable('parsedAt'), descending: false }],
