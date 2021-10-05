@@ -448,7 +448,7 @@ const viewKindsCats = [
                 },
                 yField: 'svdWeekly',
                 xField: 'bucketEnd',
-                colorField: 'scvdDailyHasProduct',
+                colorField: 'svdWeeklyHasProduct',
                 mapping: {
                   type: 'object',
                   properties: {
@@ -458,12 +458,12 @@ const viewKindsCats = [
                         lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
                         stroke: { type: 'pointer', value: '/options/stroke' },
                       },
-                      wrapper: { type: 'pointer', value: '/scvdDailyHasProduct' },
+                      wrapper: { type: 'pointer', value: '/svdWeeklyHasProduct' },
                     },
                     color: {
                       type: 'pointer',
                       value: '/options/color',
-                      wrapper: { type: 'pointer', value: '/scvdDailyHasProduct' },
+                      wrapper: { type: 'pointer', value: '/svdWeeklyHasProduct' },
                     },
                   },
                 },
@@ -478,7 +478,7 @@ const viewKindsCats = [
                 },
                 yField: 'svdMonthly',
                 xField: 'bucketEnd',
-                colorField: 'scvdDailyHasProduct',
+                colorField: 'svdMonthlyHasProduct',
                 mapping: {
                   type: 'object',
                   properties: {
@@ -488,12 +488,12 @@ const viewKindsCats = [
                         lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
                         stroke: { type: 'pointer', value: '/options/stroke' },
                       },
-                      wrapper: { type: 'pointer', value: '/scvdDailyHasProduct' },
+                      wrapper: { type: 'pointer', value: '/svdMonthlyHasProduct' },
                     },
                     color: {
                       type: 'pointer',
                       value: '/options/color',
-                      wrapper: { type: 'pointer', value: '/scvdDailyHasProduct' },
+                      wrapper: { type: 'pointer', value: '/svdMonthlyHasProduct' },
                     },
                   },
                 },
@@ -959,7 +959,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_price_weekly',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_95fFg7',
+                    resultsScope: 'mktp:_aw34F3',
                     options: {
                       color: '#FF99C3',
                       lineWidth: 2,
@@ -993,7 +993,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_price_monthly',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_95fFg7',
+                    resultsScope: 'mktp:_34eF90',
                     options: {
                       color: '#BBDEDE',
                       lineWidth: 2,

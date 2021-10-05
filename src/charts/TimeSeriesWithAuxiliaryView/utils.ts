@@ -45,7 +45,7 @@ function makeXAxisConfiguration(xAxisOptions: any, xScales: any) {
       [scale]: {
         ...xScales[scale],
         mask: dateFormat,
-        sync: true,
+        //sync: true,
       },
     }))
     .reduce((acc: any, scale: any) => ({ ...acc, ...scale }), {});

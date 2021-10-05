@@ -66,6 +66,8 @@ const TimeSeriesWithAuxiliaryView = ({ config = {}, options = {}, onChartReady }
       hasFeatureOfInterest: false,
       product: false,
       scvdDailyHasProduct: false,
+      svdWeeklyHasProduct: false,
+      svdMonthlyHasProduct: false,
     },
   };
 
