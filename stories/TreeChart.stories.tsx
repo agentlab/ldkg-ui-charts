@@ -493,8 +493,9 @@ const viewDescrsCats = [
         title: 'Показатели продукта',
         options: {
           timeUnit: 'day',
+          height: 800,
           dateFormat: 'DD.MM.YYYY',
-          interactions: [{ type: 'sibling-tooltip' }],
+          //interactions: [{ type: 'sibling-tooltip' }],
         },
         elements: [
           {
@@ -517,11 +518,11 @@ const viewDescrsCats = [
                   region: {
                     start: {
                       x: 0,
-                      y: 0.42,
+                      y: 0,
                     },
                     end: {
                       x: 1,
-                      y: 0.6,
+                      y: 0.32,
                     },
                   },
                 },
@@ -551,11 +552,11 @@ const viewDescrsCats = [
                   region: {
                     start: {
                       x: 0,
-                      y: 0.6,
+                      y: 0.34,
                     },
                     end: {
                       x: 1,
-                      y: 0.8,
+                      y: 0.65,
                     },
                   },
                 },
@@ -585,7 +586,7 @@ const viewDescrsCats = [
                   region: {
                     start: {
                       x: 0,
-                      y: 0.8,
+                      y: 0.67,
                     },
                     end: {
                       x: 1,
