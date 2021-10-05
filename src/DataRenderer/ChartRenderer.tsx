@@ -10,7 +10,7 @@
 import { MstContext, mstJsonLdIds, processViewKindOverride, RenderProps } from '@agentlab/ldkg-ui-react';
 import { Spin } from 'antd';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Chart from './Chart';
 import { createComponent } from './mappers/components';
 import { buildViewConfig, ElementDataProvider, MappingsProvider, SchemaProvider } from './utils';
@@ -26,13 +26,18 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
   );
   console.log('ChartRenderer - viewElement', {
     viewKindElement: mstJsonLdIds(viewKindElement),
-    viewDescrElement: mstJsonLdIds(viewDescrElement),
+    viewDescrElement: mstJsonLdIds(viewDescrElement as any),
   });
+
+  let dataIsLoading = false;
   const elementDataProvider: ElementDataProvider = (element) => {
     const resultsScope = element.resultsScope;
-    let dataObs = store.getColl(resultsScope);
-    dataObs = dataObs.dataJs;
-    return dataObs;
+    const dataObs = store.getColl(resultsScope);
+    if (dataObs.isLoading) {
+      dataIsLoading = true;
+      return [];
+    }
+    return dataObs.dataJs;
   };
   const schemaProvider: SchemaProvider = (constraint) =>
     typeof constraint.schema === 'string' ? store.schemas.get(constraint.schema) : constraint.schema;
@@ -41,7 +46,7 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
     (viewKindElement as any).mappings ? (viewKindElement as any).mappings[elementType] : undefined;
 
   const config = buildViewConfig(
-    viewDescrElement,
+    viewDescrElement as any,
     viewDescr,
     viewKind,
     elementDataProvider,
@@ -49,10 +54,35 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
     mappingsProvider,
   );
   console.log('setViewConfig', config);
+  return (
+    <ChartSubRenderer
+      config={config}
+      dataIsLoading={dataIsLoading}
+      viewKindElement={viewKindElement}
+      viewDescrElement={viewDescrElement}
+    />
+  );
+});
 
+const ChartSubRenderer = ({ config, dataIsLoading, viewKindElement, viewDescrElement }: any) => {
+  console.log('ChartSubRenderer');
+  const [delayedConfig, setDelayedConfig] = useState<any>(null);
+  useEffect(() => {
+    if (!dataIsLoading) {
+      console.log('setDelayedConfig');
+      setDelayedConfig(config);
+    }
+  }, [config, dataIsLoading]);
+  return (
+    <ChartSubSubRenderer config={delayedConfig} viewKindElement={viewKindElement} viewDescrElement={viewDescrElement} />
+  );
+};
+
+const ChartSubSubRenderer = React.memo(({ config, viewKindElement, viewDescrElement }: any) => {
+  console.log('ChartSubSubRenderer');
   const dataViewComponent = createComponent(viewKindElement['@type']);
   const View = React.memo(dataViewComponent);
-  const key = viewDescrElement['@id'];
+  const key = viewDescrElement ? viewDescrElement['@id'] : '';
   const options = {
     ...viewDescrElement?.options,
     title: viewDescrElement?.title,

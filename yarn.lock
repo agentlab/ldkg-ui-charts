@@ -56,10 +56,10 @@
     utility-types "^3.10.0"
     uuid62 "^1.0.1"
 
-"@agentlab/sparql-jsld-client@^5.0.0-rc.14":
-  version "5.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@agentlab/sparql-jsld-client/-/sparql-jsld-client-5.0.0-rc.14.tgz#e287e12b5f8d7debdcdcba1ad40c1d2f96eb76a9"
-  integrity sha512-fN2C1ma97bw/8ezFAsCryC7l0ZbmoWsVxiEJDRYrVP9R44x/FTKr5y0wgZedW1xdFxw2epfaRBbxAnJEK2X6zQ==
+"@agentlab/sparql-jsld-client@^5.0.0-rc.15":
+  version "5.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@agentlab/sparql-jsld-client/-/sparql-jsld-client-5.0.0-rc.15.tgz#6e29209b2201b63e11e6a89c5c1d3f764775a13c"
+  integrity sha512-4QWmcVFzshDOnEaYxdxT3PD/wBQG2AV24uIoLV59oc34AGrzpaFDjkpvD3kXc3XYlfbXsJUbYO/6T8HB2+9JHA==
   dependencies:
     "@rdfjs/data-model" "^1.3.3"
     "@types/json-schema" "^7.0.9"
