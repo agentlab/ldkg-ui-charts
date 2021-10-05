@@ -63,6 +63,10 @@ export function buildViewConfig(
                 data = (data as any[]).sort(
                   (a: any, b: any) => new Date(a.parsedAt).valueOf() - new Date(b.parsedAt).valueOf(),
                 );
+              } else if (data[0].bucketEnd) {
+                data = (data as any[]).sort(
+                  (a: any, b: any) => new Date(a.bucketEnd).valueOf() - new Date(b.bucketEnd).valueOf(),
+                );
               }
             }
             console.log('buildView - childElementViews - data', data);
