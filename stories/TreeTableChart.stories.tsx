@@ -186,7 +186,12 @@ const viewKindsCats = [
                 '@type': 'aldkg:Array',
                 resultsScope: 'mktp:ProductCards_in_Category_Coll',
                 options: {
-                  connections: [{ to: 'mktp:_u8Yg83', by: 'product' }],
+                  connections: [
+                    { to: 'mktp:_u8Yg83', by: 'product' },
+                    { to: 'mktp:_sD7fg', by: 'scvdDailyHasProduct' },
+                    { to: 'mktp:_qw89Ds', by: 'svdWeeklyHasProduct' },
+                    { to: 'mktp:_df8D78', by: 'svdMonthlyHasProduct' },
+                  ],
                   draggable: true,
                   resizeableHeader: true,
                   height: 'all-empty-space',
@@ -437,6 +442,63 @@ const viewDescrsCats = [
           },
         ],
         orderBy: [{ expression: variable('parsedAt'), descending: false }],
+      },
+      {
+        '@id': 'mktp:_95fFg7', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:_w89Df', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'hs:HSSvdDailyShape',
+            conditions: {
+              '@id': 'mktp:_sD7fg', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              scvdDailyHasProduct: undefined,
+              // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
+            },
+            service: 'http://192.168.1.33:8090/sparql',
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+      },
+      {
+        '@id': 'mktp:_aw34F3', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:_Dfg87', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'hs:HSSvdWeeklyShape',
+            conditions: {
+              '@id': 'mktp:_qw89Ds', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              svdWeeklyHasProduct: undefined,
+              // we need here chart for property: svdWeekly
+            },
+            service: 'http://192.168.1.33:8090/sparql',
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+      },
+      {
+        '@id': 'mktp:_34eF90', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:_uf364r', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'hs:HSSvdMonthlyShape',
+            conditions: {
+              '@id': 'mktp:_df8D78', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              svdMonthlyHasProduct: undefined,
+              // we need here chart for property: svdMonthly
+            },
+            service: 'http://192.168.1.33:8090/sparql',
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
       },
     ],
     elements: [
