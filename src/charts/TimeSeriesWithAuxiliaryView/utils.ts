@@ -94,12 +94,12 @@ function makeYAxisConfiguration(yAxis: any, yScales: Record<string, Meta>, data:
     }));
 }
 
-export function configureYAxes(yScales: Record<string, Meta>): Record<string, Axis> {
+export function configureYAxes(yScales: Record<string, Meta>, aliases?: Record<string, string>): Record<string, Axis> {
   const yScaleNames = Object.keys(yScales);
   return yScaleNames.reduce(
     (acc: any, scaleName: string) => ({
       ...acc,
-      [scaleName]: { title: { text: capitalize(yScales[scaleName].alias || scaleName) } },
+      [scaleName]: { title: { text: capitalize(aliases?.[scaleName] || yScales[scaleName].alias || scaleName) } },
     }),
     {},
   );

@@ -35,7 +35,7 @@ const TimeSeriesWithAuxiliaryView = ({ config = {}, options = {}, onChartReady }
 
     return {
       ...view,
-      ...(options.yAxes !== false && { axes: configureYAxes(yScales) }),
+      ...(options.yAxes !== false && { axes: configureYAxes(yScales, options.axes?.yAxis?.aliases) }),
       data: viewData,
       ...(options.interactions && { interactions: options.interactions }),
       // TODO: check tooltip options propagation
