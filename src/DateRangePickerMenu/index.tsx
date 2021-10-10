@@ -24,18 +24,22 @@ function getXYScales(scales: Record<string, Meta>) {
 }
 
 const ChartDateRangePicker = ({ plot, options }: any) => {
-  const handleDatesChanged = (dates: [Moment, Moment]) => {
+  const handleDatesChanged = (dates: [Moment, Moment] | null) => {
     const { timeUnit = null } = options;
     const { chart } = plot;
     const chartViews = [...(chart.views || []), ...(chart.options.scales ? [chart] : [])];
-    chartViews.forEach((view: any) => {
-      const scales = view.options.scales || chart.options.scales;
+    chartViews.forEach((view: G2.View) => {
+      const scales = view.getOptions().scales || chart.options.scales;
       const { xScales } = getXYScales(scales);
       const timeScalesName = Object.keys(xScales)[0];
-      view.filter('*', (value: any, data: Datum) => {
-        const resultDate = moment(data[timeScalesName]);
-        return resultDate.isSameOrAfter(dates[0], timeUnit) && resultDate.isSameOrBefore(dates[1], timeUnit);
-      });
+      if (dates === null) {
+        view.filter('*', null);
+      } else {
+        view.filter('*', (value: any, data: Datum) => {
+          const resultDate = moment(data[timeScalesName]);
+          return resultDate.isSameOrAfter(dates[0], timeUnit) && resultDate.isSameOrBefore(dates[1], timeUnit);
+        });
+      }
     });
     chart.render();
     chart.emit('data:filter', G2.Event.fromData(plot?.chart, 'data:filter', { timestamp: Date.now() }));
