@@ -82,6 +82,9 @@ const Template: Story = ({ additionalColls, viewDescrId, viewDescrCollId }: any)
   );
 };
 
+const mktpSchemaRepoIri = 'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema';
+const mktpOntopRepoIri = 'http://192.168.1.33:8090/sparql';
+
 ///////////////////////////////////////////////
 //  Markeplaces Categories and Cards
 ///////////////////////////////////////////////
@@ -101,6 +104,7 @@ const viewKindsCats = [
             '@id': 'mktp:Categories_Coll_Shape0',
             '@type': 'aldkg:EntConstr',
             schema: 'hs:CategoryShape',
+            service: mktpSchemaRepoIri,
           },
         ],
       },
@@ -116,6 +120,7 @@ const viewKindsCats = [
               '@id': 'mktp:ProductCards_in_Category_Coll_Ent0_con',
               CardInCatLink: 'https://www.wildberries.ru/catalog/zdorove/ozdorovlenie?sort=popular&page=1&xsubject=594',
             },
+            service: mktpSchemaRepoIri,
           },
         ],
       },
@@ -528,7 +533,7 @@ const viewDescrsCats = [
               '@type': 'aldkg:EntConstrCondition',
               product: undefined,
             },
-            service: 'http://192.168.1.33:8090/sparql',
+            service: mktpOntopRepoIri,
           },
         ],
         orderBy: [{ expression: variable('parsedAt'), descending: false }],
@@ -547,7 +552,7 @@ const viewDescrsCats = [
               scvdDailyHasProduct: undefined,
               // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
             },
-            service: 'http://192.168.1.33:8090/sparql',
+            service: mktpOntopRepoIri,
           },
         ],
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
@@ -566,7 +571,7 @@ const viewDescrsCats = [
               svdWeeklyHasProduct: undefined,
               // we need here chart for property: svdWeekly
             },
-            service: 'http://192.168.1.33:8090/sparql',
+            service: mktpOntopRepoIri,
           },
         ],
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
@@ -585,7 +590,7 @@ const viewDescrsCats = [
               svdMonthlyHasProduct: undefined,
               // we need here chart for property: svdMonthly
             },
-            service: 'http://192.168.1.33:8090/sparql',
+            service: mktpOntopRepoIri,
           },
         ],
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
@@ -1108,6 +1113,7 @@ const viewKindsProds = [
               '@id': 'mktp:ProductCards_in_Product_Coll_Ent0_Cond',
               CardInProdLink: 'mktp_d:Massager',
             },
+            service: mktpSchemaRepoIri,
           },
         ],
       },
@@ -1119,6 +1125,7 @@ const viewKindsProds = [
             '@id': 'mktp:Products_Coll_Shape0',
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:ProductShape',
+            service: mktpSchemaRepoIri,
           },
         ],
       },

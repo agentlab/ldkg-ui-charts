@@ -79,6 +79,10 @@ export const Full: Story<{}> = () => {
   );
 };
 
+// Preparation for mktp-fed repository speed test
+//const mktpSchemaRepoIri = 'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema';
+//const mktpOntopRepoIri = 'http://192.168.1.33:8090/sparql';
+
 const viewKinds = [
   {
     '@id': 'mktp:CardCellGridViewKind',
@@ -98,6 +102,7 @@ const viewKinds = [
             },
             orderBy: [{ expression: variable('lastMonthSalesValue0'), descending: true }],
             limit: 15,
+            //service: mktpSchemaRepoIri,
           },
           {
             '@id': 'mktp:ViewKind_Cards_Coll_Ent1',
@@ -111,6 +116,7 @@ const viewKinds = [
               },
             },
             orderBy: [{ expression: variable('parsedAt1'), descending: false }],
+            //service: mktpOntopRepoIri,
           },
         ],
         orderBy: [
@@ -369,6 +375,7 @@ const viewDescrs = [
             '@id': 'mktp:ViewDescr_Cards_Coll_Shape0',
             '@type': 'aldkg:EntConstr',
             schema: 'hs:ProductCardShape',
+            //service: mktpSchemaRepoIri,
           },
         ],
       },*/

@@ -33,7 +33,7 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
   const elementDataProvider: ElementDataProvider = (element) => {
     const resultsScope = element.resultsScope;
     const dataObs = store.getColl(resultsScope);
-    if (dataObs.isLoading) {
+    if (!dataObs || dataObs.isLoading) {
       dataIsLoading = true;
       return [];
     }

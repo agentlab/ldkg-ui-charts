@@ -7,6 +7,9 @@ const buildCustomTooltip = (property: string) => (title: any, items: any) => {
   return `<div><p><b>${title}</b></p><p>${property}: ${JSON.stringify(data[property])}</p><div>`;
 };
 
+const mktpSchemaRepoIri = 'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema';
+const mktpOntopRepoIri = 'http://192.168.1.33:8090/sparql';
+
 export const denormalizedObservationsViewKinds = [
   {
     '@id': 'mktp:TimeSeriesViewKind',
@@ -415,6 +418,7 @@ export const denormalizedObservationsViewDescrs = [
               '@type': 'aldkg:EntConstrCondition',
               product: 'https://www.wildberries.ru/catalog/9485114/detail.aspx',
             },
+            service: mktpOntopRepoIri,
           },
         ],
         orderBy: [{ expression: variable('parsedAt'), descending: false }],

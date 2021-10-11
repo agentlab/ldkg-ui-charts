@@ -81,6 +81,9 @@ const Template: Story = ({ additionalColls, viewDescrId, viewDescrCollId }: any)
   );
 };
 
+const mktpSchemaRepoIri = 'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema';
+const mktpOntopRepoIri = 'http://192.168.1.33:8090/sparql';
+
 ///////////////////////////////////////////////
 //  Markeplaces Categories and Cards
 ///////////////////////////////////////////////
@@ -100,6 +103,7 @@ const viewKindsCats = [
             '@id': 'mktp:Categories_Coll_Shape0',
             '@type': 'aldkg:EntConstr',
             schema: 'hs:CategoryShape',
+            service: mktpSchemaRepoIri,
           },
         ],
       },
@@ -379,16 +383,19 @@ const viewDescrsCats = [
               //hasUpperOutlier: '?eIri1',
               //hasLowerOutlier: '?eIri2',
             },
+            service: mktpOntopRepoIri,
           },
           /*{
             '@id': 'mktp:_dfd8SDfg', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
+            service: mktpObservationIri,
           },
           {
             '@id': 'mktp:_Jhd8fg', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
+            service: mktpObservationIri,
           },*/
         ],
         orderBy: [{ expression: variable('begin0'), descending: false }],
@@ -409,16 +416,19 @@ const viewDescrsCats = [
               //hasUpperOutlier: '?eIri1',
               //hasLowerOutlier: '?eIri2',
             },
+            service: mktpOntopRepoIri,
           },
           /*{
             '@id': 'mktp:_dfd8SDfg', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
+            service: mktpObservationIri,
           },
           {
             '@id': 'mktp:_Jhd8fg', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'sosa:ObservationShape',
+            service: mktpObservationIri,
           },*/
         ],
         orderBy: [{ expression: variable('begin0'), descending: false }],
@@ -440,7 +450,7 @@ const viewDescrsCats = [
               scvdDailyHasProduct: undefined,
               // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
             },
-            service: 'http://192.168.1.33:8090/sparql',
+            service: mktpOntopRepoIri,
           },
         ],
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
@@ -459,7 +469,7 @@ const viewDescrsCats = [
               svdWeeklyHasProduct: undefined,
               // we need here chart for property: svdWeekly
             },
-            service: 'http://192.168.1.33:8090/sparql',
+            service: mktpOntopRepoIri,
           },
         ],
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
@@ -478,7 +488,7 @@ const viewDescrsCats = [
               svdMonthlyHasProduct: undefined,
               // we need here chart for property: svdMonthly
             },
-            service: 'http://192.168.1.33:8090/sparql',
+            service: mktpOntopRepoIri,
           },
         ],
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],

@@ -157,7 +157,10 @@ const products = [
   },*/
 ];
 
-const [collsConstrs, elements] = fromProducts(products, productProperties)
+const mktpSchemaRepoIri = 'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema';
+const mktpOntopRepoIri = 'http://192.168.1.33:8090/sparql';
+
+const [collsConstrs, elements] = fromProducts(products, productProperties, mktpOntopRepoIri)
   .withElements(viewElements)
   .withColors(qualitative20)
   .limit(5)

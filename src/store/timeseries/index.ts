@@ -3,7 +3,7 @@ import { groupBy, shuffle, zip } from 'lodash-es';
 import { IDGenerator } from '../utils';
 import { colorPalette, colors20 } from '../utils/colors';
 
-function createCollConstr(conditions: any) {
+function createCollConstr(conditions: any, serviceIri?: string) {
   return {
     '@id': idGenerator.next(),
     '@type': 'aldkg:CollConstr',
@@ -17,6 +17,7 @@ function createCollConstr(conditions: any) {
           '@type': 'aldkg:EntConstrCondition',
           ...conditions,
         },
+        service: serviceIri,
       },
     ],
     orderBy: [{ expression: variable('parsedAt0'), descending: false }],
@@ -35,7 +36,7 @@ function createViewElement(resultsScope: string, options: any) {
   };
 }
 
-export const fromProducts = (products: any[], productProperties: string[]) => ({
+export const fromProducts = (products: any[], productProperties: string[], serviceIri?: string) => ({
   withElements: (viewElements: any) =>
     ({
       withColors(colors: string[]) {
@@ -56,15 +57,21 @@ export const fromProducts = (products: any[], productProperties: string[]) => ({
         if (this.size) {
           productList.length = this.size;
         }
-        return createViewDescr(productList, productProperties, viewElements, palette);
+        return createViewDescr(productList, productProperties, viewElements, palette, serviceIri);
       },
     } as any),
 });
 
-function createViewDescr(products: any[], productProperties: string[], viewElements: any, palette: any) {
+function createViewDescr(
+  products: any[],
+  productProperties: string[],
+  viewElements: any,
+  palette: any,
+  serviceIri?: string,
+) {
   const viewDescrData = products.map((p: any) => {
     const color = palette.next();
-    const constraint = createCollConstr({ product: p.product });
+    const constraint = createCollConstr({ product: p.product }, serviceIri);
     const productViewElements = productProperties.map((prop: any) => {
       const viewElement = createViewElement(constraint['@id'], {
         ...viewElements[prop],
