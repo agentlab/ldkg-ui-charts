@@ -25,7 +25,6 @@ import '@agentlab/ldkg-ui-react/es/index.css';
 import { CollState, rootModelInitialState, SparqlClientImpl } from '@agentlab/sparql-jsld-client';
 import { variable } from '@rdfjs/data-model';
 import { Meta, Story } from '@storybook/react';
-import moment from 'moment';
 import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -1094,6 +1093,36 @@ MktpCards.args = {
 //  Products Classifier and Cards
 ///////////////////////////////////////////////
 
+const buildCustomTooltip2 = (property: string) => (title: string, items: any[]) => {
+  const tooltipItems = items
+    .map((item) => {
+      const { name, value, color } = item;
+      return `<div><span style="height: 0.8em; width: 0.8em; border-radius: 50%; background-color: ${color}; display: inline-block;"></span></div><div><h4>${
+        categoryNames[name] || name
+      }</h4></div><div>${value}</div>`;
+    })
+    .join('');
+  return `<div style="padding: 1.5em"><h3>${title}</h3><p>${property} : MIN-Q1-Q2-Q3-MAX</p><div style="display: grid; grid-template-columns: 1.5em 2fr 1fr;">${tooltipItems}</div><div>`;
+};
+
+const categoryNames: any = {
+  'mktp_d:Toys': 'Игрушки - наш продукт',
+  'mktp_d:AntistressToys': 'Игрушки антистресс - наш продукт',
+  'mktp_d:SimpleDimple': 'Симпл-Димпл (Simple Dimple) - наш продукт',
+  'mktp_d:PopIt': 'Поп ит! (Pop It!) - наш продукт',
+  'mktp_d:Slime': 'Слайм (Slime) - наш продукт',
+  'mktp_d:Squishy': 'Сквиш (Squishy) - наш продукт',
+  'mktp_d:FidgetSpinner': 'Спиннер (Fidget Spinner) - наш продукт',
+  'mktp_d:Blaster': 'Стреляющий зверь (Blaster) - наш продукт',
+  'mktp_d:ScreamingPals': 'Крикуны (Screaming Pals) - наш продукт',
+  'mktp_d:Magnets': 'Магниты (Magnets) - наш продукт',
+  'mktp_d:Pinart': 'Пин-арт (Pinart) - наш продукт',
+  'mktp_d:Stretcher': 'Стрейчер (Stretcher) - наш продукт',
+  'mktp_d:FingerBoard': 'Фингенборд (Finger Board) - наш продукт',
+  'mktp_d:FlourBall': 'Мучной шарик (flour ball) - наш продукт',
+  'https://www.wildberries.ru/catalog/igrushki/antistress': 'Игрушки антистресс - WB категория',
+};
+
 const viewKindsProds = [
   {
     '@id': 'mktp:TreeTableChartProdsViewKind',
@@ -1101,6 +1130,34 @@ const viewKindsProds = [
     title: 'TreeTableChart',
     description: 'TreeTableChart',
     collsConstrs: [
+      {
+        '@id': 'mktp:Products_Coll',
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:Products_Coll_Shape0',
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:ProductShape',
+            service: mktpSchemaRepoIri,
+          },
+        ],
+      },
+      {
+        '@id': 'mktp:Product_Coll',
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:Product_Coll_Shape0',
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:ProductShape',
+            conditions: {
+              '@id': 'mktp:Product_Coll_Ent0_Cond',
+              '@_id': undefined,
+            },
+            service: mktpSchemaRepoIri,
+          },
+        ],
+      },
       {
         '@id': 'mktp:ProductCards_in_Product_Coll',
         '@type': 'aldkg:CollConstr',
@@ -1117,18 +1174,6 @@ const viewKindsProds = [
           },
         ],
       },
-      {
-        '@id': 'mktp:Products_Coll',
-        '@type': 'aldkg:CollConstr',
-        entConstrs: [
-          {
-            '@id': 'mktp:Products_Coll_Shape0',
-            '@type': 'aldkg:EntConstr',
-            schema: 'mktp:ProductShape',
-            service: mktpSchemaRepoIri,
-          },
-        ],
-      },
     ],
     elements: [
       {
@@ -1141,13 +1186,13 @@ const viewKindsProds = [
             options: {
               style: {
                 width: '100%',
-                height: '50%',
+                height: '100%',
               },
               height: 'all-empty-space',
               width: 'all-empty-space',
               defaultSize: {
-                'mktp:ProductTree': '17%',
-                'mktp:ProductCardsTable': '83%',
+                'mktp:ProductTree': '13%',
+                'mktp:_64kFg23': '87%',
               },
             },
             elements: [
@@ -1160,250 +1205,290 @@ const viewKindsProds = [
                   title: 'Классификатор товаров',
                   treeNodeTitleKey: 'title',
                   treeNodeParentKey: 'SubProdInProdLink',
-                  connections: [{ to: 'mktp:ProductCards_in_Product_Coll_Ent0_Cond', by: 'CardInProdLink' }],
+                  connections: [
+                    { to: 'mktp:Product_Coll_Ent0_Cond', by: '@_id' },
+                    { to: 'mktp:_u8Yg84_price', by: 'hasFeatureOfInterest' },
+                    { to: 'mktp:_u8Yg84_TotalSales', by: 'hasFeatureOfInterest' },
+                    { to: 'mktp:ProductCards_in_Product_Coll_Ent0_Cond', by: 'CardInProdLink' },
+                  ],
                 },
               },
               {
-                '@id': 'mktp:ProductCardsTable',
-                '@type': 'aldkg:Array',
-                resultsScope: 'mktp:ProductCards_in_Product_Coll',
-                options: {
-                  draggable: true,
-                  resizeableHeader: true,
-                  height: 'all-empty-space',
-                  style: { height: '100%' },
-                  order: [
-                    'imageUrl',
-                    'name',
-                    'price',
-                    'saleValue',
-                    'categoryPopularity',
-                    'commentsCount',
-                    'starsValue',
-                    'questionsCount',
-                    'lastMonthSalesAmount',
-                    'lastMonthSalesValue',
-                    'perMonthSalesAmount',
-                    'perMonthSalesValue',
-                    'prevMonthSalesAmount',
-                    'prevMonthSalesValue',
-                    'salesAmountDiff',
-                    'totalSales',
-                    'totalSalesDiff',
-                    'stocks',
-                    'stocksDiffOrders',
-                    'stocksDiffReturns',
-                    'country',
-                    'brand',
-                    'seller',
-                    'identifier',
-                    'rootId',
-                    'photosCount',
-                    'firstParsedAt',
-                    'lastMonthParsedAt',
-                    'parsedAt',
-                    'prevParsedAt',
-                  ],
-                  imageUrl: {
-                    width: 60,
-                    formatter: 'image',
-                    editable: false,
-                  },
-                  identifier: {
-                    formatter: 'link',
-                    //dataToFormatter: { link: 'identifier' },
-                    sortable: true,
-                    editable: false,
-                  },
-                  name: {
-                    width: 340,
-                    formatter: 'link',
-                    dataToFormatter: { link: '@id' },
-                    sortable: true,
-                    editable: false,
-                  },
-                  country: {
-                    width: 60,
-                    sortable: true,
-                    editable: false,
-                  },
-                  brand: {
-                    formatter: 'link',
-                    sortable: true,
-                    editable: false,
-                  },
-                  price: {
-                    width: 60,
-                    sortable: true,
-                    editable: false,
-                  },
-                  saleValue: {
-                    width: 60,
-                    sortable: true,
-                    editable: false,
-                  },
-                  seller: {
-                    formatter: 'link',
-                    sortable: true,
-                    editable: false,
-                  },
-                  categoryPopularity: {
-                    width: 100,
-                    editable: false,
-                  },
-                  commentsCount: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  starsValue: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  questionsCount: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  lastMonthSalesAmount: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  lastMonthSalesValue: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  perMonthSalesAmount: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  perMonthSalesValue: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  prevMonthSalesAmount: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  prevMonthSalesValue: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  salesAmountDiff: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  totalSales: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  totalSalesDiff: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  stocks: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  stocksDiffOrders: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  stocksDiffReturns: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  rootId: {
-                    editable: false,
-                  },
-                  photosCount: {
-                    editable: false,
-                  },
-                  firstParsedAt: {
-                    editable: false,
-                  },
-                  lastMonthParsedAt: {
-                    editable: false,
-                  },
-                  parsedAt: {
-                    editable: false,
-                  },
-                  prevParsedAt: {
-                    editable: false,
-                  },
-                },
-              },
-            ],
-          },
-          {
-            '@id': 'mktp:BoxPlotChartViewKind',
-            '@type': 'aldkg:BoxPlotChart', // control type
-            options: {
-              // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
-            },
-            mappings: {
-              'aldkg:BoxPlotTimeSeries': {
-                type: {
-                  type: 'pointer',
-                  value: '/type',
-                },
-                xField: 'begin',
-                yField: 'value',
-                colorField: 'source',
-                outliersField: 'outliers',
-                adjust: {
-                  type: 'object',
-                  properties: {
-                    type: 'dodge',
-                    marginRatio: 0,
-                  },
-                },
-                mapping: {
-                  type: 'object',
-                  properties: {
-                    style: {
-                      type: 'object',
-                      properties: {
-                        lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
-                      },
-                      wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
-                    },
-                    color: {
-                      type: 'pointer',
-                      value: '/options/color',
-                      wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
-                    },
-                    shape: {
-                      type: 'pointer',
-                      value: '/options/shape',
-                    },
-                  },
-                },
-                dataMappings: [
+                '@id': 'mktp:_64kFg23',
+                '@type': 'aldkg:VerticalLayout',
+                elements: [
                   {
-                    propertyName: {
-                      type: 'pointer',
-                      value: '/yField',
+                    '@id': 'mktp:_934Jfg7',
+                    '@type': 'aldkg:SplitPaneLayout',
+                    options: {
+                      style: {
+                        width: '100%',
+                        height: '5%',
+                      },
+                      height: 'all-empty-space',
+                      width: 'all-empty-space',
+                      defaultSize: {
+                        'mktp:_83hd7f': '20%',
+                        'mktp:_83hd7f_2': '80%',
+                      },
                     },
-                    value: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
-                    scope: 'data',
+                    elements: [
+                      {
+                        '@id': 'rm:_83hd7f',
+                        '@type': 'aldkg:VerticalLayout',
+                        options: {
+                          readOnly: false,
+                        },
+                        elements: [
+                          {
+                            '@id': 'rm:_297Hgf56',
+                            '@type': 'aldkg:Control',
+                            formatter: 'image',
+                            resultsScope: 'mktp:Product_Coll/imageUrl',
+                          },
+                        ],
+                      },
+                      {
+                        '@id': 'rm:_83hd7f_2',
+                        '@type': 'aldkg:VerticalLayout',
+                        options: {
+                          readOnly: false,
+                        },
+                        elements: [
+                          {
+                            '@id': 'rm:_17Gj78_2',
+                            '@type': 'aldkg:Control',
+                            resultsScope: 'mktp:Product_Coll/title',
+                          },
+                          {
+                            '@id': 'rm:_297Hgf56_2',
+                            '@type': 'aldkg:Control',
+                            resultsScope: 'mktp:Product_Coll/description',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  //////////
+                  // BoxPlots
+                  //////////
+                  {
+                    '@id': 'mktp:BoxPlotChartViewKind',
+                    '@type': 'aldkg:BoxPlotChart', // control type
+                    options: {
+                      // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
+                    },
+                    mappings: {
+                      'aldkg:BoxPlotTimeSeries': {
+                        type: {
+                          type: 'pointer',
+                          value: '/type',
+                        },
+                        xField: 'begin',
+                        yField: 'value',
+                        outliersField: 'outliers',
+                        colorField: 'hasFeatureOfInterest',
+                        adjust: {
+                          type: 'object',
+                          properties: {
+                            type: 'dodge',
+                            marginRatio: 0.3,
+                          },
+                        },
+                        mapping: {
+                          type: 'object',
+                          properties: {
+                            style: {
+                              type: 'object',
+                              properties: {
+                                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 1 },
+                                fill: { type: 'pointer', value: '/options/fill' },
+                                stroke: { type: 'pointer', value: '/options/stroke' },
+                                fillOpacity: { type: 'pointer', value: '/options/fillOpacity', default: 0.5 },
+                              },
+                              wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+                            },
+                            shape: {
+                              type: 'pointer',
+                              value: '/options/shape',
+                            },
+                          },
+                        },
+                        dataMappings: [
+                          {
+                            propertyName: {
+                              type: 'pointer',
+                              value: '/yField',
+                            },
+                            value: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
+                            scope: 'data',
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  {
+                    '@id': 'mktp:BoxPlotChartViewKind_TotalSales',
+                    '@type': 'aldkg:BoxPlotChart', // control type
+                    options: {
+                      // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
+                    },
+                    mappings: {
+                      'aldkg:BoxPlotTimeSeries': {
+                        type: {
+                          type: 'pointer',
+                          value: '/type',
+                        },
+                        xField: 'begin',
+                        yField: 'value',
+                        outliersField: 'outliers',
+                        colorField: 'hasFeatureOfInterest',
+                        adjust: {
+                          type: 'object',
+                          properties: {
+                            type: 'dodge',
+                            marginRatio: 0.3,
+                          },
+                        },
+                        mapping: {
+                          type: 'object',
+                          properties: {
+                            style: {
+                              type: 'object',
+                              properties: {
+                                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 1 },
+                                fill: { type: 'pointer', value: '/options/fill' },
+                                stroke: { type: 'pointer', value: '/options/stroke' },
+                                fillOpacity: { type: 'pointer', value: '/options/fillOpacity', default: 0.5 },
+                              },
+                              wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+                            },
+                            shape: {
+                              type: 'pointer',
+                              value: '/options/shape',
+                            },
+                          },
+                        },
+                        dataMappings: [
+                          {
+                            propertyName: {
+                              type: 'pointer',
+                              value: '/yField',
+                            },
+                            value: ['min', 'percentile_25', 'median', 'percentile_75', 'max'],
+                            scope: 'data',
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  {
+                    '@id': 'mktp:ProductCardsTable',
+                    '@type': 'aldkg:Array',
+                    resultsScope: 'mktp:ProductCards_in_Product_Coll',
+                    options: {
+                      draggable: true,
+                      resizeableHeader: true,
+                      height: 'all-empty-space',
+                      style: { height: '50%' },
+                      order: [
+                        'imageUrl',
+                        'name',
+                        'price',
+                        'categoryPopularity',
+                        'commentsCount',
+                        'starsValue',
+                        'questionsCount',
+                        'lastMonthSalesAmount',
+                        'lastMonthSalesValue',
+                        'salesAmountDiff',
+                        'totalSales',
+                        'totalSalesDiff',
+                        'country',
+                        'brand',
+                        'seller',
+                      ],
+                      imageUrl: {
+                        width: 60,
+                        formatter: 'image',
+                        editable: false,
+                      },
+                      name: {
+                        width: 340,
+                        formatter: 'link',
+                        dataToFormatter: { link: '@id' },
+                        sortable: true,
+                        editable: false,
+                      },
+                      country: {
+                        width: 60,
+                        sortable: true,
+                        editable: false,
+                      },
+                      brand: {
+                        formatter: 'link',
+                        sortable: true,
+                        editable: false,
+                      },
+                      price: {
+                        width: 60,
+                        sortable: true,
+                        editable: false,
+                      },
+                      seller: {
+                        formatter: 'link',
+                        sortable: true,
+                        editable: false,
+                      },
+                      categoryPopularity: {
+                        width: 100,
+                        editable: false,
+                      },
+                      commentsCount: {
+                        width: 100,
+                        sortable: true,
+                        editable: false,
+                      },
+                      starsValue: {
+                        width: 100,
+                        sortable: true,
+                        editable: false,
+                      },
+                      questionsCount: {
+                        width: 100,
+                        sortable: true,
+                        editable: false,
+                      },
+                      lastMonthSalesAmount: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                      lastMonthSalesValue: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                      salesAmountDiff: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                      totalSales: {
+                        width: 100,
+                        sortable: true,
+                        editable: false,
+                      },
+                      totalSalesDiff: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                    },
                   },
                 ],
               },
-            },
+            ],
           },
         ],
       },
@@ -1419,67 +1504,218 @@ const viewDescrsProds = [
     viewKind: 'mktp:TreeTableChartProdsViewKind',
     // datasets constraints, specific to this view (UML aggregation)
     collsConstrs: [
-      //
-      // Product 1
-      //
+      //////////
+      // BoxPlots
+      //////////
       {
-        '@id': 'mktp:BoxPlotBucket_0_CollConstr', // machine-generated random UUID
+        '@id': 'mktp:_8uJ8t6_price', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:BoxPlotBucket_0_CollConstr_0', // machine-generated random UUID
+            '@id': 'mktp:_uf78DfG_price', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:BoxPlotBucket_0_CollConstr_0_0', // machine-generated random UUID
+              '@id': 'mktp:_u8Yg84_price', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              hasFeatureOfInterest: 'mktp_d:Massager',
+              hasFeatureOfInterest: 'mktp_d:Toys',
               forProperty: 'hs:Price',
             },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
+      {
+        '@id': 'mktp:_8uJ8t6_TotalSales', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:_uf78DfG_TotalSales', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:BoxPlotBucketShape',
+            conditions: {
+              '@id': 'mktp:_u8Yg84_TotalSales', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              hasFeatureOfInterest: 'mktp_d:Toys',
+              forProperty: 'hs:TotalSales',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
+      {
+        '@id': 'mktp:_8uJ8t7_price', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:_uf78Dfg_price', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:BoxPlotBucketShape',
+            conditions: {
+              '@id': 'mktp:_u8Yg83_price', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/igrushki/antistress',
+              forProperty: 'hs:Price',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
+      {
+        '@id': 'mktp:_8uJ8t7_TotalSales', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:_uf78Dfg_TotalSales', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:BoxPlotBucketShape',
+            conditions: {
+              '@id': 'mktp:_u8Yg83_TotalSales', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/igrushki/antistress',
+              forProperty: 'hs:TotalSales',
+            },
+            service: mktpOntopRepoIri,
           },
         ],
         orderBy: [{ expression: variable('begin0'), descending: false }],
       },
     ],
     elements: [
+      ///////
+      // BoxPlots
+      ////////
       {
-        '@id': 'mktp:as45d57gh_chart',
-        //'@type': 'aldkg:BoxPlotChart', // control type
+        '@id': 'mktp:_dj457gh_chart_price',
+        //''@type': 'aldkg:BoxPlotChart', // control type
         '@type': 'aldkg:Chart', // control type
         '@parent': 'mktp:BoxPlotChartViewKind',
-        title: 'Разброс цены продукта, по маркетплейсам',
+        title: 'Массажная подушка роликовая, разброс складских остатков',
         // child ui elements configs
         options: {
           timeUnit: 'day',
           dateFormat: 'DD.MM.YYYY',
-          groupField: 'source',
           showOutliers: true,
+          interactions: [{ type: 'active-region' }],
+          axes: {
+            yAxis: {
+              aliases: {
+                value: 'Цена, руб.',
+              },
+            },
+          },
         },
         elements: [
           {
-            '@id': 'mktp:BoxPlot_1',
+            '@id': 'mktp:BoxPlot_1_price',
             '@type': 'aldkg:BoxPlotTimeSeries',
             options: {
               dateFormat: 'DD.MM.YYYY',
               timeUnit: 'day',
               tooltip: {
                 showMarkers: false,
-                shared: false,
+                shared: true,
                 showCrosshairs: false,
+                customContent: buildCustomTooltip2('Цена'),
               },
+              legend: false,
             },
             elements: [
               //
-              // Product 1
+              // Category 1
               //
               {
-                '@id': 'mktp:box1', // machine-generated random UUID
+                '@id': 'mktp:box1_price', // machine-generated random UUID
                 '@type': 'aldkg:BoxPlotSchema',
-                resultsScope: 'mktp:BoxPlotBucket_0_CollConstr', // reference to data
+                resultsScope: 'mktp:_8uJ8t6_price', // reference to data
                 options: {
                   shape: 'box',
-                  label: 'Massager of Neck Kneading', // TODO: in future should be a data-binding
-                  //color: '#4EEC1F',
+                  fill: '#2E8DF9',
+                  stroke: '#2E8DF9',
+                  color: '#2E8DF9',
+                },
+              },
+              //
+              // Category 2
+              //
+              {
+                '@id': 'mktp:box2_price', // machine-generated random UUID
+                '@type': 'aldkg:BoxPlotSchema',
+                resultsScope: 'mktp:_8uJ8t7_price', // reference to data
+                options: {
+                  shape: 'box',
+                  fill: '#1FD0BE',
+                  stroke: '#1FD0BE',
+                },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        '@id': 'mktp:_dj457gh_chart_TotalSales',
+        //''@type': 'aldkg:BoxPlotChart', // control type
+        '@type': 'aldkg:Chart', // control type
+        '@parent': 'mktp:BoxPlotChartViewKind_TotalSales',
+        title: 'Массажная подушка роликовая, разброс складских остатков',
+        // child ui elements configs
+        options: {
+          timeUnit: 'day',
+          dateFormat: 'DD.MM.YYYY',
+          showOutliers: true,
+          interactions: [{ type: 'active-region' }],
+          axes: {
+            yAxis: {
+              aliases: {
+                value: 'Объём продаж, шт.',
+              },
+            },
+          },
+        },
+        elements: [
+          {
+            '@id': 'mktp:BoxPlot_1_TotalSales',
+            '@type': 'aldkg:BoxPlotTimeSeries',
+            options: {
+              dateFormat: 'DD.MM.YYYY',
+              timeUnit: 'day',
+              tooltip: {
+                showMarkers: false,
+                shared: true,
+                showCrosshairs: false,
+                customContent: buildCustomTooltip2('Объем продаж'),
+              },
+              legend: false,
+            },
+            elements: [
+              //
+              // Category 1
+              //
+              {
+                '@id': 'mktp:box1_TotalSales', // machine-generated random UUID
+                '@type': 'aldkg:BoxPlotSchema',
+                resultsScope: 'mktp:_8uJ8t6_TotalSales', // reference to data
+                options: {
+                  shape: 'box',
+                  fill: '#2E8DF9',
+                  stroke: '#2E8DF9',
+                  color: '#2E8DF9',
+                },
+              },
+              //
+              // Category 2
+              //
+              {
+                '@id': 'mktp:box2_TotalSales', // machine-generated random UUID
+                '@type': 'aldkg:BoxPlotSchema',
+                resultsScope: 'mktp:_8uJ8t7_TotalSales', // reference to data
+                options: {
+                  shape: 'box',
+                  fill: '#1FD0BE',
+                  stroke: '#1FD0BE',
                 },
               },
             ],
@@ -1487,179 +1723,6 @@ const viewDescrsProds = [
         ],
       },
     ],
-  },
-];
-
-const groupedBoxPlot = [
-  {
-    '@id': 'mktp:d5005f9e-b7c0-4bab-bc7d-83f4457b0f486c5',
-    '@type': 'mktp:BoxPlotBucket',
-    hasFeatureOfInterest: 'mktp:Massager',
-    forProperty: 'hs:Price',
-    observedProperty: 'hs:Price',
-    source: 'Amazon',
-    min: 9.25e2,
-    percentile_75: 9.89e2,
-    median: 9.815e2,
-    max: 9.89e2,
-    percentile_25: 9.3725e2,
-    iqr: 5.175e1,
-    begin: '2020-11-03T23:35:47.41Z',
-    end: '2020-11-10T23:35:47.41Z',
-    count: 4,
-  },
-  {
-    '@id': 'mktp:d5005f9e-b7c0-4bab-sssbc7d-8345744b0f486c5',
-    '@type': 'mktp:BoxPlotBucket',
-    hasFeatureOfInterest: 'mktp:Massager',
-    forProperty: 'hs:Price',
-    observedProperty: 'hs:Price',
-    source: 'Wildberries',
-    min: 9.15e2,
-    percentile_75: 9.59e2,
-    median: 9.615e2,
-    max: 9.69e2,
-    percentile_25: 9.2725e2,
-    iqr: 5.175e1,
-    begin: '2020-11-03T23:35:47.41Z',
-    end: '2020-11-10T23:35:47.41Z',
-    count: 4,
-  },
-  {
-    '@id': 'mktp:4470b857-f2bb-49ab-86ca-19457cd494ea776',
-    '@type': 'mktp:BoxPlotBucket',
-    hasFeatureOfInterest: 'mktp:Massager',
-    forProperty: 'hs:Price',
-    observedProperty: 'hs:Price',
-    source: 'Amazon',
-    min: 0.099e3,
-    percentile_75: 1.243e3,
-    median: 1.2165e3,
-    max: 1.299e3,
-    percentile_25: 0.099e3,
-    iqr: 2.44e2,
-    begin: '2020-11-17T11:31:04.938Z',
-    end: '2020-11-24T11:31:04.938Z',
-    count: 6,
-  },
-  {
-    '@id': 'mktp:4470b857-f2bb-49ab-86ca-19cd494474ea776',
-    '@type': 'mktp:BoxPlotBucket',
-    hasFeatureOfInterest: 'mktp:Massager',
-    forProperty: 'hs:Price',
-    observedProperty: 'hs:Price',
-    source: 'Wildberries',
-    min: 1.099e3,
-    percentile_75: 1.343e3,
-    median: 1.2165e3,
-    max: 1.499e3,
-    percentile_25: 1.099e3,
-    iqr: 2.44e2,
-    begin: '2020-11-17T11:31:04.938Z',
-    end: '2020-11-24T11:31:04.938Z',
-    count: 6,
-  },
-  {
-    '@id': 'mktp:8ca89bd6-761b-46e5-8e43-9d4b48bd467cedf',
-    '@type': 'mktp:BoxPlotBucket',
-    hasFeatureOfInterest: 'mktp:Massager',
-    forProperty: 'hs:Price',
-    observedProperty: 'hs:Price',
-    source: 'Amazon',
-    min: 1.197e3,
-    percentile_75: 1.299e3,
-    median: 1.299e3,
-    max: 1.299e3,
-    percentile_25: 1.299e3,
-    iqr: 0.0,
-    begin: '2020-11-25T05:00:01.105Z',
-    end: '2020-12-02T05:00:01.105Z',
-    count: 8,
-  },
-  {
-    '@id': 'mktp:8ca89bd6-761b-46e5-8e43-9d4b48b56765dcedf',
-    '@type': 'mktp:BoxPlotBucket',
-    hasFeatureOfInterest: 'mktp:Massager',
-    forProperty: 'hs:Price',
-    observedProperty: 'hs:Price',
-    source: 'Wildberries',
-    min: 1.197e3,
-    percentile_75: 1.299e3,
-    median: 1.299e3,
-    max: 1.299e3,
-    percentile_25: 1.299e3,
-    iqr: 0.0,
-    begin: '2020-11-25T05:00:01.105Z',
-    end: '2020-12-02T05:00:01.105Z',
-    count: 8,
-  },
-  {
-    '@id': 'mktp:0abd6f48-6760-4e4b-ab01-535e1af5f95501c',
-    '@type': 'mktp:BoxPlotBucket',
-    hasFeatureOfInterest: 'mktp:Massager',
-    forProperty: 'hs:Price',
-    observedProperty: 'hs:Price',
-    source: 'Amazon',
-    min: 0.198e3,
-    percentile_75: 1.599e3,
-    median: 1.299e3,
-    max: 1.799e3,
-    percentile_25: 1.2485e3,
-    iqr: 5.05e1,
-    begin: '2020-12-04T00:19:19.249Z',
-    end: '2020-12-11T00:19:19.249Z',
-    count: 5,
-  },
-  {
-    '@id': 'mktp:0abd6f48-6760-4e4b-ab01-535e1af5f078c',
-    '@type': 'mktp:BoxPlotBucket',
-    hasFeatureOfInterest: 'mktp:Massager',
-    forProperty: 'hs:Price',
-    observedProperty: 'hs:Price',
-    source: 'Wildberries',
-    min: 1.198e3,
-    percentile_75: 1.299e3,
-    median: 1.299e3,
-    max: 1.299e3,
-    percentile_25: 1.2485e3,
-    iqr: 5.05e1,
-    begin: '2020-12-04T00:19:19.249Z',
-    end: '2020-12-11T00:19:19.249Z',
-    count: 5,
-  },
-  {
-    '@id': 'mktp:df234c49-beaf-4026-a1d9-1afd6fbb7a6784',
-    '@type': 'mktp:BoxPlotBucket',
-    hasFeatureOfInterest: 'mktp:Massager',
-    forProperty: 'hs:Price',
-    observedProperty: 'hs:Price',
-    source: 'Amazon',
-    min: 1.621e3,
-    percentile_75: 2.559e3,
-    median: 2.559e3,
-    max: 2.559e3,
-    percentile_25: 1.82275e3,
-    iqr: 7.3625e2,
-    begin: '2020-12-12T14:10:45.978Z',
-    end: '2020-12-19T14:10:45.978Z',
-    count: 6,
-  },
-  {
-    '@id': 'mktp:df234c49-beaf-4026-a1d9-1afd6fbb7a687',
-    '@type': 'mktp:BoxPlotBucket',
-    hasFeatureOfInterest: 'mktp:Massager',
-    forProperty: 'hs:Price',
-    observedProperty: 'hs:Price',
-    source: 'Wildberries',
-    min: 1.621e3,
-    percentile_75: 2.559e3,
-    median: 2.559e3,
-    max: 2.759e3,
-    percentile_25: 1.95275e3,
-    iqr: 7.3625e2,
-    begin: '2020-12-12T14:10:45.978Z',
-    end: '2020-12-19T14:10:45.978Z',
-    count: 6,
   },
 ];
 
@@ -1686,15 +1749,6 @@ const additionalCollsProds: CollState[] = [
       lastSynced: Date.now(),
       //resolveCollConstrs: false, // 'true' here (by default) triggers data loading from the server
       // for viewDescrs.collConstrs (it loads lazily -- after the first access)
-    },
-  },
-  {
-    constr: viewDescrsProds[0].collsConstrs?.[0]['@id'], // reference by @id
-    data: groupedBoxPlot,
-    opt: {
-      updPeriod: undefined,
-      lastSynced: moment.now(),
-      resolveCollConstrs: false,
     },
   },
 ];

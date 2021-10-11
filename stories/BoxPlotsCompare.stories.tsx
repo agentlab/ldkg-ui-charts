@@ -260,11 +260,11 @@ const viewDescrsCats = [
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf78Dfg_price', // machine-generated random UUID
+            '@id': 'mktp:_uf78DfG_price', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_u8Yg83_price', // machine-generated random UUID
+              '@id': 'mktp:_u8Yg84_price', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/podarki/detyam',
               forProperty: 'hs:Price',
@@ -279,11 +279,11 @@ const viewDescrsCats = [
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf78Dfg_TotalSales', // machine-generated random UUID
+            '@id': 'mktp:_uf78DfG_TotalSales', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_u8Yg83_TotalSales', // machine-generated random UUID
+              '@id': 'mktp:_u8Yg84_TotalSales', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/podarki/detyam',
               forProperty: 'hs:TotalSales',
