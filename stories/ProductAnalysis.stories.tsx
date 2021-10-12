@@ -89,7 +89,7 @@ const Template: Story = ({ additionalColls, viewDescrId, viewDescrCollId }: any)
   };
   const client = new SparqlClientImpl(
     'https://rdf4j.agentlab.ru/rdf4j-server',
-    'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp/namespaces',
+    'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema/namespaces',
   );
   const rootStore = createUiModelFromState('mktp-fed', client, rootModelState, additionalColls);
   const store: any = asReduxStore(rootStore);
@@ -145,15 +145,31 @@ const viewKindsProds = [
         ],
       },
       {
-        '@id': 'mktp:ProductCards_in_Product_Coll',
+        '@id': 'mktp:WbProductCards_in_Product_Coll',
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:ProductCards_in_Product_Coll_Ent0',
+            '@id': 'mktp:WbProductCards_in_Product_Coll_Ent0',
             '@type': 'aldkg:EntConstr',
             schema: 'hs:ProductCardShape',
             conditions: {
-              '@id': 'mktp:ProductCards_in_Product_Coll_Ent0_Cond',
+              '@id': 'mktp:WbProductCards_in_Product_Coll_Ent0_Cond',
+              CardInProdLink: 'mktp_d:Massager',
+            },
+            service: mktpSchemaRepoIri,
+          },
+        ],
+      },
+      {
+        '@id': 'mktp:AliProductCards_in_Product_Coll',
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:AliProductCards_in_Product_Coll_Ent0',
+            '@type': 'aldkg:EntConstr',
+            schema: 'als:ProductCardShape',
+            conditions: {
+              '@id': 'mktp:AliProductCards_in_Product_Coll_Ent0_Cond',
               CardInProdLink: 'mktp_d:Massager',
             },
             service: mktpSchemaRepoIri,
@@ -195,7 +211,9 @@ const viewKindsProds = [
                     { to: 'mktp:Product_Coll_Ent0_Cond', by: '@_id' },
                     { to: 'mktp:_u8Yg84_price', by: 'hasFeatureOfInterest' },
                     { to: 'mktp:_u8Yg84_TotalSales', by: 'hasFeatureOfInterest' },
-                    { to: 'mktp:ProductCards_in_Product_Coll_Ent0_Cond', by: 'CardInProdLink' },
+                    { to: 'mktp:_udDSd83_price', by: 'hasFeatureOfInterest' },
+                    { to: 'mktp:WbProductCards_in_Product_Coll_Ent0_Cond', by: 'CardInProdLink' },
+                    { to: 'mktp:AliProductCards_in_Product_Coll_Ent0_Cond', by: 'CardInProdLink' },
                     { to: 'mktp:_sD7fg', by: 'scvdDailyHasProduct' },
                     { to: 'mktp:_qw89Ds', by: 'svdWeeklyHasProduct' },
                     { to: 'mktp:_df8D78', by: 'svdMonthlyHasProduct' },
@@ -587,108 +605,151 @@ const viewKindsProds = [
                     },
                   },
                   {
-                    '@id': 'mktp:ProductCardsTable',
-                    '@type': 'aldkg:Array',
-                    resultsScope: 'mktp:ProductCards_in_Product_Coll',
+                    '@id': 'mktp:_344Jfg7',
+                    '@type': 'aldkg:SplitPaneLayout',
                     options: {
-                      draggable: true,
-                      resizeableHeader: true,
+                      style: {
+                        width: '100%',
+                        height: '100%',
+                      },
                       height: 'all-empty-space',
-                      style: { height: '100%' },
-                      order: [
-                        'imageUrl',
-                        'name',
-                        'price',
-                        'categoryPopularity',
-                        'commentsCount',
-                        'starsValue',
-                        'questionsCount',
-                        'lastMonthSalesAmount',
-                        'lastMonthSalesValue',
-                        'salesAmountDiff',
-                        'totalSales',
-                        'totalSalesDiff',
-                        'country',
-                        'brand',
-                        'seller',
-                      ],
-                      imageUrl: {
-                        width: 60,
-                        formatter: 'image',
-                        editable: false,
-                      },
-                      name: {
-                        width: 340,
-                        formatter: 'link',
-                        dataToFormatter: { link: '@id' },
-                        sortable: true,
-                        editable: false,
-                      },
-                      country: {
-                        width: 60,
-                        sortable: true,
-                        editable: false,
-                      },
-                      brand: {
-                        formatter: 'link',
-                        sortable: true,
-                        editable: false,
-                      },
-                      price: {
-                        width: 60,
-                        sortable: true,
-                        editable: false,
-                      },
-                      seller: {
-                        formatter: 'link',
-                        sortable: true,
-                        editable: false,
-                      },
-                      categoryPopularity: {
-                        width: 100,
-                        editable: false,
-                      },
-                      commentsCount: {
-                        width: 100,
-                        sortable: true,
-                        editable: false,
-                      },
-                      starsValue: {
-                        width: 100,
-                        sortable: true,
-                        editable: false,
-                      },
-                      questionsCount: {
-                        width: 100,
-                        sortable: true,
-                        editable: false,
-                      },
-                      lastMonthSalesAmount: {
-                        width: 150,
-                        sortable: true,
-                        editable: false,
-                      },
-                      lastMonthSalesValue: {
-                        width: 150,
-                        sortable: true,
-                        editable: false,
-                      },
-                      salesAmountDiff: {
-                        width: 150,
-                        sortable: true,
-                        editable: false,
-                      },
-                      totalSales: {
-                        width: 100,
-                        sortable: true,
-                        editable: false,
-                      },
-                      totalSalesDiff: {
-                        width: 150,
-                        sortable: true,
-                        editable: false,
+                      width: 'all-empty-space',
+                      defaultSize: {
+                        'mktp:WbProductCardsTable': '34%',
+                        'mktp:AliProductCardsTable': '33%',
+                        'mktp:AmznProductCardsTable': '33%',
                       },
                     },
+                    elements: [
+                      {
+                        '@id': 'mktp:WbProductCardsTable',
+                        '@type': 'aldkg:Array',
+                        resultsScope: 'mktp:WbProductCards_in_Product_Coll',
+                        options: {
+                          draggable: true,
+                          resizeableHeader: true,
+                          height: 'all-empty-space',
+                          style: { height: '100%' },
+                          order: [
+                            'imageUrl',
+                            'name',
+                            'price',
+                            'categoryPopularity',
+                            'commentsCount',
+                            'starsValue',
+                            'questionsCount',
+                            'lastMonthSalesAmount',
+                            'lastMonthSalesValue',
+                            'salesAmountDiff',
+                            'totalSales',
+                            'totalSalesDiff',
+                            'country',
+                            'brand',
+                            'seller',
+                          ],
+                          imageUrl: {
+                            width: 60,
+                            formatter: 'image',
+                            editable: false,
+                          },
+                          name: {
+                            width: 340,
+                            formatter: 'link',
+                            dataToFormatter: { link: '@id' },
+                            sortable: true,
+                            editable: false,
+                          },
+                          country: {
+                            width: 60,
+                            sortable: true,
+                            editable: false,
+                          },
+                          brand: {
+                            formatter: 'link',
+                            sortable: true,
+                            editable: false,
+                          },
+                          price: {
+                            width: 60,
+                            sortable: true,
+                            editable: false,
+                          },
+                          seller: {
+                            formatter: 'link',
+                            sortable: true,
+                            editable: false,
+                          },
+                          categoryPopularity: {
+                            width: 100,
+                            editable: false,
+                          },
+                          commentsCount: {
+                            width: 100,
+                            sortable: true,
+                            editable: false,
+                          },
+                          starsValue: {
+                            width: 100,
+                            sortable: true,
+                            editable: false,
+                          },
+                          questionsCount: {
+                            width: 100,
+                            sortable: true,
+                            editable: false,
+                          },
+                          lastMonthSalesAmount: {
+                            width: 150,
+                            sortable: true,
+                            editable: false,
+                          },
+                          lastMonthSalesValue: {
+                            width: 150,
+                            sortable: true,
+                            editable: false,
+                          },
+                          salesAmountDiff: {
+                            width: 150,
+                            sortable: true,
+                            editable: false,
+                          },
+                          totalSales: {
+                            width: 100,
+                            sortable: true,
+                            editable: false,
+                          },
+                          totalSalesDiff: {
+                            width: 150,
+                            sortable: true,
+                            editable: false,
+                          },
+                        },
+                      },
+                      {
+                        '@id': 'mktp:AliProductCardsTable',
+                        '@type': 'aldkg:Array',
+                        resultsScope: 'mktp:AliProductCards_in_Product_Coll',
+                        options: {
+                          draggable: true,
+                          resizeableHeader: true,
+                          height: 'all-empty-space',
+                          style: { height: '100%' },
+                          order: ['imageUrl', 'name'],
+                          imageUrl: {
+                            width: 60,
+                            formatter: 'image',
+                            editable: false,
+                          },
+                          name: {
+                            width: 340,
+                            formatter: 'link',
+                            dataToFormatter: { link: '@id' },
+                            sortable: true,
+                            editable: false,
+                          },
+                        },
+                      },
+                    ],
                   },
                 ],
               },
@@ -843,6 +904,45 @@ const viewDescrsProds = [
           },
         ],
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+      },
+      ///////////// Alibaba and Amazon
+      {
+        '@id': 'mktp:_Amazon_Boxplots_price', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:_ufd8dfg_price', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:BoxPlotBucketShape',
+            conditions: {
+              '@id': 'mktp:_uddfd83_price', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              hasFeatureOfInterest: 'https://www.amazon.com/dp/B0746CXTNJ',
+              forProperty: 'hs:Price',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
+      {
+        '@id': 'mktp:_Ali_Boxplots_price', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:_ufd8dsg_price', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:BoxPlotBucketShape',
+            conditions: {
+              '@id': 'mktp:_udDSd83_price', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              hasFeatureOfInterest: 'mktp_d:Toys',
+              forProperty: 'hs:Price',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('begin0'), descending: false }],
       },
     ],
     elements: [
