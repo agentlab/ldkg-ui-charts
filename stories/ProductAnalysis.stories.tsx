@@ -743,9 +743,11 @@ const viewDescrsProds = [
         title: 'Массажная подушка роликовая, разброс складских остатков',
         // child ui elements configs
         options: {
+          height: 250,
           timeUnit: 'day',
           dateFormat: 'DD.MM.YYYY',
           showOutliers: true,
+          showDatePicker: false,
           interactions: [{ type: 'active-region' }],
           axes: {
             yAxis: {
@@ -810,6 +812,7 @@ const viewDescrsProds = [
         title: 'Массажная подушка роликовая, разброс складских остатков',
         // child ui elements configs
         options: {
+          height: 250,
           timeUnit: 'day',
           dateFormat: 'DD.MM.YYYY',
           showOutliers: true,
@@ -877,8 +880,9 @@ const viewDescrsProds = [
         title: 'Показатели продукта',
         options: {
           timeUnit: 'day',
+          showDatePicker: false,
           dateFormat: 'DD.MM.YYYY',
-          height: 700,
+          height: 250,
         },
         elements: [
           {
@@ -904,8 +908,8 @@ const viewDescrsProds = [
                       y: 0,
                     },
                     end: {
-                      x: 1,
-                      y: 0.33,
+                      x: 0.33,
+                      y: 1,
                     },
                   },
                 },
@@ -934,12 +938,12 @@ const viewDescrsProds = [
                   },
                   region: {
                     start: {
-                      x: 0,
-                      y: 0.33,
+                      x: 0.33,
+                      y: 0,
                     },
                     end: {
-                      x: 1,
-                      y: 0.66,
+                      x: 0.66,
+                      y: 1,
                     },
                   },
                 },
@@ -968,8 +972,8 @@ const viewDescrsProds = [
                   },
                   region: {
                     start: {
-                      x: 0,
-                      y: 0.66,
+                      x: 0.66,
+                      y: 0,
                     },
                     end: {
                       x: 1,
