@@ -196,6 +196,9 @@ const viewKindsProds = [
                     { to: 'mktp:_u8Yg84_price', by: 'hasFeatureOfInterest' },
                     { to: 'mktp:_u8Yg84_TotalSales', by: 'hasFeatureOfInterest' },
                     { to: 'mktp:ProductCards_in_Product_Coll_Ent0_Cond', by: 'CardInProdLink' },
+                    { to: 'mktp:_sD7fg', by: 'scvdDailyHasProduct' },
+                    { to: 'mktp:_qw89Ds', by: 'svdWeeklyHasProduct' },
+                    { to: 'mktp:_df8D78', by: 'svdMonthlyHasProduct' },
                   ],
                 },
               },
@@ -475,11 +478,6 @@ const viewKindsProds = [
                     '@type': 'aldkg:Array',
                     resultsScope: 'mktp:ProductCards_in_Product_Coll',
                     options: {
-                      connections: [
-                        { to: 'mktp:_sD7fg', by: 'scvdDailyHasProduct' },
-                        { to: 'mktp:_qw89Ds', by: 'svdWeeklyHasProduct' },
-                        { to: 'mktp:_df8D78', by: 'svdMonthlyHasProduct' },
-                      ],
                       draggable: true,
                       resizeableHeader: true,
                       height: 'all-empty-space',
