@@ -121,7 +121,7 @@ const viewKindsProds = [
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:Products_Coll_Shape0',
+            '@id': 'mktp:Products_Ent',
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:ProductShape',
             service: mktpSchemaRepoIri,
@@ -133,44 +133,44 @@ const viewKindsProds = [
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:Product_Coll_Shape0',
+            '@id': 'mktp:Product_Ent',
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:ProductShape',
             conditions: {
-              '@id': 'mktp:Product_Coll_Ent0_Cond',
-              '@_id': undefined,
+              '@id': 'mktp:Product_Cond',
+              '@_id': 'mktp_d:Toys',
             },
             service: mktpSchemaRepoIri,
           },
         ],
       },
       {
-        '@id': 'mktp:WbProductCards_in_Product_Coll',
+        '@id': 'mktp:WB_Select_ProductCards_Coll',
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:WbProductCards_in_Product_Coll_Ent0',
+            '@id': 'mktp:WB_Select_ProductCards_Ent',
             '@type': 'aldkg:EntConstr',
             schema: 'hs:ProductCardShape',
             conditions: {
-              '@id': 'mktp:WbProductCards_in_Product_Coll_Ent0_Cond',
-              CardInProdLink: 'mktp_d:Massager',
+              '@id': 'mktp:WB_Select_ProductCards_Cond',
+              CardInProdLink: 'mktp_d:Toys',
             },
             service: mktpSchemaRepoIri,
           },
         ],
       },
       {
-        '@id': 'mktp:AliProductCards_in_Product_Coll',
+        '@id': 'mktp:Ali_Select_ProductCards_Coll',
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:AliProductCards_in_Product_Coll_Ent0',
+            '@id': 'mktp:Ali_Select_ProductCards_Ent',
             '@type': 'aldkg:EntConstr',
             schema: 'als:ProductCardShape',
             conditions: {
-              '@id': 'mktp:AliProductCards_in_Product_Coll_Ent0_Cond',
-              CardInProdLink: 'mktp_d:Massager',
+              '@id': 'mktp:Ali_Select_ProductCards_Cond',
+              CardInProdLink: 'mktp_d:Toys',
             },
             service: mktpSchemaRepoIri,
           },
@@ -208,15 +208,20 @@ const viewKindsProds = [
                   treeNodeTitleKey: 'title',
                   treeNodeParentKey: 'SubProdInProdLink',
                   connections: [
-                    { to: 'mktp:Product_Coll_Ent0_Cond', by: '@_id' },
-                    { to: 'mktp:_u8Yg84_price', by: 'hasFeatureOfInterest' },
-                    { to: 'mktp:_u8Yg84_TotalSales', by: 'hasFeatureOfInterest' },
-                    { to: 'mktp:_udDSd83_price', by: 'hasFeatureOfInterest' },
-                    { to: 'mktp:WbProductCards_in_Product_Coll_Ent0_Cond', by: 'CardInProdLink' },
-                    { to: 'mktp:AliProductCards_in_Product_Coll_Ent0_Cond', by: 'CardInProdLink' },
-                    { to: 'mktp:_sD7fg', by: 'scvdDailyHasProduct' },
-                    { to: 'mktp:_qw89Ds', by: 'svdWeeklyHasProduct' },
-                    { to: 'mktp:_df8D78', by: 'svdMonthlyHasProduct' },
+                    { to: 'mktp:Product_Cond', by: '@_id' },
+                    // Wildberries charts
+                    { to: 'mktp:WB_Select_Boxplots_TotalSales_Cond', by: 'hasFeatureOfInterest' },
+                    { to: 'mktp:WB_Select_Boxplots_Price_Cond', by: 'hasFeatureOfInterest' },
+                    { to: 'mktp:WB_Select_SvdDaily_Cond', by: 'scvdDailyHasProduct' },
+                    { to: 'mktp:WB_Select_SvdWeekly_Cond', by: 'svdWeeklyHasProduct' },
+                    { to: 'mktp:WB_Select_SvdMonthly_Cond', by: 'svdMonthlyHasProduct' },
+                    // Amazon charts
+                    { to: 'mktp:Amzn_Select_Boxplots_Price_Cond', by: 'hasFeatureOfInterest' },
+                    // 1688 charts
+                    { to: 'mktp:Ali_Select_Boxplots_Price_Cond', by: 'hasFeatureOfInterest' },
+                    // Cards in Product by Marketplace
+                    { to: 'mktp:WB_Select_ProductCards_Cond', by: 'CardInProdLink' },
+                    { to: 'mktp:Ali_Select_ProductCards_Cond', by: 'CardInProdLink' },
                   ],
                 },
               },
@@ -624,7 +629,7 @@ const viewKindsProds = [
                       {
                         '@id': 'mktp:WbProductCardsTable',
                         '@type': 'aldkg:Array',
-                        resultsScope: 'mktp:WbProductCards_in_Product_Coll',
+                        resultsScope: 'mktp:WB_Select_ProductCards_Coll',
                         options: {
                           draggable: true,
                           resizeableHeader: true,
@@ -728,7 +733,7 @@ const viewKindsProds = [
                       {
                         '@id': 'mktp:AliProductCardsTable',
                         '@type': 'aldkg:Array',
-                        resultsScope: 'mktp:AliProductCards_in_Product_Coll',
+                        resultsScope: 'mktp:Ali_Select_ProductCards_Coll',
                         options: {
                           draggable: true,
                           resizeableHeader: true,
@@ -770,21 +775,23 @@ const viewDescrsProds = [
     // datasets constraints, specific to this view (UML aggregation)
     collsConstrs: [
       //////////
-      // BoxPlots
+      // BoxPlots and SVDs
       //////////
+      ///////////// WB
       {
-        '@id': 'mktp:_8uJ8t6_price', // machine-generated random UUID
+        '@id': 'mktp:WB_Select_Boxplots_Price_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf78DfG_price', // machine-generated random UUID
+            '@id': 'mktp:WB_Select_Boxplots_Price_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_u8Yg84_price', // machine-generated random UUID
+              '@id': 'mktp:WB_Select_Boxplots_Price_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Toys',
               forProperty: 'hs:Price',
+              forDataset: 'https://www.wildberries.ru',
             },
             service: mktpOntopRepoIri,
           },
@@ -792,18 +799,19 @@ const viewDescrsProds = [
         orderBy: [{ expression: variable('begin0'), descending: false }],
       },
       {
-        '@id': 'mktp:_8uJ8t6_TotalSales', // machine-generated random UUID
+        '@id': 'mktp:WB_Select_Boxplots_TotalSales_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf78DfG_TotalSales', // machine-generated random UUID
+            '@id': 'mktp:WB_Select_Boxplots_TotalSales_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_u8Yg84_TotalSales', // machine-generated random UUID
+              '@id': 'mktp:WB_Select_Boxplots_TotalSales_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Toys',
               forProperty: 'hs:TotalSales',
+              forDataset: 'https://www.wildberries.ru',
             },
             service: mktpOntopRepoIri,
           },
@@ -811,18 +819,19 @@ const viewDescrsProds = [
         orderBy: [{ expression: variable('begin0'), descending: false }],
       },
       {
-        '@id': 'mktp:_8uJ8t7_price', // machine-generated random UUID
+        '@id': 'mktp:WB_Fixed_Boxplots_Price_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf78Dfg_price', // machine-generated random UUID
+            '@id': 'mktp:WB_Fixed_Boxplots_Price_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_u8Yg83_price', // machine-generated random UUID
+              '@id': 'mktp:WB_Fixed_Boxplots_Price_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/igrushki/antistress',
               forProperty: 'hs:Price',
+              forDataset: 'https://www.wildberries.ru',
             },
             service: mktpOntopRepoIri,
           },
@@ -830,18 +839,19 @@ const viewDescrsProds = [
         orderBy: [{ expression: variable('begin0'), descending: false }],
       },
       {
-        '@id': 'mktp:_8uJ8t7_TotalSales', // machine-generated random UUID
+        '@id': 'mktp:WB_Fixed_Boxplots_TotalSales_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf78Dfg_TotalSales', // machine-generated random UUID
+            '@id': 'mktp:WB_Fixed_Boxplots_TotalSales_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_u8Yg83_TotalSales', // machine-generated random UUID
+              '@id': 'mktp:WB_Fixed_Boxplots_TotalSales_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/igrushki/antistress',
               forProperty: 'hs:TotalSales',
+              forDataset: 'https://www.wildberries.ru',
             },
             service: mktpOntopRepoIri,
           },
@@ -849,15 +859,15 @@ const viewDescrsProds = [
         orderBy: [{ expression: variable('begin0'), descending: false }],
       },
       {
-        '@id': 'mktp:_95fFg7', // machine-generated random UUID
+        '@id': 'mktp:WB_Select_SvdDaily_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_w89Df', // machine-generated random UUID
+            '@id': 'mktp:WB_Select_SvdDaily_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'hs:HSSvdDailyShape',
             conditions: {
-              '@id': 'mktp:_sD7fg', // machine-generated random UUID
+              '@id': 'mktp:WB_Select_SvdDaily_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               scvdDailyHasProduct: undefined,
               // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
@@ -868,15 +878,15 @@ const viewDescrsProds = [
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
       },
       {
-        '@id': 'mktp:_aw34F3', // machine-generated random UUID
+        '@id': 'mktp:WB_Select_SvdWeekly_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_Dfg87', // machine-generated random UUID
+            '@id': 'mktp:WB_Select_SvdWeekly_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'hs:HSSvdWeeklyShape',
             conditions: {
-              '@id': 'mktp:_qw89Ds', // machine-generated random UUID
+              '@id': 'mktp:WB_Select_SvdWeekly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               svdWeeklyHasProduct: undefined,
               // we need here chart for property: svdWeekly
@@ -887,15 +897,15 @@ const viewDescrsProds = [
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
       },
       {
-        '@id': 'mktp:_34eF90', // machine-generated random UUID
+        '@id': 'mktp:WB_Select_SvdMonthly_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf364r', // machine-generated random UUID
+            '@id': 'mktp:WB_Select_SvdMonthly_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'hs:HSSvdMonthlyShape',
             conditions: {
-              '@id': 'mktp:_df8D78', // machine-generated random UUID
+              '@id': 'mktp:WB_Select_SvdMonthly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               svdMonthlyHasProduct: undefined,
               // we need here chart for property: svdMonthly
@@ -905,17 +915,17 @@ const viewDescrsProds = [
         ],
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
       },
-      ///////////// Alibaba and Amazon
+      ///////////// Amazon
       {
-        '@id': 'mktp:_Amazon_Boxplots_price', // machine-generated random UUID
+        '@id': 'mktp:Amzn_Select_Boxplots_Price_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_ufd8dfg_price', // machine-generated random UUID
+            '@id': 'mktp:Amzn_Select_Boxplots_Price_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_uddfd83_price', // machine-generated random UUID
+              '@id': 'mktp:Amzn_Select_Boxplots_Price_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'https://www.amazon.com/dp/B0746CXTNJ',
               forProperty: 'hs:Price',
@@ -925,16 +935,17 @@ const viewDescrsProds = [
         ],
         orderBy: [{ expression: variable('begin0'), descending: false }],
       },
+      ///////////// Alibaba
       {
-        '@id': 'mktp:_Ali_Boxplots_price', // machine-generated random UUID
+        '@id': 'mktp:Ali_Select_Boxplots_Price_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_ufd8dsg_price', // machine-generated random UUID
+            '@id': 'mktp:Ali_Select_Boxplots_Price_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_udDSd83_price', // machine-generated random UUID
+              '@id': 'mktp:Ali_Select_Boxplots_Price_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Toys',
               forProperty: 'hs:Price',
@@ -992,7 +1003,7 @@ const viewDescrsProds = [
               {
                 '@id': 'mktp:box1_price', // machine-generated random UUID
                 '@type': 'aldkg:BoxPlotSchema',
-                resultsScope: 'mktp:_8uJ8t6_price', // reference to data
+                resultsScope: 'mktp:WB_Select_Boxplots_Price_Coll', // reference to data
                 options: {
                   shape: 'box',
                   fill: '#2E8DF9',
@@ -1006,7 +1017,7 @@ const viewDescrsProds = [
               {
                 '@id': 'mktp:box2_price', // machine-generated random UUID
                 '@type': 'aldkg:BoxPlotSchema',
-                resultsScope: 'mktp:_8uJ8t7_price', // reference to data
+                resultsScope: 'mktp:WB_Fixed_Boxplots_Price_Coll', // reference to data
                 options: {
                   shape: 'box',
                   fill: '#1FD0BE',
@@ -1060,7 +1071,7 @@ const viewDescrsProds = [
               {
                 '@id': 'mktp:box1_TotalSales', // machine-generated random UUID
                 '@type': 'aldkg:BoxPlotSchema',
-                resultsScope: 'mktp:_8uJ8t6_TotalSales', // reference to data
+                resultsScope: 'mktp:WB_Select_Boxplots_TotalSales_Coll', // reference to data
                 options: {
                   shape: 'box',
                   fill: '#2E8DF9',
@@ -1074,7 +1085,7 @@ const viewDescrsProds = [
               {
                 '@id': 'mktp:box2_TotalSales', // machine-generated random UUID
                 '@type': 'aldkg:BoxPlotSchema',
-                resultsScope: 'mktp:_8uJ8t7_TotalSales', // reference to data
+                resultsScope: 'mktp:WB_Fixed_Boxplots_TotalSales_Coll', // reference to data
                 options: {
                   shape: 'box',
                   fill: '#1FD0BE',
@@ -1130,7 +1141,7 @@ const viewDescrsProds = [
                   {
                     '@id': 'mktp:line_price_daily',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_95fFg7',
+                    resultsScope: 'mktp:WB_Select_SvdDaily_Coll',
                     options: {
                       color: '#FFE0C7',
                       lineWidth: 2,
@@ -1164,7 +1175,7 @@ const viewDescrsProds = [
                   {
                     '@id': 'mktp:line_price_weekly',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_aw34F3',
+                    resultsScope: 'mktp:WB_Select_SvdWeekly_Coll',
                     options: {
                       color: '#FF99C3',
                       lineWidth: 2,
@@ -1198,7 +1209,7 @@ const viewDescrsProds = [
                   {
                     '@id': 'mktp:line_price_monthly',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_34eF90',
+                    resultsScope: 'mktp:WB_Select_SvdMonthly_Coll',
                     options: {
                       color: '#BBDEDE',
                       lineWidth: 2,
