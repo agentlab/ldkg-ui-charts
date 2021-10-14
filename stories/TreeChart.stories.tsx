@@ -64,7 +64,7 @@ const Template: Story = ({ additionalColls, viewDescrId, viewDescrCollId }: any)
   };
   const client = new SparqlClientImpl(
     'https://rdf4j.agentlab.ru/rdf4j-server',
-    'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp/namespaces',
+    'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema/namespaces',
   );
   const rootStore = createUiModelFromState('mktp-fed', client, rootModelState, additionalColls);
   const store: any = asReduxStore(rootStore);
@@ -141,7 +141,7 @@ const viewKindsCats = [
                   connections: [
                     { to: 'mktp:_u8Yg83_price', by: 'hasFeatureOfInterest' },
                     { to: 'mktp:_u8Yg83_TotalSales', by: 'hasFeatureOfInterest' },
-                    { to: 'mktp:_sD7fg', by: 'scvdDailyHasProduct' },
+                    { to: 'mktp:_sD7fg', by: 'svdDailyHasProduct' },
                     { to: 'mktp:_qw89Ds', by: 'svdWeeklyHasProduct' },
                     { to: 'mktp:_df8D78', by: 'svdMonthlyHasProduct' },
                   ],
@@ -267,7 +267,7 @@ const viewKindsCats = [
                 },
                 yField: 'svdDaily',
                 xField: 'bucketEnd',
-                colorField: 'scvdDailyHasProduct',
+                colorField: 'svdDailyHasProduct',
                 mapping: {
                   type: 'object',
                   properties: {
@@ -277,12 +277,12 @@ const viewKindsCats = [
                         lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
                         stroke: { type: 'pointer', value: '/options/stroke' },
                       },
-                      wrapper: { type: 'pointer', value: '/scvdDailyHasProduct' },
+                      wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
                     },
                     color: {
                       type: 'pointer',
                       value: '/options/color',
-                      wrapper: { type: 'pointer', value: '/scvdDailyHasProduct' },
+                      wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
                     },
                   },
                 },
@@ -443,11 +443,11 @@ const viewDescrsCats = [
           {
             '@id': 'mktp:_95fFg7', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
-            schema: 'hs:HSSvdDailyShape',
+            schema: 'mktp:SvdDailyShape',
             conditions: {
               '@id': 'mktp:_sD7fg', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              scvdDailyHasProduct: undefined,
+              svdDailyHasProduct: undefined,
               // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
             },
             service: mktpOntopRepoIri,
@@ -462,7 +462,7 @@ const viewDescrsCats = [
           {
             '@id': 'mktp:_Dfg87', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
-            schema: 'hs:HSSvdWeeklyShape',
+            schema: 'mktp:SvdWeeklyShape',
             conditions: {
               '@id': 'mktp:_qw89Ds', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
@@ -481,7 +481,7 @@ const viewDescrsCats = [
           {
             '@id': 'mktp:_uf364r', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
-            schema: 'hs:HSSvdMonthlyShape',
+            schema: 'mktp:SvdMonthlyShape',
             conditions: {
               '@id': 'mktp:_df8D78', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',

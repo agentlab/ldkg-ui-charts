@@ -35,7 +35,7 @@ const Template: Story = (args: any) => {
 
   const client = new SparqlClientImpl(
     'https://rdf4j.agentlab.ru/rdf4j-server',
-    'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp/namespaces',
+    'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema/namespaces',
   );
 
   const rootStore = createUiModelFromState('mktp-fed', client, rootModelInitialState, additionalColls);
