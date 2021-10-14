@@ -160,6 +160,24 @@ const viewKindsProds = [
           },
         ],
       },
+      // Amazon
+      {
+        '@id': 'mktp:Amzn_Select_ProductCards_Coll',
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:Amzn_Select_ProductCards_Ent',
+            '@type': 'aldkg:EntConstr',
+            schema: 'kp:ProductCardShape',
+            conditions: {
+              '@id': 'mktp:Amzn_Select_ProductCards_Cond',
+              CardInProdLink: 'mktp_d:Toys',
+            },
+            service: mktpSchemaRepoIri,
+          },
+        ],
+      },
+      // Alibaba
       {
         '@id': 'mktp:Ali_Select_ProductCards_Coll',
         '@type': 'aldkg:CollConstr',
@@ -221,6 +239,7 @@ const viewKindsProds = [
                     { to: 'mktp:Ali_Select_Boxplots_Price_Cond', by: 'hasFeatureOfInterest' },
                     // Cards in Product by Marketplace
                     { to: 'mktp:WB_Select_ProductCards_Cond', by: 'CardInProdLink' },
+                    { to: 'mktp:Amzn_Select_ProductCards_Cond', by: 'CardInProdLink' },
                     { to: 'mktp:Ali_Select_ProductCards_Cond', by: 'CardInProdLink' },
                   ],
                 },
@@ -725,6 +744,30 @@ const viewKindsProds = [
                           },
                           totalSalesDiff: {
                             width: 150,
+                            sortable: true,
+                            editable: false,
+                          },
+                        },
+                      },
+                      {
+                        '@id': 'mktp:AmznProductCardsTable',
+                        '@type': 'aldkg:Array',
+                        resultsScope: 'mktp:Amzn_Select_ProductCards_Coll',
+                        options: {
+                          draggable: true,
+                          resizeableHeader: true,
+                          height: 'all-empty-space',
+                          style: { height: '100%' },
+                          order: ['imageUrl', 'name'],
+                          imageUrl: {
+                            width: 60,
+                            formatter: 'image',
+                            editable: false,
+                          },
+                          name: {
+                            width: 340,
+                            formatter: 'link',
+                            dataToFormatter: { link: '@id' },
                             sortable: true,
                             editable: false,
                           },
