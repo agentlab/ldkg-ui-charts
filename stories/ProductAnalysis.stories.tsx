@@ -230,11 +230,15 @@ const viewKindsProds = [
                     // Wildberries charts
                     { to: 'mktp:WB_Select_Boxplots_TotalSales_Cond', by: 'hasFeatureOfInterest' },
                     { to: 'mktp:WB_Select_Boxplots_Price_Cond', by: 'hasFeatureOfInterest' },
-                    { to: 'mktp:WB_Select_SvdDaily_Cond', by: 'scvdDailyHasProduct' },
+                    { to: 'mktp:WB_Select_SvdDaily_Cond', by: 'svdDailyHasProduct' },
                     { to: 'mktp:WB_Select_SvdWeekly_Cond', by: 'svdWeeklyHasProduct' },
                     { to: 'mktp:WB_Select_SvdMonthly_Cond', by: 'svdMonthlyHasProduct' },
                     // Amazon charts
+                    { to: 'mktp:Amzn_Select_Boxplots_TotalSales_Cond', by: 'hasFeatureOfInterest' },
                     { to: 'mktp:Amzn_Select_Boxplots_Price_Cond', by: 'hasFeatureOfInterest' },
+                    { to: 'mktp:Amzn_Select_SvdDaily_Cond', by: 'svdDailyHasProduct' },
+                    { to: 'mktp:Amzn_Select_SvdWeekly_Cond', by: 'svdWeeklyHasProduct' },
+                    { to: 'mktp:Amzn_Select_SvdMonthly_Cond', by: 'svdMonthlyHasProduct' },
                     // 1688 charts
                     { to: 'mktp:Ali_Select_Boxplots_Price_Cond', by: 'hasFeatureOfInterest' },
                     // Cards in Product by Marketplace
@@ -545,7 +549,7 @@ const viewKindsProds = [
                         },
                         yField: 'svdDaily',
                         xField: 'bucketEnd',
-                        colorField: 'scvdDailyHasProduct',
+                        colorField: 'svdDailyHasProduct',
                         mapping: {
                           type: 'object',
                           properties: {
@@ -555,12 +559,12 @@ const viewKindsProds = [
                                 lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
                                 stroke: { type: 'pointer', value: '/options/stroke' },
                               },
-                              wrapper: { type: 'pointer', value: '/scvdDailyHasProduct' },
+                              wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
                             },
                             color: {
                               type: 'pointer',
                               value: '/options/color',
-                              wrapper: { type: 'pointer', value: '/scvdDailyHasProduct' },
+                              wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
                             },
                           },
                         },
@@ -908,11 +912,12 @@ const viewDescrsProds = [
           {
             '@id': 'mktp:WB_Select_SvdDaily_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
-            schema: 'hs:HSSvdDailyShape',
+            schema: 'mktp:SvdDailyShape',
             conditions: {
               '@id': 'mktp:WB_Select_SvdDaily_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              scvdDailyHasProduct: undefined,
+              svdDailyHasProduct: undefined,
+              forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
             },
             service: mktpOntopRepoIri,
@@ -927,11 +932,12 @@ const viewDescrsProds = [
           {
             '@id': 'mktp:WB_Select_SvdWeekly_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
-            schema: 'hs:HSSvdWeeklyShape',
+            schema: 'mktp:SvdWeeklyShape',
             conditions: {
               '@id': 'mktp:WB_Select_SvdWeekly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               svdWeeklyHasProduct: undefined,
+              forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdWeekly
             },
             service: mktpOntopRepoIri,
@@ -946,11 +952,12 @@ const viewDescrsProds = [
           {
             '@id': 'mktp:WB_Select_SvdMonthly_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
-            schema: 'hs:HSSvdMonthlyShape',
+            schema: 'mktp:SvdMonthlyShape',
             conditions: {
               '@id': 'mktp:WB_Select_SvdMonthly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               svdMonthlyHasProduct: undefined,
+              forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdMonthly
             },
             service: mktpOntopRepoIri,
@@ -959,6 +966,26 @@ const viewDescrsProds = [
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
       },
       ///////////// Amazon
+      {
+        '@id': 'mktp:Amzn_Select_Boxplots_TotalSales_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:Amzn_Select_Boxplots_TotalSales_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:BoxPlotBucketShape',
+            conditions: {
+              '@id': 'mktp:Amzn_Select_Boxplots_TotalSales_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              hasFeatureOfInterest: 'mktp_d:Toys',
+              forProperty: 'kp:TotalSalesEstimate',
+              forDataset: 'https://www.amazon.com',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
       {
         '@id': 'mktp:Amzn_Select_Boxplots_Price_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
@@ -978,6 +1005,66 @@ const viewDescrsProds = [
           },
         ],
         orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
+      {
+        '@id': 'mktp:Amzn_Select_SvdDaily_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:Amzn_Select_SvdDaily_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:SvdDailyShape',
+            conditions: {
+              '@id': 'mktp:Amzn_Select_SvdDaily_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              svdDailyHasProduct: undefined,
+              forDataset: 'https://www.amazon.com',
+              // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+      },
+      {
+        '@id': 'mktp:Amzn_Select_SvdWeekly_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:WB_Select_SvdWeekly_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:SvdWeeklyShape',
+            conditions: {
+              '@id': 'mktp:Amzn_Select_SvdWeekly_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              svdWeeklyHasProduct: undefined,
+              forDataset: 'https://www.amazon.com',
+              // we need here chart for property: svdWeekly
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+      },
+      {
+        '@id': 'mktp:Amzn_Select_SvdMonthly_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:Amzn_Select_SvdMonthly_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:SvdMonthlyShape',
+            conditions: {
+              '@id': 'mktp:Amzn_Select_SvdMonthly_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              svdMonthlyHasProduct: undefined,
+              forDataset: 'https://www.amazon.com',
+              // we need here chart for property: svdMonthly
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
       },
       ///////////// Alibaba
       {
