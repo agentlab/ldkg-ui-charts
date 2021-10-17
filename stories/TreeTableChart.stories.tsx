@@ -1288,13 +1288,6 @@ const viewKindsProds = [
                         yField: 'value',
                         outliersField: 'outliers',
                         colorField: 'hasFeatureOfInterest',
-                        adjust: {
-                          type: 'object',
-                          properties: {
-                            type: 'dodge',
-                            marginRatio: 0.3,
-                          },
-                        },
                         mapping: {
                           type: 'object',
                           properties: {
@@ -1343,13 +1336,6 @@ const viewKindsProds = [
                         yField: 'value',
                         outliersField: 'outliers',
                         colorField: 'hasFeatureOfInterest',
-                        adjust: {
-                          type: 'object',
-                          properties: {
-                            type: 'dodge',
-                            marginRatio: 0.3,
-                          },
-                        },
                         mapping: {
                           type: 'object',
                           properties: {
@@ -1622,6 +1608,10 @@ const viewDescrsProds = [
                 customContent: buildCustomTooltip2('Цена'),
               },
               legend: false,
+              adjust: {
+                type: 'dodge',
+                marginRatio: 0.3,
+              },
             },
             elements: [
               //
@@ -1689,6 +1679,10 @@ const viewDescrsProds = [
                 customContent: buildCustomTooltip2('Объем продаж'),
               },
               legend: false,
+              adjust: {
+                type: 'dodge',
+                marginRatio: 0.3,
+              },
             },
             elements: [
               //

@@ -75,7 +75,7 @@ export function buildViewConfig(
             return chartViewPart as any;
           })
           .reduce(viewPartReducer, createEmptyViewPart());
-        return elementOptions ? { ...elementOptions, ...childView } : childView;
+        return elementOptions ? { ...childView, options: { ...elementOptions, ...childView.options } } : childView;
       }
       return { id: element['@id'], views: children };
     } else {

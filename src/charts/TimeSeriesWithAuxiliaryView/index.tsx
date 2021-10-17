@@ -25,29 +25,38 @@ const TimeSeriesWithAuxiliaryView = ({ config = {}, options = {}, onChartReady }
   registerTheme('custom-theme', theme);
 
   const chartOptions = {};
-  const updateViews = config.views.map((view: any) => {
-    const { timeUnit = null } = options;
-    const xyScales = getXYScales(view.meta);
-    const { xScales, yScales } = xyScales;
-    const timeScalesName = Object.keys(xScales)[0];
-    const viewData = timeUnit !== null ? scaleDataToTimeUnit(timeScalesName, timeUnit, view.data) : view.data;
-    const { options: viewOptions = {} } = view;
+  const updateViews = config
+    ? config.views.map((view: any) => {
+        const { timeUnit = null } = options;
+        const xyScales = getXYScales(view.meta);
+        const { xScales, yScales } = xyScales;
+        const timeScalesName = Object.keys(xScales)[0];
+        const viewData = timeUnit !== null ? scaleDataToTimeUnit(timeScalesName, timeUnit, view.data) : view.data;
+        const { options: viewOptions = {} } = view;
 
-    return {
-      ...view,
-      ...(options.yAxes !== false && { axes: configureYAxes(yScales, options.axes?.yAxis?.aliases) }),
-      data: viewData,
-      ...(options.interactions && { interactions: options.interactions }),
-      // TODO: check tooltip options propagation
-      ...(viewOptions.tooltip && { tooltip: viewOptions.tooltip }),
-      //...(viewOptions.legend && { legend: viewOptions.legend }), // TODO: copy to the chart's legend option
-      meta: configureAxesScales(
-        xyScales,
-        { ...options.axes, xAxis: { dateFormat: options.dateFormat || 'DD.MM.YYYY' } },
-        viewData,
-      ),
-    };
-  });
+        return {
+          ...view,
+          ...viewOptions,
+          geometries: view.geometries.map((geometry: any) => ({
+            ...geometry,
+            ...(viewOptions.adjust &&
+              xScales[geometry.xField]?.type !== undefined &&
+              xScales[geometry.xField]?.type !== 'linear' && { adjust: viewOptions.adjust }),
+          })),
+          ...(options.yAxes !== false && { axes: configureYAxes(yScales, options.axes?.yAxis?.aliases) }),
+          data: viewData,
+          ...(options.interactions && { interactions: options.interactions }),
+          // TODO: check tooltip options propagation
+          ...(viewOptions.tooltip && { tooltip: viewOptions.tooltip }),
+          //...(viewOptions.legend && { legend: viewOptions.legend }), // TODO: copy to the chart's legend option
+          meta: configureAxesScales(
+            xyScales,
+            { ...options.axes, xAxis: { dateFormat: options.dateFormat || 'DD.MM.YYYY' } },
+            viewData,
+          ),
+        };
+      })
+    : [];
 
   const chartConfig: any = {
     options: chartOptions,

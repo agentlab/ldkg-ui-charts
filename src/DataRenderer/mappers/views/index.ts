@@ -39,6 +39,10 @@ function assignExpressionValue(property: any, expression: any, subject: any) {
     json: actualSubject,
   });
 
+  if (values.length === 0) {
+    return assignValue(property, null);
+  }
+
   if (expressionString) {
     // eslint-disable-next-line no-eval
     const callback = eval(expressionString);
@@ -143,7 +147,7 @@ export default function ViewPartMapper(mappings: any) {
     const { meta: elementMeta } = element;
     const metaFields = [viewElementGeometry?.xField, viewElementGeometry?.yField];
     return metaFields.reduce(
-      (acc: any, metaField: any) => Object.assign(acc, { [metaField]: elementMeta[metaField] ?? {} }),
+      (acc: any, metaField: any) => Object.assign(acc, { [metaField]: elementMeta?.[metaField] ?? {} }),
       {},
     );
   };
