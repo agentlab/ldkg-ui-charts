@@ -22,7 +22,6 @@ import { Provider } from 'react-redux';
 import { chartsRenderers } from '../src';
 import { additionalCollsLocal, localChartsViewDescrs } from '../src/store/data';
 import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/store/MstViewElements';
-import { boxPlotBucketShape, observationShape } from '../src/store/shapes';
 
 export default {
   title: '1 Control/GroupedBoxPlot',
@@ -38,20 +37,7 @@ const Template: Story = (args: any) => {
     'https://rdf4j.agentlab.ru/rdf4j-server',
     'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp/namespaces',
   );
-  const rootStore = createUiModelFromState(
-    'mktp-fed',
-    client,
-    {
-      ...rootModelInitialState,
-      schemas: {
-        json: {
-          [observationShape['@id']]: observationShape,
-          [boxPlotBucketShape['@id']]: boxPlotBucketShape,
-        },
-      },
-    },
-    additionalCollsLocal,
-  );
+  const rootStore = createUiModelFromState('mktp-fed', client, rootModelInitialState, additionalCollsLocal);
   const store: any = asReduxStore(rootStore);
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   connectReduxDevtools(require('remotedev'), rootStore);
