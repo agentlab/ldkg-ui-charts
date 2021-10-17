@@ -431,7 +431,7 @@ const viewKindsProds = [
                         xField: 'begin',
                         yField: 'value',
                         outliersField: 'outliers',
-                        colorField: 'hasFeatureOfInterest',
+                        colorField: 'forDataset',
                         mapping: {
                           type: 'object',
                           properties: {
@@ -443,11 +443,16 @@ const viewKindsProds = [
                                 stroke: { type: 'pointer', value: '/options/stroke' },
                                 fillOpacity: { type: 'pointer', value: '/options/fillOpacity', default: 0.5 },
                               },
-                              wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
                             },
                             shape: {
                               type: 'pointer',
                               value: '/options/shape',
+                            },
+                            color: {
+                              type: 'pointer',
+                              value: '/options/color',
+                              wrapper: { type: 'pointer', value: '/forDataset' },
                             },
                           },
                         },
@@ -479,7 +484,7 @@ const viewKindsProds = [
                         xField: 'begin',
                         yField: 'value',
                         outliersField: 'outliers',
-                        colorField: 'hasFeatureOfInterest',
+                        colorField: 'forDataset',
                         mapping: {
                           type: 'object',
                           properties: {
@@ -491,11 +496,16 @@ const viewKindsProds = [
                                 stroke: { type: 'pointer', value: '/options/stroke' },
                                 fillOpacity: { type: 'pointer', value: '/options/fillOpacity', default: 0.5 },
                               },
-                              wrapper: { type: 'pointer', value: '/hasFeatureOfInterest' },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
                             },
                             shape: {
                               type: 'pointer',
                               value: '/options/shape',
+                            },
+                            color: {
+                              type: 'pointer',
+                              value: '/options/color',
+                              wrapper: { type: 'pointer', value: '/forDataset' },
                             },
                           },
                         },
@@ -1079,7 +1089,6 @@ const viewDescrsProds = [
           timeUnit: 'day',
           dateFormat: 'DD.MM.YYYY',
           showOutliers: true,
-          showDatePicker: false,
           interactions: [{ type: 'active-region' }],
           axes: {
             yAxis: {
@@ -1110,21 +1119,7 @@ const viewDescrsProds = [
             },
             elements: [
               //
-              // Category 1
-              //
-              {
-                '@id': 'mktp:box1_price', // machine-generated random UUID
-                '@type': 'aldkg:BoxPlotSchema',
-                resultsScope: 'mktp:WB_Select_Boxplots_Price_Coll', // reference to data
-                options: {
-                  shape: 'box',
-                  fill: '#2E8DF9',
-                  stroke: '#2E8DF9',
-                  color: '#2E8DF9',
-                },
-              },
-              //
-              // Category 2
+              // Category WB
               //
               {
                 '@id': 'mktp:box2_price', // machine-generated random UUID
@@ -1132,8 +1127,37 @@ const viewDescrsProds = [
                 resultsScope: 'mktp:WB_Fixed_Boxplots_Price_Coll', // reference to data
                 options: {
                   shape: 'box',
-                  fill: '#1FD0BE',
-                  stroke: '#1FD0BE',
+                  fill: '#7D256F',
+                  stroke: '#7D256F',
+                  color: '#7D256F',
+                },
+              },
+              //
+              // Category Amazon
+              //
+              {
+                '@id': 'mktp:box1_price', // machine-generated random UUID
+                '@type': 'aldkg:BoxPlotSchema',
+                resultsScope: 'mktp:Amzn_Select_Boxplots_Price_Coll', // reference to data
+                options: {
+                  shape: 'box',
+                  fill: '#FF9900',
+                  stroke: '#FF9900',
+                  color: '#FF9900',
+                },
+              },
+              //
+              // Category AliExpress
+              //
+              {
+                '@id': 'mktp:box1_price', // machine-generated random UUID
+                '@type': 'aldkg:BoxPlotSchema',
+                resultsScope: 'mktp:Ali_Select_Boxplots_Price_Coll', // reference to data
+                options: {
+                  shape: 'box',
+                  fill: '#E52F20',
+                  stroke: '#E52F20',
+                  color: '#E52F20',
                 },
               },
             ],
@@ -1190,22 +1214,9 @@ const viewDescrsProds = [
                 resultsScope: 'mktp:WB_Select_Boxplots_TotalSales_Coll', // reference to data
                 options: {
                   shape: 'box',
-                  fill: '#2E8DF9',
-                  stroke: '#2E8DF9',
-                  color: '#2E8DF9',
-                },
-              },
-              //
-              // Category 2
-              //
-              {
-                '@id': 'mktp:box2_TotalSales', // machine-generated random UUID
-                '@type': 'aldkg:BoxPlotSchema',
-                resultsScope: 'mktp:WB_Fixed_Boxplots_TotalSales_Coll', // reference to data
-                options: {
-                  shape: 'box',
-                  fill: '#1FD0BE',
-                  stroke: '#1FD0BE',
+                  fill: '#7D256F',
+                  stroke: '#7D256F',
+                  color: '#7D256F',
                 },
               },
             ],

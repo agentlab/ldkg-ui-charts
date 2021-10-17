@@ -77,6 +77,7 @@ const TimeSeriesWithAuxiliaryView = ({ config = {}, options = {}, onChartReady }
       svdDailyHasProduct: false,
       svdWeeklyHasProduct: false,
       svdMonthlyHasProduct: false,
+      forDataset: false,
     },
   };
 
