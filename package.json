@@ -55,7 +55,9 @@
     "@antv/g2plot": "2.3.37",
     "@types/json-pointer": "^1.0.31",
     "json-pointer": "^0.6.1",
-    "jsonpath-plus": "^6.0.1"
+    "jsonpath-plus": "^6.0.1",
+    "mobx": "^6.3.5",
+    "mobx-state-tree": "^5.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
