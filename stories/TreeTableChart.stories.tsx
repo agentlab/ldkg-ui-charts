@@ -84,6 +84,19 @@ const viewKindsCats = [
     description: 'TreeTableChart',
     collsConstrs: [
       {
+        '@id': 'mktp:Marketplaces_Coll',
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:Marketplaces_Coll_Ent',
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:MarketplaceShape',
+            service: mktpSchemaRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('rank0'), descending: false }],
+      },
+      {
         '@id': 'mktp:Categories_Coll',
         '@type': 'aldkg:CollConstr',
         entConstrs: [
@@ -100,11 +113,11 @@ const viewKindsCats = [
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:ProductCards_in_Category_Coll_Ent0',
+            '@id': 'mktp:ProductCards_in_Category_Coll_Ent',
             '@type': 'aldkg:EntConstr',
             schema: 'hs:ProductCardShape',
             conditions: {
-              '@id': 'mktp:ProductCards_in_Category_Coll_Ent0_con',
+              '@id': 'mktp:ProductCards_in_Category_Coll_Ent_con',
               CardInCatLink: 'https://www.wildberries.ru/catalog/zdorove/ozdorovlenie?sort=popular&page=1&xsubject=594',
             },
             service: mktpSchemaRepoIri,
@@ -117,6 +130,32 @@ const viewKindsCats = [
         '@id': 'mktp:_29kFg89',
         '@type': 'aldkg:VerticalLayout',
         elements: [
+          {
+            '@id': 'mktp:_df7eds',
+            '@type': 'aldkg:TabControl',
+            // by this resultsScope TabControl could have read access to the results, selected by Query with @id='rm:ProjectViewClass_ArtifactFormats_Query'
+            resultsScope: 'mktp:Marketplaces_Coll', // bind to results data by query @id
+            options: {
+              title: 'Маркетплейсы',
+              style: {
+                margin: '0 0 0 24px',
+              },
+              contentSize: true,
+              // by this connection TabControl could have read/write access to the property 'artifactFormat' in condition object with @id='rm:ProjectViewClass_Artifacts_Query_Shape0_Condition'
+              connections: [
+                {
+                  toObj: 'mktp:Categories_Coll_Ent',
+                  toProp: 'schema',
+                  fromProp: 'categoryShape',
+                },
+                {
+                  toObj: 'mktp:ProductCards_in_Category_Coll_Ent',
+                  toProp: 'schema',
+                  fromProp: 'productCardShape',
+                },
+              ],
+            },
+          },
           {
             '@id': 'mktp:_934Jfg7',
             '@type': 'aldkg:SplitPaneLayout',
@@ -134,44 +173,16 @@ const viewKindsCats = [
             },
             elements: [
               {
-                '@id': 'mktp:MarketplacesTabs',
-                '@type': 'aldkg:TabsLayout',
-                elements: [
-                  {
-                    '@id': 'mktp:_23sLhd67',
-                    '@type': 'aldkg:DataControl',
-                    resultsScope: 'mktp:Categories_Coll',
-                    options: {
-                      renderType: 'tree',
-                      title: 'WildBerries',
-                      treeNodeTitleKey: 'name',
-                      treeNodeParentKey: 'SubcatInCatLink',
-                      connections: [{ to: 'mktp:ProductCards_in_Category_Coll_Ent0_con', by: 'CardInCatLink' }],
-                    },
-                  },
-                  {
-                    '@id': 'mktp:_90Syd67',
-                    '@type': 'aldkg:DataControl',
-                    resultsScope: 'mktp:Categories_Coll_Amzn',
-                    options: {
-                      renderType: 'tree',
-                      title: 'Amazon',
-                      treeNodeTitleKey: 'name',
-                      treeNodeParentKey: 'SubcatInCatLink',
-                    },
-                  },
-                  {
-                    '@id': 'mktp:_20dAy80',
-                    '@type': 'aldkg:DataControl',
-                    resultsScope: 'mktp:Categories_Coll_1688',
-                    options: {
-                      renderType: 'tree',
-                      title: '1688',
-                      treeNodeTitleKey: 'name',
-                      treeNodeParentKey: 'SubcatInCatLink',
-                    },
-                  },
-                ],
+                '@id': 'mktp:_23sLhd67',
+                '@type': 'aldkg:DataControl',
+                resultsScope: 'mktp:Categories_Coll',
+                options: {
+                  renderType: 'tree',
+                  title: 'Категории маркетплейса',
+                  treeNodeTitleKey: 'name',
+                  treeNodeParentKey: 'SubcatInCatLink',
+                  connections: [{ toObj: 'mktp:ProductCards_in_Category_Coll_Ent_con', toProp: 'CardInCatLink' }],
+                },
               },
               {
                 '@id': 'mktp:CategoryCardsTable',
@@ -179,10 +190,10 @@ const viewKindsCats = [
                 resultsScope: 'mktp:ProductCards_in_Category_Coll',
                 options: {
                   connections: [
-                    { to: 'mktp:_u8Yg83', by: 'product' },
-                    { to: 'mktp:_sD7fg', by: 'svdDailyHasProduct' },
-                    { to: 'mktp:_qw89Ds', by: 'svdWeeklyHasProduct' },
-                    { to: 'mktp:_df8D78', by: 'svdMonthlyHasProduct' },
+                    { toObj: 'mktp:_u8Yg83', toProp: 'product' },
+                    { toObj: 'mktp:_sD7fg', toProp: 'svdDailyHasProduct' },
+                    { toObj: 'mktp:_qw89Ds', toProp: 'svdWeeklyHasProduct' },
+                    { toObj: 'mktp:_df8D78', toProp: 'svdMonthlyHasProduct' },
                   ],
                   draggable: true,
                   resizeableHeader: true,
@@ -1194,10 +1205,10 @@ const viewKindsProds = [
                   treeNodeTitleKey: 'title',
                   treeNodeParentKey: 'SubProdInProdLink',
                   connections: [
-                    { to: 'mktp:Product_Coll_Ent0_Cond', by: '@_id' },
-                    { to: 'mktp:_u8Yg84_price', by: 'hasFeatureOfInterest' },
-                    { to: 'mktp:_u8Yg84_TotalSales', by: 'hasFeatureOfInterest' },
-                    { to: 'mktp:ProductCards_in_Product_Coll_Ent0_Cond', by: 'CardInProdLink' },
+                    { toObj: 'mktp:Product_Coll_Ent0_Cond', toProp: '@_id' },
+                    { toObj: 'mktp:_u8Yg84_price', toProp: 'hasFeatureOfInterest' },
+                    { toObj: 'mktp:_u8Yg84_TotalSales', toProp: 'hasFeatureOfInterest' },
+                    { toObj: 'mktp:ProductCards_in_Product_Coll_Ent0_Cond', toProp: 'CardInProdLink' },
                   ],
                 },
               },
