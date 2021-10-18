@@ -15,7 +15,6 @@ import {
   createUiModelFromState,
   Form,
   MstContextProvider,
-  registerMstViewKindSchema,
   RendererRegistryEntry,
   tableRenderers,
   viewDescrCollConstr,
@@ -29,7 +28,6 @@ import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { chartsRenderers } from '../src';
-import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/store/MstViewElements';
 
 const buildCustomTooltip = (property: string) => (title: string, items: any[]) => {
   const tooltipItems = items
@@ -51,6 +49,8 @@ const categoryNames: any = {
 export default {
   title: '1 Control/BoxPlotCompare',
   component: Form,
+  // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
+  parameters: { docs: { source: { type: 'code' } } },
 } as Meta;
 
 const Template: Story = ({ additionalColls, viewDescrId, viewDescrCollId }: any) => {
@@ -61,8 +61,6 @@ const Template: Story = ({ additionalColls, viewDescrId, viewDescrCollId }: any)
     ...tableRenderers,
     ...chartsRenderers,
   ];
-  registerMstViewKindSchema(MstTimeSeriesChartVKElement);
-  registerMstViewKindSchema(MstBoxPlotChartVKElement);
 
   const client = new SparqlClientImpl(
     'https://rdf4j.agentlab.ru/rdf4j-server',

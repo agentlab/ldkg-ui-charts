@@ -7,7 +7,14 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import { RankedTester, rankWith, uiTypeIs } from '@agentlab/ldkg-ui-react';
+import {
+  CellRendererRegistryEntry,
+  RankedTester,
+  rankWith,
+  RendererRegistryEntry,
+  uiTypeIs,
+} from '@agentlab/ldkg-ui-react';
+import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../store/MstViewElements';
 import { ChartCellRenderer } from './ChartCellRenderer';
 import { ChartRenderer } from './ChartRenderer';
 
@@ -17,12 +24,12 @@ export const boxplotChartRendererTester2: RankedTester = rankWith(2, uiTypeIs('a
 export { ChartCellRenderer } from './ChartCellRenderer';
 export { ChartRenderer } from './ChartRenderer';
 
-export const chartsRenderers = [
-  { tester: timeseriesChartRendererTester1, renderer: ChartRenderer },
-  { tester: boxplotChartRendererTester2, renderer: ChartRenderer },
+export const chartsRenderers: RendererRegistryEntry[] = [
+  { tester: timeseriesChartRendererTester1, renderer: ChartRenderer, mstVkeType: MstTimeSeriesChartVKElement },
+  { tester: boxplotChartRendererTester2, renderer: ChartRenderer, mstVkeType: MstBoxPlotChartVKElement },
 ];
 
-export const cellRenderers = [
-  { tester: timeseriesChartRendererTester1, cell: ChartCellRenderer },
-  { tester: boxplotChartRendererTester2, cell: ChartCellRenderer },
+export const cellRenderers: CellRendererRegistryEntry[] = [
+  { tester: timeseriesChartRendererTester1, cell: ChartCellRenderer, mstVkeType: MstTimeSeriesChartVKElement },
+  { tester: boxplotChartRendererTester2, cell: ChartCellRenderer, mstVkeType: MstBoxPlotChartVKElement },
 ];

@@ -12,7 +12,6 @@ import {
   createUiModelFromState,
   Form,
   MstContextProvider,
-  registerMstViewKindSchema,
   viewDescrCollConstr,
 } from '@agentlab/ldkg-ui-react';
 import { rootModelInitialState, SparqlClientImpl } from '@agentlab/sparql-jsld-client';
@@ -22,17 +21,16 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { chartsRenderers } from '../src';
 import { additionalColls, denormalizedObservationsViewDescrs } from '../src/store/DenormalizedObservationsData';
-import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/store/MstViewElements';
 
 export default {
   title: '1 Control/DenormalizedObservations',
   component: Form,
+  // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
+  parameters: { docs: { source: { type: 'code' } } },
 } as Meta;
 
 const Template: Story = (args: any) => {
   const renderers = [...antdLayoutRenderers, ...chartsRenderers];
-  registerMstViewKindSchema(MstTimeSeriesChartVKElement);
-  registerMstViewKindSchema(MstBoxPlotChartVKElement);
 
   const client = new SparqlClientImpl(
     'https://rdf4j.agentlab.ru/rdf4j-server',

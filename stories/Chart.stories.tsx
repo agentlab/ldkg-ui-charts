@@ -15,6 +15,8 @@ import { PieTooltipDemo } from '../src/charts/PieTooltipDemo';
 
 export default {
   title: '1 Control/ChartDemo',
+  // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
+  parameters: { docs: { source: { type: 'code' } } },
 } as Meta;
 
 export const PieTooltip = (): ReactNode => <PieTooltipDemo />;

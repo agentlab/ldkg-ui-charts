@@ -15,8 +15,6 @@ import {
   createUiModelFromState,
   Form,
   MstContextProvider,
-  MstVerticalLayout,
-  registerMstViewKindSchema,
   RendererRegistryEntry,
   viewDescrCollConstr,
   viewKindCollConstr,
@@ -28,7 +26,7 @@ import moment from 'moment';
 import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { cellRenderers, MstTimeSeriesChartVKElement } from '../src';
+import { cellRenderers } from '../src';
 import {
   HSObservationShapeSchemaForCardsListShape,
   productCardShapeSchemaForCardsListShape,
@@ -49,6 +47,8 @@ export default {
         { name: 'white', value: 'rgba(255,255,255, 1)' },
       ],
     },
+    // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
+    docs: { source: { type: 'code' } },
   },
 } as Meta;
 
@@ -58,8 +58,6 @@ export const Full: Story<{}> = () => {
     ...antdLayoutRenderers,
     ...antdDataControlRenderers,
   ];
-  registerMstViewKindSchema(MstVerticalLayout);
-  registerMstViewKindSchema(MstTimeSeriesChartVKElement);
   const client = new SparqlClientImpl(
     'https://rdf4j.agentlab.ru/rdf4j-server',
     'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp/namespaces',

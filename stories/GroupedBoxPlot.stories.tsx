@@ -7,13 +7,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
-import {
-  createUiModelFromState,
-  Form,
-  MstContextProvider,
-  registerMstViewKindSchema,
-  viewDescrCollConstr,
-} from '@agentlab/ldkg-ui-react';
+import { createUiModelFromState, Form, MstContextProvider, viewDescrCollConstr } from '@agentlab/ldkg-ui-react';
 import { rootModelInitialState, SparqlClientImpl } from '@agentlab/sparql-jsld-client';
 import { Meta, Story } from '@storybook/react';
 import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
@@ -21,17 +15,16 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { chartsRenderers } from '../src';
 import { additionalCollsLocal, localChartsViewDescrs } from '../src/store/data';
-import { MstBoxPlotChartVKElement, MstTimeSeriesChartVKElement } from '../src/store/MstViewElements';
 
 export default {
   title: '1 Control/GroupedBoxPlot',
   component: Form,
+  // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
+  parameters: { docs: { source: { type: 'code' } } },
 } as Meta;
 
 const Template: Story = (args: any) => {
   const renderers = [...chartsRenderers];
-  registerMstViewKindSchema(MstTimeSeriesChartVKElement);
-  registerMstViewKindSchema(MstBoxPlotChartVKElement);
 
   const client = new SparqlClientImpl(
     'https://rdf4j.agentlab.ru/rdf4j-server',
