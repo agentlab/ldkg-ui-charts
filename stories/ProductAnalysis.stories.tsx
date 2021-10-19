@@ -1229,6 +1229,20 @@ const viewDescrsProds = [
                   color: '#7D256F',
                 },
               },
+              //
+              // Category Amazon
+              //
+              {
+                '@id': 'mktp:box2_TotalSales', // machine-generated random UUID
+                '@type': 'aldkg:BoxPlotSchema',
+                resultsScope: 'mktp:Amzn_Select_Boxplots_TotalSales_Coll', // reference to data
+                options: {
+                  shape: 'box',
+                  fill: '#FF9900',
+                  stroke: '#FF9900',
+                  color: '#FF9900',
+                },
+              },
             ],
           },
         ],
