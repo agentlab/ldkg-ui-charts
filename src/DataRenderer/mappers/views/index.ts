@@ -69,7 +69,10 @@ function assign(object: any, value: any, wrapper?: any, contextObject?: any, pro
       }
       case 'pointer':
         {
-          const pointerValue = getPointerValue(wrapper.value, contextObject);
+          let pointerValue = getPointerValue(wrapper.value, contextObject);
+          if (typeof pointerValue === 'object' && pointerValue !== null) {
+            pointerValue = pointerValue['@id'];
+          }
           if (pointerValue) {
             objectValueToAssign = { [property]: { [pointerValue]: value[property] } };
           }
