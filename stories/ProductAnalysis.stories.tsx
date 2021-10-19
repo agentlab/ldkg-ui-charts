@@ -912,7 +912,7 @@ const viewDescrsProds = [
             conditions: {
               '@id': 'mktp:WB_Select_SvdDaily_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdDailyHasProduct: undefined,
+              svdDailyHasProduct: null,
               forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
             },
@@ -932,7 +932,7 @@ const viewDescrsProds = [
             conditions: {
               '@id': 'mktp:WB_Select_SvdWeekly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdWeeklyHasProduct: undefined,
+              svdWeeklyHasProduct: null,
               forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdWeekly
             },
@@ -952,7 +952,7 @@ const viewDescrsProds = [
             conditions: {
               '@id': 'mktp:WB_Select_SvdMonthly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdMonthlyHasProduct: undefined,
+              svdMonthlyHasProduct: null,
               forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdMonthly
             },
@@ -993,7 +993,7 @@ const viewDescrsProds = [
             conditions: {
               '@id': 'mktp:Amzn_Select_Boxplots_Price_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              hasFeatureOfInterest: 'https://www.amazon.com/dp/B0746CXTNJ',
+              hasFeatureOfInterest: 'mktp_d:Toys',
               forProperty: 'hs:Price',
               forDataset: 'https://www.amazon.com',
             },
@@ -1013,7 +1013,7 @@ const viewDescrsProds = [
             conditions: {
               '@id': 'mktp:Amzn_Select_SvdDaily_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdDailyHasProduct: undefined,
+              svdDailyHasProduct: null,
               forDataset: 'https://www.amazon.com',
               // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
             },
@@ -1033,7 +1033,7 @@ const viewDescrsProds = [
             conditions: {
               '@id': 'mktp:Amzn_Select_SvdWeekly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdWeeklyHasProduct: undefined,
+              svdWeeklyHasProduct: null,
               forDataset: 'https://www.amazon.com',
               // we need here chart for property: svdWeekly
             },
@@ -1053,7 +1053,7 @@ const viewDescrsProds = [
             conditions: {
               '@id': 'mktp:Amzn_Select_SvdMonthly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdMonthlyHasProduct: undefined,
+              svdMonthlyHasProduct: null,
               forDataset: 'https://www.amazon.com',
               // we need here chart for property: svdMonthly
             },

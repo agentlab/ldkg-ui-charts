@@ -366,8 +366,9 @@ const viewDescrsCats = [
             conditions: {
               '@id': 'mktp:_u8Yg83_price', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              hasFeatureOfInterest: undefined,
+              hasFeatureOfInterest: null,
               forProperty: 'hs:Price',
+              forDataset: 'https://www.wildberries.ru',
               //hasUpperOutlier: '?eIri1',
               //hasLowerOutlier: '?eIri2',
             },
@@ -399,7 +400,8 @@ const viewDescrsCats = [
             conditions: {
               '@id': 'mktp:_u8Yg83_TotalSales', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              hasFeatureOfInterest: undefined,
+              hasFeatureOfInterest: null,
+              forDataset: 'https://www.wildberries.ru',
               forProperty: 'hs:TotalSales',
               //hasUpperOutlier: '?eIri1',
               //hasLowerOutlier: '?eIri2',
@@ -435,7 +437,8 @@ const viewDescrsCats = [
             conditions: {
               '@id': 'mktp:_sD7fg', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdDailyHasProduct: undefined,
+              svdDailyHasProduct: null,
+              forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
             },
             service: mktpOntopRepoIri,
@@ -454,7 +457,8 @@ const viewDescrsCats = [
             conditions: {
               '@id': 'mktp:_qw89Ds', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdWeeklyHasProduct: undefined,
+              svdWeeklyHasProduct: null,
+              forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdWeekly
             },
             service: mktpOntopRepoIri,
@@ -473,7 +477,8 @@ const viewDescrsCats = [
             conditions: {
               '@id': 'mktp:_df8D78', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdMonthlyHasProduct: undefined,
+              svdMonthlyHasProduct: null,
+              forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdMonthly
             },
             service: mktpOntopRepoIri,

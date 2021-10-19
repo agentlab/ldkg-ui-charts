@@ -118,7 +118,7 @@ const viewKindsCats = [
             schema: 'hs:ProductCardShape',
             conditions: {
               '@id': 'mktp:ProductCards_in_Category_Coll_Ent_con',
-              CardInCatLink: 'https://www.wildberries.ru/catalog/zdorove/ozdorovlenie?sort=popular&page=1&xsubject=594',
+              CardInCatLink: 'mktp_d:Toys',
             },
             service: mktpSchemaRepoIri,
           },
@@ -143,16 +143,11 @@ const viewKindsCats = [
               contentSize: true,
               // by this connection TabControl could have read/write access to the property 'artifactFormat' in condition object with @id='rm:ProjectViewClass_Artifacts_Query_Shape0_Condition'
               connections: [
-                {
-                  toObj: 'mktp:Categories_Coll_Ent',
-                  toProp: 'schema',
-                  fromProp: 'categoryShape',
-                },
-                {
-                  toObj: 'mktp:ProductCards_in_Category_Coll_Ent',
-                  toProp: 'schema',
-                  fromProp: 'productCardShape',
-                },
+                { toObj: 'mktp:Categories_Coll_Ent', toProp: 'schema', fromProp: 'categoryShape' },
+                { toObj: 'mktp:ProductCards_in_Category_Coll_Ent', toProp: 'schema', fromProp: 'productCardShape' },
+                { toObj: 'mktp:_sD7fg', toProp: 'forDataset' },
+                { toObj: 'mktp:_qw89Ds', toProp: 'forDataset' },
+                { toObj: 'mktp:_df8D78', toProp: 'forDataset' },
               ],
             },
           },
@@ -529,7 +524,7 @@ const viewDescrsCats = [
             conditions: {
               '@id': 'mktp:_u8Yg83', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              product: undefined,
+              product: null,
             },
             service: mktpOntopRepoIri,
           },
@@ -547,7 +542,8 @@ const viewDescrsCats = [
             conditions: {
               '@id': 'mktp:_sD7fg', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdDailyHasProduct: undefined,
+              svdDailyHasProduct: null,
+              forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
             },
             service: mktpOntopRepoIri,
@@ -566,7 +562,8 @@ const viewDescrsCats = [
             conditions: {
               '@id': 'mktp:_qw89Ds', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdWeeklyHasProduct: undefined,
+              svdWeeklyHasProduct: null,
+              forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdWeekly
             },
             service: mktpOntopRepoIri,
@@ -585,7 +582,8 @@ const viewDescrsCats = [
             conditions: {
               '@id': 'mktp:_df8D78', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdMonthlyHasProduct: undefined,
+              forDataset: 'https://www.wildberries.ru',
+              svdMonthlyHasProduct: null,
               // we need here chart for property: svdMonthly
             },
             service: mktpOntopRepoIri,
@@ -1151,7 +1149,7 @@ const viewKindsProds = [
             schema: 'mktp:ProductShape',
             conditions: {
               '@id': 'mktp:Product_Coll_Ent0_Cond',
-              '@_id': undefined,
+              '@_id': null,
             },
             service: mktpSchemaRepoIri,
           },
@@ -1505,6 +1503,7 @@ const viewDescrsProds = [
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Toys',
               forProperty: 'hs:Price',
+              forDataset: 'https://www.wildberries.ru',
             },
             service: mktpOntopRepoIri,
           },
@@ -1524,6 +1523,7 @@ const viewDescrsProds = [
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Toys',
               forProperty: 'hs:TotalSales',
+              forDataset: 'https://www.wildberries.ru',
             },
             service: mktpOntopRepoIri,
           },
@@ -1543,6 +1543,7 @@ const viewDescrsProds = [
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/igrushki/antistress',
               forProperty: 'hs:Price',
+              forDataset: 'https://www.wildberries.ru',
             },
             service: mktpOntopRepoIri,
           },
@@ -1562,6 +1563,7 @@ const viewDescrsProds = [
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/igrushki/antistress',
               forProperty: 'hs:TotalSales',
+              forDataset: 'https://www.wildberries.ru',
             },
             service: mktpOntopRepoIri,
           },
