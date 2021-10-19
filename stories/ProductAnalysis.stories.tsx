@@ -533,7 +533,7 @@ const viewKindsProds = [
                         },
                         yField: 'svdDaily',
                         xField: 'bucketEnd',
-                        colorField: 'svdDailyHasProduct',
+                        colorField: 'forDataset',
                         mapping: {
                           type: 'object',
                           properties: {
@@ -543,12 +543,12 @@ const viewKindsProds = [
                                 lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
                                 stroke: { type: 'pointer', value: '/options/stroke' },
                               },
-                              wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
                             },
                             color: {
                               type: 'pointer',
                               value: '/options/color',
-                              wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
                             },
                             shape: {
                               type: 'pointer',
@@ -567,7 +567,7 @@ const viewKindsProds = [
                         },
                         yField: 'svdWeekly',
                         xField: 'bucketEnd',
-                        colorField: 'svdWeeklyHasProduct',
+                        colorField: 'forDataset',
                         mapping: {
                           type: 'object',
                           properties: {
@@ -577,12 +577,12 @@ const viewKindsProds = [
                                 lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
                                 stroke: { type: 'pointer', value: '/options/stroke' },
                               },
-                              wrapper: { type: 'pointer', value: '/svdWeeklyHasProduct' },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
                             },
                             color: {
                               type: 'pointer',
                               value: '/options/color',
-                              wrapper: { type: 'pointer', value: '/svdWeeklyHasProduct' },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
                             },
                             shape: {
                               type: 'pointer',
@@ -601,7 +601,7 @@ const viewKindsProds = [
                         },
                         yField: 'svdMonthly',
                         xField: 'bucketEnd',
-                        colorField: 'svdMonthlyHasProduct',
+                        colorField: 'forDataset',
                         mapping: {
                           type: 'object',
                           properties: {
@@ -611,12 +611,12 @@ const viewKindsProds = [
                                 lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
                                 stroke: { type: 'pointer', value: '/options/stroke' },
                               },
-                              wrapper: { type: 'pointer', value: '/svdMonthlyHasProduct' },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
                             },
                             color: {
                               type: 'pointer',
                               value: '/options/color',
-                              wrapper: { type: 'pointer', value: '/svdMonthlyHasProduct' },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
                             },
                             shape: {
                               type: 'pointer',
@@ -1294,9 +1294,20 @@ const viewDescrsProds = [
                     '@type': 'aldkg:ChartLine',
                     resultsScope: 'mktp:WB_Select_SvdDaily_Coll',
                     options: {
-                      color: '#FFE0C7',
+                      color: '#7D256F',
                       lineWidth: 2,
-                      stroke: '#FFE0C7',
+                      stroke: '#7D256F',
+                      shape: 'hvh',
+                    },
+                  },
+                  {
+                    '@id': 'mktp:line_amzn_price_daily',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:Amzn_Select_SvdDaily_Coll',
+                    options: {
+                      color: '#FF9900',
+                      lineWidth: 2,
+                      stroke: '#FF9900',
                       shape: 'hvh',
                     },
                   },
@@ -1329,9 +1340,20 @@ const viewDescrsProds = [
                     '@type': 'aldkg:ChartLine',
                     resultsScope: 'mktp:WB_Select_SvdWeekly_Coll',
                     options: {
-                      color: '#FF99C3',
+                      color: '#7D256F',
                       lineWidth: 2,
-                      stroke: '#FF99C3',
+                      stroke: '#7D256F',
+                      shape: 'hvh',
+                    },
+                  },
+                  {
+                    '@id': 'mktp:line_amzn_price_weekly',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:Amzn_Select_SvdWeekly_Coll',
+                    options: {
+                      color: '#FF9900',
+                      lineWidth: 2,
+                      stroke: '#FF9900',
                       shape: 'hvh',
                     },
                   },
@@ -1364,9 +1386,20 @@ const viewDescrsProds = [
                     '@type': 'aldkg:ChartLine',
                     resultsScope: 'mktp:WB_Select_SvdMonthly_Coll',
                     options: {
-                      color: '#BBDEDE',
+                      color: '#7D256F',
                       lineWidth: 2,
-                      stroke: '#BBDEDE',
+                      stroke: '#7D256F',
+                      shape: 'hvh',
+                    },
+                  },
+                  {
+                    '@id': 'mktp:line_amzn_price_monthly',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:Amzn_Select_SvdMonthly_Coll',
+                    options: {
+                      color: '#FF9900',
+                      lineWidth: 2,
+                      stroke: '#FF9900',
                       shape: 'hvh',
                     },
                   },
