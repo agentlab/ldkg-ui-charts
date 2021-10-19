@@ -52,7 +52,7 @@ function makeXAxisConfiguration(xAxisOptions: any, xScales: any) {
         [scale]: {
           ...scaleMata,
           mask: dateFormat,
-          //sync: true,
+          sync: true,
         },
       };
     })
