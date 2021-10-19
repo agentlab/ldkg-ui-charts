@@ -221,12 +221,20 @@ const viewKindsProds = [
                     { toObj: 'mktp:WB_Select_SvdDaily_Cond', toProp: 'svdDailyHasProduct' },
                     { toObj: 'mktp:WB_Select_SvdWeekly_Cond', toProp: 'svdWeeklyHasProduct' },
                     { toObj: 'mktp:WB_Select_SvdMonthly_Cond', toProp: 'svdMonthlyHasProduct' },
+                    { toObj: 'mktp:WB_Select_Marginality_Cond', toProp: 'mrgnHasProduct' },
+                    { toObj: 'mktp:WB_Select_KiDaily_Cond', toProp: 'kiDailyHasProduct' },
+                    { toObj: 'mktp:WB_Select_KiWeekly_Cond', toProp: 'kiWeeklyHasProduct' },
+                    { toObj: 'mktp:WB_Select_KiMonthly_Cond', toProp: 'kiMonthlyHasProduct' },
                     // Amazon charts
                     { toObj: 'mktp:Amzn_Select_Boxplots_TotalSales_Cond', toProp: 'hasFeatureOfInterest' },
                     { toObj: 'mktp:Amzn_Select_Boxplots_Price_Cond', toProp: 'hasFeatureOfInterest' },
                     { toObj: 'mktp:Amzn_Select_SvdDaily_Cond', toProp: 'svdDailyHasProduct' },
                     { toObj: 'mktp:Amzn_Select_SvdWeekly_Cond', toProp: 'svdWeeklyHasProduct' },
                     { toObj: 'mktp:Amzn_Select_SvdMonthly_Cond', toProp: 'svdMonthlyHasProduct' },
+                    { toObj: 'mktp:Amzn_Select_Marginality_Cond', toProp: 'mrgnHasProduct' },
+                    { toObj: 'mktp:Amzn_Select_KiDaily_Cond', toProp: 'kiDailyHasProduct' },
+                    { toObj: 'mktp:Amzn_Select_KiWeekly_Cond', toProp: 'kiWeeklyHasProduct' },
+                    { toObj: 'mktp:Amzn_Select_KiMonthly_Cond', toProp: 'kiMonthlyHasProduct' },
                     // 1688 charts
                     { toObj: 'mktp:Ali_Select_Boxplots_Price_Cond', toProp: 'hasFeatureOfInterest' },
                     // Cards in Product by Marketplace
@@ -932,7 +940,7 @@ const viewDescrsProds = [
             conditions: {
               '@id': 'mktp:WB_Select_SvdWeekly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdWeeklyHasProduct: null,
+              svdWeeklyHasProduct: 'mktp_d:Toys',
               forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdWeekly
             },
@@ -952,7 +960,7 @@ const viewDescrsProds = [
             conditions: {
               '@id': 'mktp:WB_Select_SvdMonthly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdMonthlyHasProduct: null,
+              svdMonthlyHasProduct: 'mktp_d:Toys',
               forDataset: 'https://www.wildberries.ru',
               // we need here chart for property: svdMonthly
             },
@@ -1013,7 +1021,7 @@ const viewDescrsProds = [
             conditions: {
               '@id': 'mktp:Amzn_Select_SvdDaily_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdDailyHasProduct: null,
+              svdDailyHasProduct: 'mktp_d:Toys',
               forDataset: 'https://www.amazon.com',
               // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
             },
@@ -1027,13 +1035,13 @@ const viewDescrsProds = [
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:WB_Select_SvdWeekly_Ent', // machine-generated random UUID
+            '@id': 'mktp:Amzn_Select_SvdWeekly_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:SvdWeeklyShape',
             conditions: {
               '@id': 'mktp:Amzn_Select_SvdWeekly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdWeeklyHasProduct: null,
+              svdWeeklyHasProduct: 'mktp_d:Toys',
               forDataset: 'https://www.amazon.com',
               // we need here chart for property: svdWeekly
             },
@@ -1053,7 +1061,7 @@ const viewDescrsProds = [
             conditions: {
               '@id': 'mktp:Amzn_Select_SvdMonthly_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              svdMonthlyHasProduct: null,
+              svdMonthlyHasProduct: 'mktp_d:Toys',
               forDataset: 'https://www.amazon.com',
               // we need here chart for property: svdMonthly
             },
@@ -1082,6 +1090,162 @@ const viewDescrsProds = [
           },
         ],
         orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
+      //// Marginality
+      {
+        '@id': 'mktp:WB_Select_Marginality_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:WB_Select_Marginality_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:MarginalityShape',
+            conditions: {
+              '@id': 'mktp:WB_Select_Marginality_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              mrgnHasProduct: 'mktp_d:Toys',
+              forDataset: 'https://www.wildberries.ru',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
+      {
+        '@id': 'mktp:Amzn_Select_Marginality_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:Amzn_Select_Marginality_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:MarginalityShape',
+            conditions: {
+              '@id': 'mktp:Amzn_Select_Marginality_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              mrgnHasProduct: 'mktp_d:Toys',
+              forDataset: 'https://www.amazon.com',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('begin0'), descending: false }],
+      },
+      //// Ki /////
+      // Ki WB
+      {
+        '@id': 'mktp:WB_Select_KiDaily_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:WB_Select_KiDaily_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:KiDailyShape',
+            conditions: {
+              '@id': 'mktp:WB_Select_KiDaily_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              kiDailyHasProduct: 'mktp_d:Toys',
+              forDataset: 'https://www.wildberries.ru',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+      },
+      {
+        '@id': 'mktp:WB_Select_KiWeekly_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:WB_Select_KiWeekly_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:KiWeeklyShape',
+            conditions: {
+              '@id': 'mktp:WB_Select_KiWeekly_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              kiWeeklyHasProduct: 'mktp_d:Toys',
+              forDataset: 'https://www.wildberries.ru',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+      },
+      {
+        '@id': 'mktp:WB_Select_KiMonthly_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:WB_Select_KiMonthly_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:KiMonthlyShape',
+            conditions: {
+              '@id': 'mktp:WB_Select_KiMonthly_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              kiMonthlyHasProduct: 'mktp_d:Toys',
+              forDataset: 'https://www.wildberries.ru',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+      },
+      // Ki Amzn
+      {
+        '@id': 'mktp:Amzn_Select_KiDaily_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:Amzn_Select_KiDaily_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:KiDailyShape',
+            conditions: {
+              '@id': 'mktp:Amzn_Select_KiDaily_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              kiDailyHasProduct: 'mktp_d:Toys',
+              forDataset: 'https://www.amazon.com',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+      },
+      {
+        '@id': 'mktp:Amzn_Select_KiWeekly_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:Amzn_Select_KiWeekly_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:KiWeeklyShape',
+            conditions: {
+              '@id': 'mktp:Amzn_Select_KiWeekly_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              kiWeeklyHasProduct: 'mktp_d:Toys',
+              forDataset: 'https://www.amazon.com',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+      },
+      {
+        '@id': 'mktp:Amzn_Select_KiMonthly_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:Amzn_Select_KiMonthly_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:KiMonthlyShape',
+            conditions: {
+              '@id': 'mktp:Amzn_Select_KiMonthly_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              kiMonthlyHasProduct: 'mktp_d:Toys',
+              forDataset: 'https://www.amazon.com',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
       },
     ],
     elements: [
