@@ -35,8 +35,10 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
     const dataObs = store.getColl(resultsScope);
     if (!dataObs || dataObs.isLoading) {
       dataIsLoading = true;
+      //console.log('elementDataProvider: true', element.resultsScope);
       return [];
     }
+    //console.log('elementDataProvider: false', element.resultsScope);
     return dataObs.dataJs;
   };
   const schemaProvider: SchemaProvider = (constraint) =>
@@ -69,7 +71,7 @@ const ChartSubRenderer = ({ config, dataIsLoading, viewKindElement, viewDescrEle
   const [delayedConfig, setDelayedConfig] = useState<any>(null);
   useEffect(() => {
     if (!dataIsLoading) {
-      console.log('setDelayedConfig');
+      //console.log('setDelayedConfig');
       setDelayedConfig(config);
     }
   }, [config, dataIsLoading]);

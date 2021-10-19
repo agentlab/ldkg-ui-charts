@@ -34,7 +34,7 @@ export function buildViewConfig(
 ) {
   function buildViewRecursive(element: any) {
     if (isStateTreeNode(element)) element = getSnapshot(element);
-    console.log('buildView', element);
+    //console.log('buildView', element);
 
     element = cloneDeep(element);
     element.type = getElementTypes(element);
@@ -69,7 +69,7 @@ export function buildViewConfig(
                 );
               }
             }
-            console.log('buildView - childElementViews - data', data);
+            //console.log('buildView - childElementViews - data', data);
             const resultsScope = elemWithMeta.resultsScope;
             const chartViewPart = viewPartMapper.createChartViewPart(elemWithMeta, { resultsScope, data });
             return chartViewPart as any;
