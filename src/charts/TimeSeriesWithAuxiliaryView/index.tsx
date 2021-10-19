@@ -51,7 +51,7 @@ const TimeSeriesWithAuxiliaryView = ({ config = {}, options = {}, onChartReady }
           //...(viewOptions.legend && { legend: viewOptions.legend }), // TODO: copy to the chart's legend option
           meta: configureAxesScales(
             xyScales,
-            { ...options.axes, xAxis: { dateFormat: options.dateFormat || 'DD.MM.YYYY' } },
+            { ...options.axes, xAxis: { adjust: viewOptions.adjust, dateFormat: options.dateFormat || 'DD.MM.YYYY' } },
             viewData,
           ),
         };
