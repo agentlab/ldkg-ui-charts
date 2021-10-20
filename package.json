@@ -28,7 +28,7 @@
   },
   "peerDependencies": {
     "@agentlab/ldkg-ui-react": ">=0.1.14",
-    "@agentlab/sparql-jsld-client": ">=5.0.0-rc.20",
+    "@agentlab/sparql-jsld-client": ">=5.0.0-rc.21",
     "@ant-design/charts": "1.2.14",
     "@ant-design/icons": ">=4.7.0",
     "@antv/data-set": ">=0.11.8",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@agentlab/ldkg-ui-react": "^0.1.14",
-    "@agentlab/sparql-jsld-client": "^5.0.0-rc.20",
+    "@agentlab/sparql-jsld-client": "^5.0.0-rc.21",
     "@ant-design/charts": "^1.2.14",
     "@ant-design/icons": "^4.7.0",
     "@antv/data-set": "^0.11.8",
@@ -59,8 +59,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
-    "@rollup/plugin-commonjs": "^21.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.5",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-typescript": "^8.3.0",
     "@storybook/addon-actions": "^6.3.12",
     "@storybook/addon-essentials": "^6.3.12",
@@ -92,7 +92,7 @@
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^7.0.2",
-    "jest": "^27.3.0",
+    "jest": "^27.3.1",
     "jest-watch-typeahead": "^1.0.0",
     "lint-staged": "^11.2.3",
     "postcss": "^8.3.9",
