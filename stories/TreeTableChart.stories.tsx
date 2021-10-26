@@ -128,7 +128,13 @@ const viewKindsCats = [
     elements: [
       {
         '@id': 'mktp:_29kFg89',
-        '@type': 'aldkg:VerticalLayout',
+        '@type': 'aldkg:PanelLayout',
+        options: {
+          style: {
+            width: '100%',
+            height: '100%',
+          },
+        },
         elements: [
           {
             '@id': 'mktp:_df7eds',
@@ -161,10 +167,8 @@ const viewKindsCats = [
               },
               height: 'all-empty-space',
               width: 'all-empty-space',
-              defaultSize: {
-                'mktp:MarketplacesTabs': '17%',
-                'mktp:CategoryCardsTable': '83%',
-              },
+              initialSizes: [17, 83],
+              collapseDirection: 'left',
             },
             elements: [
               {
