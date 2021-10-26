@@ -163,361 +163,387 @@ const viewKindsCats = [
             options: {
               style: {
                 width: '100%',
-                height: '50%',
+                height: '180%',
               },
-              height: 'all-empty-space',
-              width: 'all-empty-space',
-              initialSizes: [17, 83],
-              collapseDirection: 'left',
+              initialSizes: [25, 75],
+              split: 'horizontal',
+              collapseDirection: 'up',
             },
             elements: [
               {
-                '@id': 'mktp:_23sLhd67',
-                '@type': 'aldkg:DataControl',
-                resultsScope: 'mktp:Categories_Coll',
+                '@id': 'mktp:_934Jfg7',
+                '@type': 'aldkg:SplitPaneLayout',
                 options: {
-                  renderType: 'tree',
-                  title: 'Категории маркетплейса',
-                  treeNodeTitleKey: 'name',
-                  treeNodeParentKey: 'SubcatInCatLink',
-                  connections: [{ toObj: 'mktp:ProductCards_in_Category_Coll_Ent_con', toProp: 'CardInCatLink' }],
+                  style: {
+                    width: '100%',
+                    height: '100%',
+                  },
+                  initialSizes: [17, 83],
+                  collapseDirection: 'left',
                 },
+                elements: [
+                  {
+                    '@id': 'mktp:_23sLhd67',
+                    '@type': 'aldkg:DataControl',
+                    resultsScope: 'mktp:Categories_Coll',
+                    options: {
+                      renderType: 'tree',
+                      title: 'Категории маркетплейса',
+                      treeNodeTitleKey: 'name',
+                      treeNodeParentKey: 'SubcatInCatLink',
+                      connections: [{ toObj: 'mktp:ProductCards_in_Category_Coll_Ent_con', toProp: 'CardInCatLink' }],
+                    },
+                  },
+                  {
+                    '@id': 'mktp:CategoryCardsTable',
+                    '@type': 'aldkg:Array',
+                    resultsScope: 'mktp:ProductCards_in_Category_Coll',
+                    options: {
+                      connections: [
+                        { toObj: 'mktp:_u8Yg83', toProp: 'product' },
+                        { toObj: 'mktp:_sD7fg', toProp: 'svdDailyHasProduct' },
+                        { toObj: 'mktp:_qw89Ds', toProp: 'svdWeeklyHasProduct' },
+                        { toObj: 'mktp:_df8D78', toProp: 'svdMonthlyHasProduct' },
+                      ],
+                      draggable: true,
+                      resizeableHeader: true,
+                      height: 'all-empty-space',
+                      style: { height: '100%' },
+                      order: [
+                        'imageUrl',
+                        'name',
+                        'price',
+                        'saleValue',
+                        'categoryPopularity',
+                        'commentsCount',
+                        'starsValue',
+                        'questionsCount',
+                        'lastMonthSalesAmount',
+                        'lastMonthSalesValue',
+                        'perMonthSalesAmount',
+                        'perMonthSalesValue',
+                        'prevMonthSalesAmount',
+                        'prevMonthSalesValue',
+                        'salesAmountDiff',
+                        'totalSales',
+                        'totalSalesDiff',
+                        'stocks',
+                        'stocksDiffOrders',
+                        'stocksDiffReturns',
+                        'country',
+                        'brand',
+                        'seller',
+                        'identifier',
+                        'rootId',
+                        'photosCount',
+                        'firstParsedAt',
+                        'lastMonthParsedAt',
+                        'parsedAt',
+                        'prevParsedAt',
+                      ],
+                      imageUrl: {
+                        width: 60,
+                        formatter: 'image',
+                        editable: false,
+                      },
+                      identifier: {
+                        formatter: 'link',
+                        //dataToFormatter: { link: 'identifier' },
+                        sortable: true,
+                        editable: false,
+                      },
+                      name: {
+                        width: 340,
+                        formatter: 'link',
+                        dataToFormatter: { link: '@id' },
+                        sortable: true,
+                        editable: false,
+                      },
+                      country: {
+                        width: 60,
+                        sortable: true,
+                        editable: false,
+                      },
+                      brand: {
+                        formatter: 'link',
+                        sortable: true,
+                        editable: false,
+                      },
+                      price: {
+                        width: 60,
+                        sortable: true,
+                        editable: false,
+                      },
+                      saleValue: {
+                        width: 60,
+                        sortable: true,
+                        editable: false,
+                      },
+                      seller: {
+                        formatter: 'link',
+                        sortable: true,
+                        editable: false,
+                      },
+                      categoryPopularity: {
+                        width: 100,
+                        editable: false,
+                      },
+                      commentsCount: {
+                        width: 100,
+                        sortable: true,
+                        editable: false,
+                      },
+                      starsValue: {
+                        width: 100,
+                        sortable: true,
+                        editable: false,
+                      },
+                      questionsCount: {
+                        width: 100,
+                        sortable: true,
+                        editable: false,
+                      },
+                      lastMonthSalesAmount: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                      lastMonthSalesValue: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                      perMonthSalesAmount: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                      perMonthSalesValue: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                      prevMonthSalesAmount: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                      prevMonthSalesValue: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                      salesAmountDiff: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                      totalSales: {
+                        width: 100,
+                        sortable: true,
+                        editable: false,
+                      },
+                      totalSalesDiff: {
+                        width: 150,
+                        sortable: true,
+                        editable: false,
+                      },
+                      stocks: {
+                        width: 100,
+                        sortable: true,
+                        editable: false,
+                      },
+                      stocksDiffOrders: {
+                        width: 100,
+                        sortable: true,
+                        editable: false,
+                      },
+                      stocksDiffReturns: {
+                        width: 100,
+                        sortable: true,
+                        editable: false,
+                      },
+                      rootId: {
+                        editable: false,
+                      },
+                      photosCount: {
+                        editable: false,
+                      },
+                      firstParsedAt: {
+                        editable: false,
+                      },
+                      lastMonthParsedAt: {
+                        editable: false,
+                      },
+                      parsedAt: {
+                        editable: false,
+                      },
+                      prevParsedAt: {
+                        editable: false,
+                      },
+                    },
+                  },
+                ],
               },
               {
-                '@id': 'mktp:CategoryCardsTable',
-                '@type': 'aldkg:Array',
-                resultsScope: 'mktp:ProductCards_in_Category_Coll',
+                '@id': 'mktp:_29kFg89',
+                '@type': 'aldkg:PanelLayout',
                 options: {
-                  connections: [
-                    { toObj: 'mktp:_u8Yg83', toProp: 'product' },
-                    { toObj: 'mktp:_sD7fg', toProp: 'svdDailyHasProduct' },
-                    { toObj: 'mktp:_qw89Ds', toProp: 'svdWeeklyHasProduct' },
-                    { toObj: 'mktp:_df8D78', toProp: 'svdMonthlyHasProduct' },
-                  ],
-                  draggable: true,
-                  resizeableHeader: true,
-                  height: 'all-empty-space',
-                  style: { height: '100%' },
-                  order: [
-                    'imageUrl',
-                    'name',
-                    'price',
-                    'saleValue',
-                    'categoryPopularity',
-                    'commentsCount',
-                    'starsValue',
-                    'questionsCount',
-                    'lastMonthSalesAmount',
-                    'lastMonthSalesValue',
-                    'perMonthSalesAmount',
-                    'perMonthSalesValue',
-                    'prevMonthSalesAmount',
-                    'prevMonthSalesValue',
-                    'salesAmountDiff',
-                    'totalSales',
-                    'totalSalesDiff',
-                    'stocks',
-                    'stocksDiffOrders',
-                    'stocksDiffReturns',
-                    'country',
-                    'brand',
-                    'seller',
-                    'identifier',
-                    'rootId',
-                    'photosCount',
-                    'firstParsedAt',
-                    'lastMonthParsedAt',
-                    'parsedAt',
-                    'prevParsedAt',
-                  ],
-                  imageUrl: {
-                    width: 60,
-                    formatter: 'image',
-                    editable: false,
-                  },
-                  identifier: {
-                    formatter: 'link',
-                    //dataToFormatter: { link: 'identifier' },
-                    sortable: true,
-                    editable: false,
-                  },
-                  name: {
-                    width: 340,
-                    formatter: 'link',
-                    dataToFormatter: { link: '@id' },
-                    sortable: true,
-                    editable: false,
-                  },
-                  country: {
-                    width: 60,
-                    sortable: true,
-                    editable: false,
-                  },
-                  brand: {
-                    formatter: 'link',
-                    sortable: true,
-                    editable: false,
-                  },
-                  price: {
-                    width: 60,
-                    sortable: true,
-                    editable: false,
-                  },
-                  saleValue: {
-                    width: 60,
-                    sortable: true,
-                    editable: false,
-                  },
-                  seller: {
-                    formatter: 'link',
-                    sortable: true,
-                    editable: false,
-                  },
-                  categoryPopularity: {
-                    width: 100,
-                    editable: false,
-                  },
-                  commentsCount: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  starsValue: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  questionsCount: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  lastMonthSalesAmount: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  lastMonthSalesValue: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  perMonthSalesAmount: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  perMonthSalesValue: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  prevMonthSalesAmount: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  prevMonthSalesValue: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  salesAmountDiff: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  totalSales: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  totalSalesDiff: {
-                    width: 150,
-                    sortable: true,
-                    editable: false,
-                  },
-                  stocks: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  stocksDiffOrders: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  stocksDiffReturns: {
-                    width: 100,
-                    sortable: true,
-                    editable: false,
-                  },
-                  rootId: {
-                    editable: false,
-                  },
-                  photosCount: {
-                    editable: false,
-                  },
-                  firstParsedAt: {
-                    editable: false,
-                  },
-                  lastMonthParsedAt: {
-                    editable: false,
-                  },
-                  parsedAt: {
-                    editable: false,
-                  },
-                  prevParsedAt: {
-                    editable: false,
+                  style: {
+                    width: '100%',
+                    height: '100%',
                   },
                 },
+
+                elements: [
+                  {
+                    '@id': 'mktp:TreeTableChartVKElement',
+                    '@type': 'aldkg:TimeSeriesChart', // control type
+                    mappings: {
+                      'aldkg:TimeSeries': {
+                        '@id': 'mktp:Mapping_1',
+                        '@type': 'aldkg:TimeSeries',
+                        type: {
+                          type: 'pointer',
+                          value: '/type',
+                        },
+                        yField: {
+                          type: 'pointer',
+                          value: '/options/property',
+                        },
+                        xField: 'parsedAt',
+                        colorField: 'product',
+                        mapping: {
+                          type: 'object',
+                          properties: {
+                            style: {
+                              type: 'object',
+                              properties: {
+                                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                                stroke: { type: 'pointer', value: '/options/stroke' },
+                              },
+                              wrapper: { type: 'pointer', value: '/product' },
+                            },
+                            color: {
+                              type: 'pointer',
+                              value: '/options/color',
+                              wrapper: { type: 'pointer', value: '/product' },
+                            },
+                            shape: {
+                              type: 'pointer',
+                              value: '/options/shape',
+                            },
+                          },
+                        },
+                        dataMappings: [],
+                      },
+                      'aldkg:TimeSeriesDaily': {
+                        '@id': 'mktp:Mapping_2',
+                        '@type': 'aldkg:TimeSeries',
+                        type: {
+                          type: 'pointer',
+                          value: '/type',
+                        },
+                        yField: 'svdDaily',
+                        xField: 'bucketEnd',
+                        colorField: 'svdDailyHasProduct',
+                        mapping: {
+                          type: 'object',
+                          properties: {
+                            style: {
+                              type: 'object',
+                              properties: {
+                                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                                stroke: { type: 'pointer', value: '/options/stroke' },
+                              },
+                              wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
+                            },
+                            color: {
+                              type: 'pointer',
+                              value: '/options/color',
+                              wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
+                            },
+                            shape: {
+                              type: 'pointer',
+                              value: '/options/shape',
+                            },
+                          },
+                        },
+                        dataMappings: [],
+                      },
+                      'aldkg:TimeSeriesWeekly': {
+                        '@id': 'mktp:Mapping_3',
+                        '@type': 'aldkg:TimeSeries',
+                        type: {
+                          type: 'pointer',
+                          value: '/type',
+                        },
+                        yField: 'svdWeekly',
+                        xField: 'bucketEnd',
+                        colorField: 'svdWeeklyHasProduct',
+                        mapping: {
+                          type: 'object',
+                          properties: {
+                            style: {
+                              type: 'object',
+                              properties: {
+                                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                                stroke: { type: 'pointer', value: '/options/stroke' },
+                              },
+                              wrapper: { type: 'pointer', value: '/svdWeeklyHasProduct' },
+                            },
+                            color: {
+                              type: 'pointer',
+                              value: '/options/color',
+                              wrapper: { type: 'pointer', value: '/svdWeeklyHasProduct' },
+                            },
+                            shape: {
+                              type: 'pointer',
+                              value: '/options/shape',
+                            },
+                          },
+                        },
+                        dataMappings: [],
+                      },
+                      'aldkg:TimeSeriesMonthly': {
+                        '@id': 'mktp:Mapping_4',
+                        '@type': 'aldkg:TimeSeries',
+                        type: {
+                          type: 'pointer',
+                          value: '/type',
+                        },
+                        yField: 'svdMonthly',
+                        xField: 'bucketEnd',
+                        colorField: 'svdMonthlyHasProduct',
+                        mapping: {
+                          type: 'object',
+                          properties: {
+                            style: {
+                              type: 'object',
+                              properties: {
+                                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                                stroke: { type: 'pointer', value: '/options/stroke' },
+                              },
+                              wrapper: { type: 'pointer', value: '/svdMonthlyHasProduct' },
+                            },
+                            color: {
+                              type: 'pointer',
+                              value: '/options/color',
+                              wrapper: { type: 'pointer', value: '/svdMonthlyHasProduct' },
+                            },
+                            shape: {
+                              type: 'pointer',
+                              value: '/options/shape',
+                            },
+                          },
+                        },
+                        dataMappings: [],
+                      },
+                    },
+                  },
+                ],
               },
             ],
-          },
-          {
-            '@id': 'mktp:TreeTableChartVKElement',
-            '@type': 'aldkg:TimeSeriesChart', // control type
-            mappings: {
-              'aldkg:TimeSeries': {
-                '@id': 'mktp:Mapping_1',
-                '@type': 'aldkg:TimeSeries',
-                type: {
-                  type: 'pointer',
-                  value: '/type',
-                },
-                yField: {
-                  type: 'pointer',
-                  value: '/options/property',
-                },
-                xField: 'parsedAt',
-                colorField: 'product',
-                mapping: {
-                  type: 'object',
-                  properties: {
-                    style: {
-                      type: 'object',
-                      properties: {
-                        lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
-                        stroke: { type: 'pointer', value: '/options/stroke' },
-                      },
-                      wrapper: { type: 'pointer', value: '/product' },
-                    },
-                    color: {
-                      type: 'pointer',
-                      value: '/options/color',
-                      wrapper: { type: 'pointer', value: '/product' },
-                    },
-                    shape: {
-                      type: 'pointer',
-                      value: '/options/shape',
-                    },
-                  },
-                },
-                dataMappings: [],
-              },
-              'aldkg:TimeSeriesDaily': {
-                '@id': 'mktp:Mapping_2',
-                '@type': 'aldkg:TimeSeries',
-                type: {
-                  type: 'pointer',
-                  value: '/type',
-                },
-                yField: 'svdDaily',
-                xField: 'bucketEnd',
-                colorField: 'svdDailyHasProduct',
-                mapping: {
-                  type: 'object',
-                  properties: {
-                    style: {
-                      type: 'object',
-                      properties: {
-                        lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
-                        stroke: { type: 'pointer', value: '/options/stroke' },
-                      },
-                      wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
-                    },
-                    color: {
-                      type: 'pointer',
-                      value: '/options/color',
-                      wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
-                    },
-                    shape: {
-                      type: 'pointer',
-                      value: '/options/shape',
-                    },
-                  },
-                },
-                dataMappings: [],
-              },
-              'aldkg:TimeSeriesWeekly': {
-                '@id': 'mktp:Mapping_3',
-                '@type': 'aldkg:TimeSeries',
-                type: {
-                  type: 'pointer',
-                  value: '/type',
-                },
-                yField: 'svdWeekly',
-                xField: 'bucketEnd',
-                colorField: 'svdWeeklyHasProduct',
-                mapping: {
-                  type: 'object',
-                  properties: {
-                    style: {
-                      type: 'object',
-                      properties: {
-                        lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
-                        stroke: { type: 'pointer', value: '/options/stroke' },
-                      },
-                      wrapper: { type: 'pointer', value: '/svdWeeklyHasProduct' },
-                    },
-                    color: {
-                      type: 'pointer',
-                      value: '/options/color',
-                      wrapper: { type: 'pointer', value: '/svdWeeklyHasProduct' },
-                    },
-                    shape: {
-                      type: 'pointer',
-                      value: '/options/shape',
-                    },
-                  },
-                },
-                dataMappings: [],
-              },
-              'aldkg:TimeSeriesMonthly': {
-                '@id': 'mktp:Mapping_4',
-                '@type': 'aldkg:TimeSeries',
-                type: {
-                  type: 'pointer',
-                  value: '/type',
-                },
-                yField: 'svdMonthly',
-                xField: 'bucketEnd',
-                colorField: 'svdMonthlyHasProduct',
-                mapping: {
-                  type: 'object',
-                  properties: {
-                    style: {
-                      type: 'object',
-                      properties: {
-                        lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
-                        stroke: { type: 'pointer', value: '/options/stroke' },
-                      },
-                      wrapper: { type: 'pointer', value: '/svdMonthlyHasProduct' },
-                    },
-                    color: {
-                      type: 'pointer',
-                      value: '/options/color',
-                      wrapper: { type: 'pointer', value: '/svdMonthlyHasProduct' },
-                    },
-                    shape: {
-                      type: 'pointer',
-                      value: '/options/shape',
-                    },
-                  },
-                },
-                dataMappings: [],
-              },
-            },
           },
         ],
       },
