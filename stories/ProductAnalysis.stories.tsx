@@ -420,6 +420,49 @@ const viewKindsProds = [
                     ],
                   },
                   //////////
+                  // Marginality
+                  //////////
+                  {
+                    '@id': 'mktp:TreeTableChartMarginalityVKElement',
+                    '@type': 'aldkg:TimeSeriesChart', // control type
+                    mappings: {
+                      'aldkg:TimeSeriesMarginality': {
+                        '@id': 'mktp:Mapping_Marginality',
+                        '@type': 'aldkg:TimeSeries',
+                        type: {
+                          type: 'pointer',
+                          value: '/type',
+                        },
+                        yField: 'marginality',
+                        xField: 'begin',
+                        colorField: 'forDataset',
+                        mapping: {
+                          type: 'object',
+                          properties: {
+                            style: {
+                              type: 'object',
+                              properties: {
+                                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                                stroke: { type: 'pointer', value: '/options/stroke' },
+                              },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
+                            },
+                            color: {
+                              type: 'pointer',
+                              value: '/options/color',
+                              wrapper: { type: 'pointer', value: '/forDataset' },
+                            },
+                            shape: {
+                              type: 'pointer',
+                              value: '/options/shape',
+                            },
+                          },
+                        },
+                        dataMappings: [],
+                      },
+                    },
+                  },
+                  //////////
                   // BoxPlots
                   //////////
                   {
@@ -608,6 +651,114 @@ const viewKindsProds = [
                           value: '/type',
                         },
                         yField: 'svdMonthly',
+                        xField: 'bucketEnd',
+                        colorField: 'forDataset',
+                        mapping: {
+                          type: 'object',
+                          properties: {
+                            style: {
+                              type: 'object',
+                              properties: {
+                                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                                stroke: { type: 'pointer', value: '/options/stroke' },
+                              },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
+                            },
+                            color: {
+                              type: 'pointer',
+                              value: '/options/color',
+                              wrapper: { type: 'pointer', value: '/forDataset' },
+                            },
+                            shape: {
+                              type: 'pointer',
+                              value: '/options/shape',
+                            },
+                          },
+                        },
+                        dataMappings: [],
+                      },
+                    },
+                  },
+                  {
+                    '@id': 'mktp:TreeTableKiChartVKElement',
+                    '@type': 'aldkg:TimeSeriesChart', // control type
+                    mappings: {
+                      'aldkg:TimeSeriesDaily': {
+                        '@id': 'mktp:Mapping_2',
+                        '@type': 'aldkg:TimeSeries',
+                        type: {
+                          type: 'pointer',
+                          value: '/type',
+                        },
+                        yField: 'kiDaily',
+                        xField: 'bucketEnd',
+                        colorField: 'forDataset',
+                        mapping: {
+                          type: 'object',
+                          properties: {
+                            style: {
+                              type: 'object',
+                              properties: {
+                                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                                stroke: { type: 'pointer', value: '/options/stroke' },
+                              },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
+                            },
+                            color: {
+                              type: 'pointer',
+                              value: '/options/color',
+                              wrapper: { type: 'pointer', value: '/forDataset' },
+                            },
+                            shape: {
+                              type: 'pointer',
+                              value: '/options/shape',
+                            },
+                          },
+                        },
+                        dataMappings: [],
+                      },
+                      'aldkg:TimeSeriesWeekly': {
+                        '@id': 'mktp:Mapping_3',
+                        '@type': 'aldkg:TimeSeries',
+                        type: {
+                          type: 'pointer',
+                          value: '/type',
+                        },
+                        yField: 'kiWeekly',
+                        xField: 'bucketEnd',
+                        colorField: 'forDataset',
+                        mapping: {
+                          type: 'object',
+                          properties: {
+                            style: {
+                              type: 'object',
+                              properties: {
+                                lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                                stroke: { type: 'pointer', value: '/options/stroke' },
+                              },
+                              wrapper: { type: 'pointer', value: '/forDataset' },
+                            },
+                            color: {
+                              type: 'pointer',
+                              value: '/options/color',
+                              wrapper: { type: 'pointer', value: '/forDataset' },
+                            },
+                            shape: {
+                              type: 'pointer',
+                              value: '/options/shape',
+                            },
+                          },
+                        },
+                        dataMappings: [],
+                      },
+                      'aldkg:TimeSeriesMonthly': {
+                        '@id': 'mktp:Mapping_4',
+                        '@type': 'aldkg:TimeSeries',
+                        type: {
+                          type: 'pointer',
+                          value: '/type',
+                        },
+                        yField: 'kiMonthly',
                         xField: 'bucketEnd',
                         colorField: 'forDataset',
                         mapping: {
@@ -1250,6 +1401,65 @@ const viewDescrsProds = [
     ],
     elements: [
       ///////
+      // Marginality
+      ///////
+      {
+        '@id': 'mktp:_dj457gh_chart_marginality',
+        '@type': 'aldkg:Chart', // control type
+        '@parent': 'mktp:TreeTableChartMarginalityVKElement',
+        // child ui elements configs
+        options: {
+          height: 250,
+          timeUnit: 'day',
+          dateFormat: 'DD.MM.YYYY',
+          axes: {
+            yAxis: {
+              aliases: {
+                value: 'Маржинальность',
+              },
+            },
+          },
+        },
+        elements: [
+          {
+            '@id': 'mktp:TimeSeries_Marginality',
+            '@type': 'aldkg:TimeSeriesMarginality',
+            options: {
+              legend: false,
+              tooltip: {
+                showCrosshairs: true,
+                shared: true,
+                showMarkers: true,
+              },
+            },
+            elements: [
+              {
+                '@id': 'mktp:line_marginality',
+                '@type': 'aldkg:ChartLine',
+                resultsScope: 'mktp:WB_Select_Marginality_Coll',
+                options: {
+                  color: '#7D256F',
+                  lineWidth: 2,
+                  stroke: '#7D256F',
+                  shape: 'hv',
+                },
+              },
+              {
+                '@id': 'mktp:line_amzn_marginality',
+                '@type': 'aldkg:ChartLine',
+                resultsScope: 'mktp:Amzn_Select_Marginality_Coll',
+                options: {
+                  color: '#FF9900',
+                  lineWidth: 2,
+                  stroke: '#FF9900',
+                  shape: 'hv',
+                },
+              },
+            ],
+          },
+        ],
+      },
+      ///////
       // BoxPlots
       ////////
       {
@@ -1461,7 +1671,7 @@ const viewDescrsProds = [
                       color: '#7D256F',
                       lineWidth: 2,
                       stroke: '#7D256F',
-                      shape: 'hvh',
+                      shape: 'hv',
                     },
                   },
                   {
@@ -1472,7 +1682,7 @@ const viewDescrsProds = [
                       color: '#FF9900',
                       lineWidth: 2,
                       stroke: '#FF9900',
-                      shape: 'hvh',
+                      shape: 'hv',
                     },
                   },
                 ],
@@ -1507,7 +1717,7 @@ const viewDescrsProds = [
                       color: '#7D256F',
                       lineWidth: 2,
                       stroke: '#7D256F',
-                      shape: 'hvh',
+                      shape: 'hv',
                     },
                   },
                   {
@@ -1518,7 +1728,7 @@ const viewDescrsProds = [
                       color: '#FF9900',
                       lineWidth: 2,
                       stroke: '#FF9900',
-                      shape: 'hvh',
+                      shape: 'hv',
                     },
                   },
                 ],
@@ -1553,7 +1763,7 @@ const viewDescrsProds = [
                       color: '#7D256F',
                       lineWidth: 2,
                       stroke: '#7D256F',
-                      shape: 'hvh',
+                      shape: 'hv',
                     },
                   },
                   {
@@ -1564,7 +1774,168 @@ const viewDescrsProds = [
                       color: '#FF9900',
                       lineWidth: 2,
                       stroke: '#FF9900',
-                      shape: 'hvh',
+                      shape: 'hv',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        '@id': 'mktp:_g7H7gz_chart',
+        '@type': 'aldkg:Chart',
+        '@parent': 'mktp:TreeTableKiChartVKElement',
+        title: 'Показатели продукта',
+        options: {
+          timeUnit: 'day',
+          showDatePicker: false,
+          dateFormat: 'DD.MM.YYYY',
+          height: 250,
+        },
+        elements: [
+          {
+            '@id': 'mktp:TimeSeries_1',
+            '@type': 'aldkg:TimeSeriesPlot',
+            options: {
+              legend: false,
+            },
+            elements: [
+              {
+                '@id': 'mktp:TimeSeries_Price_Daily',
+                '@type': 'aldkg:TimeSeriesDaily',
+                options: {
+                  legend: false,
+                  tooltip: {
+                    showCrosshairs: true,
+                    shared: true,
+                    showMarkers: true,
+                  },
+                  region: {
+                    start: {
+                      x: 0,
+                      y: 0,
+                    },
+                    end: {
+                      x: 0.33,
+                      y: 1,
+                    },
+                  },
+                },
+                elements: [
+                  {
+                    '@id': 'mktp:line_price_daily',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:WB_Select_KiDaily_Coll',
+                    options: {
+                      color: '#7D256F',
+                      lineWidth: 2,
+                      stroke: '#7D256F',
+                      shape: 'hv',
+                    },
+                  },
+                  {
+                    '@id': 'mktp:line_amzn_price_daily',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:Amzn_Select_KiDaily_Coll',
+                    options: {
+                      color: '#FF9900',
+                      lineWidth: 2,
+                      stroke: '#FF9900',
+                      shape: 'hv',
+                    },
+                  },
+                ],
+              },
+              {
+                '@id': 'mktp:TimeSeries_Price_Weekly',
+                '@type': 'aldkg:TimeSeriesWeekly',
+                options: {
+                  legend: false,
+                  tooltip: {
+                    showCrosshairs: true,
+                    shared: true,
+                    showMarkers: true,
+                  },
+                  region: {
+                    start: {
+                      x: 0.33,
+                      y: 0,
+                    },
+                    end: {
+                      x: 0.66,
+                      y: 1,
+                    },
+                  },
+                },
+                elements: [
+                  {
+                    '@id': 'mktp:line_price_weekly',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:WB_Select_KiWeekly_Coll',
+                    options: {
+                      color: '#7D256F',
+                      lineWidth: 2,
+                      stroke: '#7D256F',
+                      shape: 'hv',
+                    },
+                  },
+                  {
+                    '@id': 'mktp:line_amzn_price_weekly',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:Amzn_Select_KiWeekly_Coll',
+                    options: {
+                      color: '#FF9900',
+                      lineWidth: 2,
+                      stroke: '#FF9900',
+                      shape: 'hv',
+                    },
+                  },
+                ],
+              },
+              {
+                '@id': 'mktp:TimeSeries_Price_Monthly',
+                '@type': 'aldkg:TimeSeriesMonthly',
+                options: {
+                  legend: false,
+                  tooltip: {
+                    showCrosshairs: true,
+                    shared: true,
+                    showMarkers: true,
+                  },
+                  region: {
+                    start: {
+                      x: 0.66,
+                      y: 0,
+                    },
+                    end: {
+                      x: 1,
+                      y: 1,
+                    },
+                  },
+                },
+                elements: [
+                  {
+                    '@id': 'mktp:line_price_monthly',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:WB_Select_KiMonthly_Coll',
+                    options: {
+                      color: '#7D256F',
+                      lineWidth: 2,
+                      stroke: '#7D256F',
+                      shape: 'hv',
+                    },
+                  },
+                  {
+                    '@id': 'mktp:line_amzn_price_monthly',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:Amzn_Select_KiMonthly_Coll',
+                    options: {
+                      color: '#FF9900',
+                      lineWidth: 2,
+                      stroke: '#FF9900',
+                      shape: 'hv',
                     },
                   },
                 ],

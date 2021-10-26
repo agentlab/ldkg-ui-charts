@@ -39,15 +39,23 @@ export function configureAxesScales(scales: any, axesOptions: any = {}, data: []
 }
 
 function makeXAxisConfiguration(xAxisOptions: any, xScales: any) {
-  const { dateFormat } = xAxisOptions;
+  const { dateFormat, adjust } = xAxisOptions;
   return Object.keys(xScales)
-    .map((scale: any) => ({
-      [scale]: {
-        ...xScales[scale],
-        mask: dateFormat,
-        //sync: true,
-      },
-    }))
+    .map((scale: any) => {
+      const scaleMata: any = xScales[scale];
+      if (!adjust) {
+        if (scaleMata.type === 'timeCat') {
+          scaleMata.type = 'time';
+        }
+      }
+      return {
+        [scale]: {
+          ...scaleMata,
+          mask: dateFormat,
+          sync: true,
+        },
+      };
+    })
     .reduce((acc: any, scale: any) => ({ ...acc, ...scale }), {});
 }
 
