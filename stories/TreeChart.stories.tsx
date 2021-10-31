@@ -99,7 +99,11 @@ const viewKindsCats = [
     elements: [
       {
         '@id': 'mktp:_29kFg89',
-        '@type': 'aldkg:VerticalLayout',
+        '@type': 'aldkg:PanelLayout',
+        style: {
+          width: '100%',
+          height: '100%',
+        },
         elements: [
           {
             '@id': 'mktp:_934Jfg7',
@@ -107,14 +111,10 @@ const viewKindsCats = [
             options: {
               style: {
                 width: '100%',
-                //height: '20%',
+                height: '40%',
               },
-              height: 'all-empty-space',
-              width: 'all-empty-space',
-              defaultSize: {
-                'mktp:_23sLhd67': '17%',
-                'mktp:_94hfT67': '83%',
-              },
+              initialSizes: [17, 83],
+              collapseDirection: 'left',
             },
             elements: [
               {
@@ -137,12 +137,11 @@ const viewKindsCats = [
               },
               {
                 '@id': 'mktp:_94hfT67',
-                '@type': 'aldkg:VerticalLayout',
+                '@type': 'aldkg:PanelLayout',
                 options: {
                   style: {
                     width: '100%',
                   },
-                  width: 'all-empty-space',
                 },
                 elements: [
                   //////////
@@ -152,7 +151,7 @@ const viewKindsCats = [
                     '@id': 'mktp:BoxPlotChartViewKind_price',
                     '@type': 'aldkg:BoxPlotChart', // control type
                     options: {
-                      // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
+                      style: { display: 'flex', flexDirection: 'column', height: 250 },
                     },
                     mappings: {
                       'aldkg:BoxPlotTimeSeries': {
@@ -197,7 +196,7 @@ const viewKindsCats = [
                     '@id': 'mktp:BoxPlotChartViewKind_TotalSales',
                     '@type': 'aldkg:BoxPlotChart', // control type
                     options: {
-                      // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
+                      style: { display: 'flex', flexDirection: 'column', height: 250 },
                     },
                     mappings: {
                       'aldkg:BoxPlotTimeSeries': {
@@ -245,6 +244,9 @@ const viewKindsCats = [
           {
             '@id': 'mktp:TreeTableChartVKElement',
             '@type': 'aldkg:TimeSeriesChart', // control type
+            options: {
+              style: { display: 'flex', flexDirection: 'column', height: 250 },
+            },
             mappings: {
               'aldkg:TimeSeriesDaily': {
                 '@id': 'mktp:Mapping_2',

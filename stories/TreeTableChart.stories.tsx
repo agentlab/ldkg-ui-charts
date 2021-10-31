@@ -1232,7 +1232,13 @@ const viewKindsProds = [
     elements: [
       {
         '@id': 'mktp:_29kFg89',
-        '@type': 'aldkg:VerticalLayout',
+        '@type': 'aldkg:PanelLayout',
+        options: {
+          style: {
+            width: '100%',
+            height: '100%',
+          },
+        },
         elements: [
           {
             '@id': 'mktp:_934Jfg7',
@@ -1242,12 +1248,8 @@ const viewKindsProds = [
                 width: '100%',
                 height: '100%',
               },
-              height: 'all-empty-space',
-              width: 'all-empty-space',
-              defaultSize: {
-                'mktp:ProductTree': '13%',
-                'mktp:_64kFg23': '87%',
-              },
+              initialSizes: [13, 87],
+              collapseDirection: 'left',
             },
             elements: [
               {
@@ -1269,7 +1271,13 @@ const viewKindsProds = [
               },
               {
                 '@id': 'mktp:_64kFg23',
-                '@type': 'aldkg:VerticalLayout',
+                '@type': 'aldkg:PanelLayout',
+                options: {
+                  style: {
+                    width: '100%',
+                    height: '100%',
+                  },
+                },
                 elements: [
                   {
                     '@id': 'mktp:_934Jfg7',
@@ -1279,18 +1287,18 @@ const viewKindsProds = [
                         width: '100%',
                         height: '5%',
                       },
-                      height: 'all-empty-space',
-                      width: 'all-empty-space',
-                      defaultSize: {
-                        'mktp:_83hd7f': '20%',
-                        'mktp:_83hd7f_2': '80%',
-                      },
+                      initialSizes: [20, 80],
+                      collapseDirection: 'left',
                     },
                     elements: [
                       {
                         '@id': 'rm:_83hd7f',
-                        '@type': 'aldkg:VerticalLayout',
+                        '@type': 'aldkg:PanelLayout',
                         options: {
+                          style: {
+                            width: '100%',
+                            height: '100%',
+                          },
                           readOnly: false,
                         },
                         elements: [
@@ -1304,8 +1312,12 @@ const viewKindsProds = [
                       },
                       {
                         '@id': 'rm:_83hd7f_2',
-                        '@type': 'aldkg:VerticalLayout',
+                        '@type': 'aldkg:PanelLayout',
                         options: {
+                          style: {
+                            width: '100%',
+                            height: '100%',
+                          },
                           readOnly: false,
                         },
                         elements: [
