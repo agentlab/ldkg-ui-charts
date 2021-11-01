@@ -83,6 +83,7 @@ const viewKindsCats = [
     title: 'TreeTableChart',
     description: 'TreeTableChart',
     collsConstrs: [
+      /// Marketplaces
       {
         '@id': 'mktp:Marketplaces_Coll',
         '@type': 'aldkg:CollConstr',
@@ -96,6 +97,7 @@ const viewKindsCats = [
         ],
         orderBy: [{ expression: variable('rank0'), descending: false }],
       },
+      /// Marketplace categories & cards
       {
         '@id': 'mktp:Categories_Coll',
         '@type': 'aldkg:CollConstr',
@@ -103,7 +105,7 @@ const viewKindsCats = [
           {
             '@id': 'mktp:Categories_Coll_Ent',
             '@type': 'aldkg:EntConstr',
-            schema: 'hs:CategoryShape',
+            schema: 'als:CategoryShape', //'hs:CategoryShape',
             service: mktpSchemaRepoIri,
           },
         ],
@@ -118,7 +120,7 @@ const viewKindsCats = [
             schema: 'hs:ProductCardShape',
             conditions: {
               '@id': 'mktp:ProductCards_in_Category_Coll_Ent_con',
-              CardInCatLink: 'mktp_d:Toys',
+              CardInCatLink: 'https://muying.1688.com/wanju',
             },
             service: mktpSchemaRepoIri,
           },
@@ -394,7 +396,6 @@ const viewKindsCats = [
                     height: '100%',
                   },
                 },
-
                 elements: [
                   {
                     '@id': 'mktp:TreeTableChartVKElement',
