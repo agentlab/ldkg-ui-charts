@@ -1955,8 +1955,8 @@ const additionalCollsProds: CollState[] = [
   },
 ];
 
-export const ProductAnalysis = Template.bind({});
-ProductAnalysis.args = {
+export const MktpProductAnalysis = Template.bind({});
+MktpProductAnalysis.args = {
   additionalColls: additionalCollsProds,
   viewDescrId: viewDescrsProds[0]['@id'],
   viewDescrCollId: viewDescrCollConstr['@id'],
