@@ -100,9 +100,11 @@ const viewKindsCats = [
       {
         '@id': 'mktp:_29kFg89',
         '@type': 'aldkg:PanelLayout',
-        style: {
-          width: '100%',
-          height: '100%',
+        options: {
+          style: {
+            width: '100%',
+            height: '100%',
+          },
         },
         elements: [
           {
