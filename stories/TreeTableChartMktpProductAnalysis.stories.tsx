@@ -262,10 +262,8 @@ const viewKindsProds = [
                     options: {
                       flow: 'horizontal',
                       style: {
-                        height: '100%',
                         width: '100%',
                       },
-                      width: 'all-empty-space',
                     },
                     elements: [
                       {
@@ -273,11 +271,9 @@ const viewKindsProds = [
                         '@type': 'aldkg:PanelLayout',
                         options: {
                           style: {
-                            width: '20%',
-                            height: '100%',
+                            width: '200px',
                             padding: '5px',
                           },
-                          width: 'all-empty-space',
                         },
                         elements: [
                           {
@@ -297,7 +293,6 @@ const viewKindsProds = [
                         options: {
                           style: {
                             verticalAlign: 'top',
-                            height: '20%',
                             width: '80%',
                           },
                         },
