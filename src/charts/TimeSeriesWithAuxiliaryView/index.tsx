@@ -8,7 +8,6 @@
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
 import { G2, Mix } from '@ant-design/charts';
-import 'antd/dist/antd.css';
 import React from 'react';
 import { configureAxesScales, configureYAxes, getXYScales, scaleDataToTimeUnit } from './utils';
 
