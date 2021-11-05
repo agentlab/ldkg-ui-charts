@@ -9,6 +9,7 @@
  ********************************************************************************/
 import { MstContext, mstJsonLdIds, processViewKindOverride, RenderProps } from '@agentlab/ldkg-ui-react';
 import { Spin } from 'antd';
+import { omit } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 import Chart from './Chart';
@@ -39,6 +40,27 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
       return [];
     }
     //console.log('elementDataProvider: false', element.resultsScope);
+
+    // TODO: do not merge each colleaction's data to the data point, but to create a collection's constaint-like meta
+    const scope = element.scope;
+    if (scope) {
+      const data = dataObs.dataJs
+        .map((d: any) => {
+          const scopedValue = d[scope];
+          if (scopedValue) {
+            if (Array.isArray(scopedValue)) {
+              return scopedValue.map((scopedValueItem: any) => {
+                return { ...omit(d, scope), ...scopedValueItem };
+              });
+            }
+            return scopedValue;
+          }
+          return d;
+        })
+        .flat();
+      return data;
+    }
+
     return dataObs.dataJs;
   };
   const schemaProvider: SchemaProvider = (constraint) =>
@@ -46,7 +68,7 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
 
   const mappingsProvider: MappingsProvider = (elementType) =>
     (viewKindElement as any).mappings ? (viewKindElement as any).mappings[elementType] : undefined;
-
+  console.log('ChartRenderer - viewDescrElement', viewDescrElement);
   const config = buildViewConfig(
     viewDescrElement as any,
     viewDescr,
