@@ -42,7 +42,9 @@ const TimeSeriesWithAuxiliaryView = ({ config = {}, options = {}, onChartReady }
               xScales[geometry.xField]?.type !== undefined &&
               xScales[geometry.xField]?.type !== 'linear' && { adjust: viewOptions.adjust }),
           })),
-          ...(options.yAxes !== false && { axes: configureYAxes(yScales, options.axes?.yAxis?.aliases) }),
+          ...(options.yAxes !== false && {
+            axes: configureYAxes(yScales, viewOptions.axes?.yAxis?.aliases || options.axes?.yAxis?.aliases),
+          }),
           data: viewData,
           ...(options.interactions && { interactions: options.interactions }),
           // TODO: check tooltip options propagation
