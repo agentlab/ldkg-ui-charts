@@ -117,7 +117,7 @@ const viewKindsCats = [
           {
             '@id': 'mktp:ProductCards_in_Category_Coll_Ent',
             '@type': 'aldkg:EntConstr',
-            schema: 'hs:ProductCardShape',
+            schema: 'als:ProductCardShape',
             conditions: {
               '@id': 'mktp:ProductCards_in_Category_Coll_Ent_Cond',
               CardInCatLink: 'https://muying.1688.com/wanju',
@@ -194,6 +194,7 @@ const viewKindsCats = [
                   connections: [
                     { toObj: 'mktp:Categories_Coll_Ent', toProp: 'schema', fromProp: 'categoryShape' },
                     { toObj: 'mktp:ProductCards_in_Category_Coll_Ent', toProp: 'schema', fromProp: 'productCardShape' },
+                    { toObj: 'mktp:Observations_Coll_Ent', toProp: 'schema', fromProp: 'observationShape' },
                     { toObj: 'mktp:SvdDaily_Coll_Ent_Cond', toProp: 'forDataset' },
                     { toObj: 'mktp:SvdWeekly_Coll_Ent_Cond', toProp: 'forDataset' },
                     { toObj: 'mktp:SvdMonthly_Coll_Ent_Cond', toProp: 'forDataset' },
@@ -663,7 +664,7 @@ const viewDescrsCats = [
           {
             '@id': 'mktp:Observations_Coll_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
-            schema: 'hs:HSObservationShape',
+            schema: 'als:ALSObservationShape',
             conditions: {
               '@id': 'mktp:Observations_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
@@ -672,7 +673,7 @@ const viewDescrsCats = [
             service: mktpOntopRepoIri,
           },
         ],
-        orderBy: [{ expression: variable('parsedAt'), descending: false }],
+        orderBy: [{ expression: variable('parsedAt0'), descending: false }],
       },
       {
         '@id': 'mktp:SvdDaily_Coll', // machine-generated random UUID
@@ -686,13 +687,13 @@ const viewDescrsCats = [
               '@id': 'mktp:SvdDaily_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               svdDailyHasProduct: null,
-              forDataset: 'https://www.wildberries.ru',
+              forDataset: 'https://www.1688.com',
               // we need here chart for property: svdDaily, not properties svdWeekly, svdMonthly
             },
             service: mktpOntopRepoIri,
           },
         ],
-        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+        orderBy: [{ expression: variable('bucketEnd0'), descending: false }],
       },
       {
         '@id': 'mktp:SvdWeekly_Coll', // machine-generated random UUID
@@ -706,13 +707,13 @@ const viewDescrsCats = [
               '@id': 'mktp:SvdWeekly_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               svdWeeklyHasProduct: null,
-              forDataset: 'https://www.wildberries.ru',
+              forDataset: 'https://www.1688.com',
               // we need here chart for property: svdWeekly
             },
             service: mktpOntopRepoIri,
           },
         ],
-        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+        orderBy: [{ expression: variable('bucketEnd0'), descending: false }],
       },
       {
         '@id': 'mktp:SvdMonthly_Coll', // machine-generated random UUID
@@ -725,14 +726,14 @@ const viewDescrsCats = [
             conditions: {
               '@id': 'mktp:SvdMonthly_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
-              forDataset: 'https://www.wildberries.ru',
+              forDataset: 'https://www.1688.com',
               svdMonthlyHasProduct: null,
               // we need here chart for property: svdMonthly
             },
             service: mktpOntopRepoIri,
           },
         ],
-        orderBy: [{ expression: variable('bucketEnd'), descending: false }],
+        orderBy: [{ expression: variable('bucketEnd0'), descending: false }],
       },
     ],
     elements: [
