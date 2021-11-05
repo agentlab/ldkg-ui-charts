@@ -494,6 +494,40 @@ const viewKindsCats = [
                             },
                             dataMappings: [],
                           },
+                          'aldkg:TimeSeriesSRDDaily': {
+                            '@id': 'mktp:Mapping_2',
+                            '@type': 'aldkg:TimeSeries',
+                            type: {
+                              type: 'pointer',
+                              value: '/type',
+                            },
+                            yField: 'srdDaily',
+                            xField: 'bucketEnd',
+                            colorField: '@type',
+                            mapping: {
+                              type: 'object',
+                              properties: {
+                                style: {
+                                  type: 'object',
+                                  properties: {
+                                    lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                                    stroke: { type: 'pointer', value: '/options/stroke' },
+                                  },
+                                  wrapper: { type: 'pointer', value: '/srdDailyHasProduct' },
+                                },
+                                color: {
+                                  type: 'pointer',
+                                  value: '/options/color',
+                                  wrapper: { type: 'pointer', value: '/srdDailyHasProduct' },
+                                },
+                                shape: {
+                                  type: 'pointer',
+                                  value: '/options/shape',
+                                },
+                              },
+                            },
+                            dataMappings: [],
+                          },
                           'aldkg:TimeSeriesDaily': {
                             '@id': 'mktp:Mapping_2',
                             '@type': 'aldkg:TimeSeries',
@@ -501,93 +535,25 @@ const viewKindsCats = [
                               type: 'pointer',
                               value: '/type',
                             },
-                            yField: 'svdDaily',
+                            yField: 'value',
                             xField: 'bucketEnd',
-                            colorField: 'svdDailyHasProduct',
+                            colorField: '@type',
                             mapping: {
                               type: 'object',
                               properties: {
-                                style: {
-                                  type: 'object',
-                                  properties: {
-                                    lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
-                                    stroke: { type: 'pointer', value: '/options/stroke' },
-                                  },
-                                  wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
-                                },
-                                color: {
-                                  type: 'pointer',
-                                  value: '/options/color',
-                                  wrapper: { type: 'pointer', value: '/svdDailyHasProduct' },
-                                },
-                                shape: {
-                                  type: 'pointer',
-                                  value: '/options/shape',
-                                },
-                              },
-                            },
-                            dataMappings: [],
-                          },
-                          'aldkg:TimeSeriesWeekly': {
-                            '@id': 'mktp:Mapping_3',
-                            '@type': 'aldkg:TimeSeries',
-                            type: {
-                              type: 'pointer',
-                              value: '/type',
-                            },
-                            yField: 'svdWeekly',
-                            xField: 'bucketEnd',
-                            colorField: 'svdWeeklyHasProduct',
-                            mapping: {
-                              type: 'object',
-                              properties: {
-                                style: {
-                                  type: 'object',
-                                  properties: {
-                                    lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
-                                    stroke: { type: 'pointer', value: '/options/stroke' },
-                                  },
-                                  wrapper: { type: 'pointer', value: '/svdWeeklyHasProduct' },
-                                },
-                                color: {
-                                  type: 'pointer',
-                                  value: '/options/color',
-                                  wrapper: { type: 'pointer', value: '/svdWeeklyHasProduct' },
-                                },
-                                shape: {
-                                  type: 'pointer',
-                                  value: '/options/shape',
-                                },
-                              },
-                            },
-                            dataMappings: [],
-                          },
-                          'aldkg:TimeSeriesMonthly': {
-                            '@id': 'mktp:Mapping_4',
-                            '@type': 'aldkg:TimeSeries',
-                            type: {
-                              type: 'pointer',
-                              value: '/type',
-                            },
-                            yField: 'svdMonthly',
-                            xField: 'bucketEnd',
-                            colorField: 'svdMonthlyHasProduct',
-                            mapping: {
-                              type: 'object',
-                              properties: {
-                                style: {
-                                  type: 'object',
-                                  properties: {
-                                    lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
-                                    stroke: { type: 'pointer', value: '/options/stroke' },
-                                  },
-                                  wrapper: { type: 'pointer', value: '/svdMonthlyHasProduct' },
-                                },
-                                color: {
-                                  type: 'pointer',
-                                  value: '/options/color',
-                                  wrapper: { type: 'pointer', value: '/svdMonthlyHasProduct' },
-                                },
+                                // style: {
+                                //   type: 'object',
+                                //   properties: {
+                                //     lineWidth: { type: 'pointer', value: '/options/lineWidth', default: 2 },
+                                //     stroke: { type: 'pointer', value: '/options/stroke' },
+                                //   },
+                                //   wrapper: { type: 'pointer', value: '/@type' },
+                                // },
+                                // color: {
+                                //   type: 'pointer',
+                                //   value: '/options/color',
+                                //   wrapper: { type: 'pointer', value: '/@type' },
+                                // },
                                 shape: {
                                   type: 'pointer',
                                   value: '/options/shape',
@@ -830,6 +796,134 @@ const viewDescrsCats = [
             },
             elements: [
               {
+                '@id': 'mktp:TimeSeries_Price_Daily',
+                '@type': 'aldkg:TimeSeriesDaily',
+                options: {
+                  legend: false,
+                  tooltip: {
+                    showCrosshairs: true,
+                    shared: true,
+                    showMarkers: true,
+                  },
+                  axes: {
+                    yAxis: {
+                      aliases: {
+                        value: 'Объем продаж, шт.',
+                      },
+                    },
+                  },
+                  region: {
+                    start: {
+                      x: 0,
+                      y: 0,
+                    },
+                    end: {
+                      x: 0.48,
+                      y: 0.24,
+                    },
+                  },
+                },
+                elements: [
+                  {
+                    '@id': 'mktp:line_price_daily',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:SvdDaily_Coll',
+                    options: {
+                      color: '#FFE0C7',
+                      lineWidth: 2,
+                      stroke: '#FFE0C7',
+                      shape: 'hv',
+                    },
+                  },
+                  {
+                    '@id': 'mktp:line_price_weekly',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:SvdWeekly_Coll',
+                    options: {
+                      color: '#FF99C3',
+                      lineWidth: 2,
+                      stroke: '#FF99C3',
+                      shape: 'hv',
+                    },
+                  },
+                  {
+                    '@id': 'mktp:line_price_monthly',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:SvdMonthly_Coll',
+                    options: {
+                      color: '#BBDEDE',
+                      lineWidth: 2,
+                      stroke: '#BBDEDE',
+                      shape: 'hv',
+                    },
+                  },
+                ],
+              },
+              {
+                '@id': 'mktp:TimeSeries_SVR',
+                '@type': 'aldkg:TimeSeriesDaily',
+                options: {
+                  legend: false,
+                  tooltip: {
+                    showCrosshairs: true,
+                    shared: true,
+                    showMarkers: true,
+                  },
+                  axes: {
+                    yAxis: {
+                      aliases: {
+                        value: 'Выручка, руб.',
+                      },
+                    },
+                  },
+                  region: {
+                    start: {
+                      x: 0.52,
+                      y: 0,
+                    },
+                    end: {
+                      x: 1,
+                      y: 0.24,
+                    },
+                  },
+                },
+                elements: [
+                  {
+                    '@id': 'mktp:line_price_daily',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:SrdDaily_Coll',
+                    options: {
+                      color: '#FFE0C7',
+                      lineWidth: 2,
+                      stroke: '#FFE0C7',
+                      shape: 'hv',
+                    },
+                  },
+                  {
+                    '@id': 'mktp:line_price_weekly',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:SrdWeekly_Coll',
+                    options: {
+                      color: '#FF99C3',
+                      lineWidth: 2,
+                      stroke: '#FF99C3',
+                      shape: 'hv',
+                    },
+                  },
+                  {
+                    '@id': 'mktp:line_price_monthly',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:SrdMonthly_Coll',
+                    options: {
+                      color: '#BBDEDE',
+                      lineWidth: 2,
+                      stroke: '#BBDEDE',
+                      shape: 'hv',
+                    },
+                  },
+                ],
+              },
+              {
                 '@id': 'mktp:TimeSeries_Price',
                 '@type': 'aldkg:TimeSeries',
                 options: {
@@ -838,16 +932,16 @@ const viewDescrsCats = [
                     showCrosshairs: true,
                     shared: true,
                     showMarkers: true,
-                    customContent: buildCustomTooltip('price'),
+                    //customContent: buildCustomTooltip('price'),
                   },
                   region: {
                     start: {
                       x: 0,
-                      y: 0,
+                      y: 0.26,
                     },
                     end: {
-                      x: 0.24,
-                      y: 0.2,
+                      x: 0.48,
+                      y: 0.49,
                     },
                   },
                 },
@@ -867,6 +961,44 @@ const viewDescrsCats = [
                 ],
               },
               {
+                '@id': 'mktp:TimeSeries_Price',
+                '@type': 'aldkg:TimeSeries',
+                options: {
+                  legend: false,
+                  tooltip: {
+                    showCrosshairs: true,
+                    shared: true,
+                    showMarkers: true,
+                    //customContent: buildCustomTooltip('commentsCount'),
+                  },
+                  region: {
+                    start: {
+                      x: 0.52,
+                      y: 0.26,
+                    },
+                    end: {
+                      x: 1,
+                      y: 0.48,
+                    },
+                  },
+                },
+                elements: [
+                  {
+                    '@id': 'mktp:line_commentsCount',
+                    '@type': 'aldkg:ChartLine',
+                    resultsScope: 'mktp:Observations_Coll',
+                    options: {
+                      property: 'commentsCount',
+                      color: '#EC7E31',
+                      lineWidth: 2,
+                      stroke: '#EC7E31',
+                      shape: 'hv',
+                    },
+                  },
+                ],
+              },
+              /*
+              {
                 '@id': 'mktp:TimeSeries_Sales',
                 '@type': 'aldkg:TimeSeries',
                 options: {
@@ -875,16 +1007,15 @@ const viewDescrsCats = [
                     showCrosshairs: true,
                     shared: true,
                     showMarkers: true,
-                    customContent: buildCustomTooltip('stocks'),
                   },
                   region: {
                     start: {
-                      x: 0.26,
-                      y: 0,
+                      x: 0,
+                      y: 0.51,
                     },
                     end: {
                       x: 0.49,
-                      y: 0.2,
+                      y: 0.74,
                     },
                   },
                 },
@@ -904,7 +1035,7 @@ const viewDescrsCats = [
                 ],
               },
               {
-                '@id': 'mktp:TimeSeries_Price',
+                '@id': 'mktp:TimeSeries_Sales',
                 '@type': 'aldkg:TimeSeries',
                 options: {
                   legend: false,
@@ -912,127 +1043,15 @@ const viewDescrsCats = [
                     showCrosshairs: true,
                     shared: true,
                     showMarkers: true,
-                    customContent: buildCustomTooltip('saleValue'),
                   },
                   region: {
                     start: {
                       x: 0.51,
-                      y: 0,
-                    },
-                    end: {
-                      x: 0.74,
-                      y: 0.2,
-                    },
-                  },
-                },
-                elements: [
-                  {
-                    '@id': 'mktp:line_saleValue',
-                    '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:Observations_Coll',
-                    options: {
-                      property: 'saleValue',
-                      color: '#EB648C',
-                      lineWidth: 2,
-                      stroke: '#EB648C',
-                      shape: 'hv',
-                    },
-                  },
-                ],
-              },
-              {
-                '@id': 'mktp:TimeSeries_Sales',
-                '@type': 'aldkg:TimeSeries',
-                options: {
-                  legend: false,
-                  tooltip: {
-                    showCrosshairs: true,
-                    shared: true,
-                    showMarkers: true,
-                    customContent: buildCustomTooltip('totalSales'),
-                  },
-                  region: {
-                    start: {
-                      x: 0.76,
-                      y: 0,
+                      y: 0.51,
                     },
                     end: {
                       x: 1,
-                      y: 0.2,
-                    },
-                  },
-                },
-                elements: [
-                  {
-                    '@id': 'mktp:line_totalSales',
-                    '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:Observations_Coll',
-                    options: {
-                      property: 'totalSales',
-                      color: '#EB648C',
-                      lineWidth: 2,
-                      stroke: '#EB648C',
-                      shape: 'hv',
-                    },
-                  },
-                ],
-              },
-              {
-                '@id': 'mktp:TimeSeries_Price',
-                '@type': 'aldkg:TimeSeries',
-                options: {
-                  legend: false,
-                  tooltip: {
-                    showCrosshairs: true,
-                    shared: true,
-                    showMarkers: true,
-                    customContent: buildCustomTooltip('commentsCount'),
-                  },
-                  region: {
-                    start: {
-                      x: 0,
-                      y: 0.21,
-                    },
-                    end: {
-                      x: 0.24,
-                      y: 0.4,
-                    },
-                  },
-                },
-                elements: [
-                  {
-                    '@id': 'mktp:line_commentsCount',
-                    '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:Observations_Coll',
-                    options: {
-                      property: 'commentsCount',
-                      color: '#EC7E31',
-                      lineWidth: 2,
-                      stroke: '#EC7E31',
-                      shape: 'hv',
-                    },
-                  },
-                ],
-              },
-              {
-                '@id': 'mktp:TimeSeries_Sales',
-                '@type': 'aldkg:TimeSeries',
-                options: {
-                  legend: false,
-                  tooltip: {
-                    showCrosshairs: true,
-                    shared: true,
-                    showMarkers: true,
-                    customContent: buildCustomTooltip('stocksDiffOrders'),
-                  },
-                  region: {
-                    start: {
-                      x: 0.26,
-                      y: 0.21,
-                    },
-                    end: {
-                      x: 0.49,
-                      y: 0.4,
+                      y: 0.74,
                     },
                   },
                 },
@@ -1060,26 +1079,25 @@ const viewDescrsCats = [
                     showCrosshairs: true,
                     shared: true,
                     showMarkers: true,
-                    customContent: buildCustomTooltip('salesAmountDiff'),
                   },
                   region: {
                     start: {
-                      x: 0.51,
-                      y: 0.21,
+                      x: 0,
+                      y: 0.76,
                     },
                     end: {
-                      x: 0.74,
-                      y: 0.4,
+                      x: 0.49,
+                      y: 1,
                     },
                   },
                 },
                 elements: [
                   {
-                    '@id': 'mktp:line_salesAmountDiff',
+                    '@id': 'mktp:line_saleValue',
                     '@type': 'aldkg:ChartLine',
                     resultsScope: 'mktp:Observations_Coll',
                     options: {
-                      property: 'salesAmountDiff',
+                      property: 'saleValue',
                       color: '#EB648C',
                       lineWidth: 2,
                       stroke: '#EB648C',
@@ -1097,118 +1115,11 @@ const viewDescrsCats = [
                     showCrosshairs: true,
                     shared: true,
                     showMarkers: true,
-                    customContent: buildCustomTooltip('totalSalesDiff'),
                   },
                   region: {
                     start: {
-                      x: 0.76,
-                      y: 0.21,
-                    },
-                    end: {
-                      x: 1,
-                      y: 0.4,
-                    },
-                  },
-                },
-                elements: [
-                  {
-                    '@id': 'mktp:line_totalSalesDiff',
-                    '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:Observations_Coll',
-                    options: {
-                      property: 'totalSalesDiff',
-                      color: '#EB648C',
-                      lineWidth: 2,
-                      stroke: '#EB648C',
-                      shape: 'hv',
-                    },
-                  },
-                ],
-              },
-              {
-                '@id': 'mktp:TimeSeries_Price_Daily',
-                '@type': 'aldkg:TimeSeriesDaily',
-                options: {
-                  legend: false,
-                  tooltip: {
-                    showCrosshairs: true,
-                    shared: true,
-                    showMarkers: true,
-                  },
-                  region: {
-                    start: {
-                      x: 0,
-                      y: 0.42,
-                    },
-                    end: {
-                      x: 1,
-                      y: 0.6,
-                    },
-                  },
-                },
-                elements: [
-                  {
-                    '@id': 'mktp:line_price_daily',
-                    '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:SvdDaily_Coll',
-                    options: {
-                      color: '#FFE0C7',
-                      lineWidth: 2,
-                      stroke: '#FFE0C7',
-                      shape: 'hv',
-                    },
-                  },
-                ],
-              },
-              {
-                '@id': 'mktp:TimeSeries_Price_Weekly',
-                '@type': 'aldkg:TimeSeriesWeekly',
-                options: {
-                  legend: false,
-                  tooltip: {
-                    showCrosshairs: true,
-                    shared: true,
-                    showMarkers: true,
-                  },
-                  region: {
-                    start: {
-                      x: 0,
-                      y: 0.6,
-                    },
-                    end: {
-                      x: 1,
-                      y: 0.8,
-                    },
-                  },
-                },
-                elements: [
-                  {
-                    '@id': 'mktp:line_price_weekly',
-                    '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:SvdWeekly_Coll',
-                    options: {
-                      color: '#FF99C3',
-                      lineWidth: 2,
-                      stroke: '#FF99C3',
-                      shape: 'hv',
-                    },
-                  },
-                ],
-              },
-              {
-                '@id': 'mktp:TimeSeries_Price_Monthly',
-                '@type': 'aldkg:TimeSeriesMonthly',
-                options: {
-                  legend: false,
-                  tooltip: {
-                    showCrosshairs: true,
-                    shared: true,
-                    showMarkers: true,
-                  },
-                  region: {
-                    start: {
-                      x: 0,
-                      y: 0.8,
+                      x: 0.51,
+                      y: 0.76,
                     },
                     end: {
                       x: 1,
@@ -1218,63 +1129,24 @@ const viewDescrsCats = [
                 },
                 elements: [
                   {
-                    '@id': 'mktp:line_price_monthly',
+                    '@id': 'mktp:line_totalSales',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:SvdMonthly_Coll',
+                    resultsScope: 'mktp:Observations_Coll',
                     options: {
-                      color: '#BBDEDE',
+                      property: 'totalSales',
+                      color: '#EB648C',
                       lineWidth: 2,
-                      stroke: '#BBDEDE',
+                      stroke: '#EB648C',
                       shape: 'hv',
                     },
                   },
                 ],
               },
+              */
             ],
           },
         ],
       },
-      // {
-      //   '@id': 'mktp:_g7H7gh_chart_2',
-      //   '@type': 'aldkg:Chart',
-      //   '@parent': 'mktp:TreeTableChartVKElement',
-      //   resultsScope: 'mktp:SvdDaily_Coll',
-      //   title: 'Показатели продукта daily',
-      //   options: {
-      //     timeUnit: 'day',
-      //     dateFormat: 'DD.MM.YYYY',
-      //   },
-      //   elements: [
-      //     {
-      //       '@id': 'mktp:TimeSeries_2',
-      //       '@type': 'aldkg:TimeSeriesPlot',
-      //       options: {
-      //         legend: false,
-      //       },
-      //       elements: [
-      //         {
-      //           '@id': 'mktp:TimeSeries_Price_Daily',
-      //           '@type': 'aldkg:TimeSeriesDaily',
-      //           options: {
-      //             legend: false,
-      //             tooltip: {
-      //               showCrosshairs: true,
-      //               shared: true,
-      //               showMarkers: true,
-      //             },
-      //           },
-      //           elements: [
-      //             {
-      //               '@id': 'mktp:line_price_daily',
-      //               '@type': 'aldkg:ChartLine',
-      //               resultsScope: 'mktp:SvdDaily_Coll',
-      //             },
-      //           ],
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
     ],
   },
 ];

@@ -67,19 +67,6 @@ const TimeSeriesWithAuxiliaryView = ({ config = {}, options = {}, onChartReady }
     views: updateViews,
     syncViewPadding: true,
     tooltip: false,
-    // TODO: check view's color field (if view legend option is false, add it with false, otherwise add it as is)
-    legend: {
-      source: {
-        position: 'right',
-      },
-      observedFeatureProperty: false,
-      hasFeatureOfInterest: false,
-      product: false,
-      svdDailyHasProduct: false,
-      svdWeeklyHasProduct: false,
-      svdMonthlyHasProduct: false,
-      forDataset: false,
-    },
   };
 
   return (
