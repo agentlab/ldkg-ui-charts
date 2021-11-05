@@ -483,6 +483,10 @@ export const HSObservationShapeSchemaForCardsListShape = {
       '@id': 'hs:price',
       '@type': 'xsd:int',
     },
+    totalSales: {
+      '@id': 'hs:totalSales',
+      '@type': 'xsd:int',
+    },
   },
   properties: {
     '@id': {
@@ -503,6 +507,10 @@ export const HSObservationShapeSchemaForCardsListShape = {
       title: 'Цена',
       type: 'integer',
     },
+    totalSales: {
+      title: 'Объем продаж',
+      type: 'integer',
+    },
   },
-  required: ['@id', '@type', 'parsedAt', 'price'],
+  required: ['@id', '@type', 'parsedAt', 'price', 'totalSales'],
 };
