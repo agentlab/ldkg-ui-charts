@@ -111,7 +111,7 @@ const viewKindsCats = [
     elements: [
       {
         '@id': 'mktp:_29kFg89',
-        '@type': 'aldkg:VerticalLayout',
+        '@type': 'aldkg:PanelLayout',
         elements: [
           //////////
           // BoxPlots
@@ -120,7 +120,7 @@ const viewKindsCats = [
             '@id': 'mktp:BoxPlotChartViewKind',
             '@type': 'aldkg:BoxPlotChart', // control type
             options: {
-              // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
+              style: { display: 'flex', flexDirection: 'column', height: 400 },
             },
             mappings: {
               'aldkg:BoxPlotTimeSeries': {
@@ -168,7 +168,7 @@ const viewKindsCats = [
             '@id': 'mktp:BoxPlotChartViewKind_TotalSales',
             '@type': 'aldkg:BoxPlotChart', // control type
             options: {
-              // TODO: primary/secondary properties? links to collsConstrs? Pass the entire options to the to-be rendered component?
+              style: { display: 'flex', flexDirection: 'column', height: 400 },
             },
             mappings: {
               'aldkg:BoxPlotTimeSeries': {

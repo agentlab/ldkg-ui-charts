@@ -56,13 +56,18 @@ export const ChartRenderer = observer<RenderProps>((props): JSX.Element => {
     mappingsProvider,
   );
   console.log('setViewConfig', config);
+  const style = viewKindElement.options?.style;
   return (
-    <ChartSubRenderer
-      config={config}
-      dataIsLoading={dataIsLoading}
-      viewKindElement={viewKindElement}
-      viewDescrElement={viewDescrElement}
-    />
+    <div style={{ ...style }}>
+      <div style={{ display: 'block' }}>
+        <ChartSubRenderer
+          config={config}
+          dataIsLoading={dataIsLoading}
+          viewKindElement={viewKindElement}
+          viewDescrElement={viewDescrElement}
+        />
+      </div>
+    </div>
   );
 });
 
