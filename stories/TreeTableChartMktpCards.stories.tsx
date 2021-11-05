@@ -194,10 +194,16 @@ const viewKindsCats = [
                   connections: [
                     { toObj: 'mktp:Categories_Coll_Ent', toProp: 'schema', fromProp: 'categoryShape' },
                     { toObj: 'mktp:ProductCards_in_Category_Coll_Ent', toProp: 'schema', fromProp: 'productCardShape' },
+                    //Observations
                     { toObj: 'mktp:Observations_Coll_Ent', toProp: 'schema', fromProp: 'observationShape' },
+                    //SVD
                     { toObj: 'mktp:SvdDaily_Coll_Ent_Cond', toProp: 'forDataset' },
                     { toObj: 'mktp:SvdWeekly_Coll_Ent_Cond', toProp: 'forDataset' },
                     { toObj: 'mktp:SvdMonthly_Coll_Ent_Cond', toProp: 'forDataset' },
+                    //SRD
+                    { toObj: 'mktp:SrdDaily_Coll_Ent_Cond', toProp: 'forDataset' },
+                    { toObj: 'mktp:SrdWeekly_Coll_Ent_Cond', toProp: 'forDataset' },
+                    { toObj: 'mktp:SrdMonthly_Coll_Ent_Cond', toProp: 'forDataset' },
                   ],
                 },
               },
@@ -246,10 +252,16 @@ const viewKindsCats = [
                         resultsScope: 'mktp:ProductCards_in_Category_Coll',
                         options: {
                           connections: [
+                            //Observations
                             { toObj: 'mktp:Observations_Coll_Ent_Cond', toProp: 'product' },
+                            //SVD
                             { toObj: 'mktp:SvdDaily_Coll_Ent_Cond', toProp: 'svdDailyHasProduct' },
                             { toObj: 'mktp:SvdWeekly_Coll_Ent_Cond', toProp: 'svdWeeklyHasProduct' },
                             { toObj: 'mktp:SvdMonthly_Coll_Ent_Cond', toProp: 'svdMonthlyHasProduct' },
+                            //SRD
+                            { toObj: 'mktp:SrdDaily_Coll_Ent_Cond', toProp: 'srdDailyHasProduct' },
+                            { toObj: 'mktp:SrdWeekly_Coll_Ent_Cond', toProp: 'srdWeeklyHasProduct' },
+                            { toObj: 'mktp:SrdMonthly_Coll_Ent_Cond', toProp: 'srdMonthlyHasProduct' },
                           ],
                           draggable: true,
                           resizeableHeader: true,
@@ -657,6 +669,7 @@ const viewDescrsCats = [
     viewKind: 'mktp:TreeTableChartViewKind',
     // datasets constraints, specific to this view (UML aggregation)
     collsConstrs: [
+      //Observations
       {
         '@id': 'mktp:Observations_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
@@ -675,6 +688,7 @@ const viewDescrsCats = [
         ],
         orderBy: [{ expression: variable('parsedAt0'), descending: false }],
       },
+      //SVD
       {
         '@id': 'mktp:SvdDaily_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
@@ -729,6 +743,64 @@ const viewDescrsCats = [
               forDataset: 'https://www.1688.com',
               svdMonthlyHasProduct: null,
               // we need here chart for property: svdMonthly
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd0'), descending: false }],
+      },
+      //SRD
+      {
+        '@id': 'mktp:SrdDaily_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:SrdDaily_Coll_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:SrdDailyShape',
+            conditions: {
+              '@id': 'mktp:SrdDaily_Coll_Ent_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              srdDailyHasProduct: null,
+              forDataset: 'https://www.1688.com',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd0'), descending: false }],
+      },
+      {
+        '@id': 'mktp:SrdWeekly_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:SrdWeekly_Coll_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:SrdWeeklyShape',
+            conditions: {
+              '@id': 'mktp:SrdWeekly_Coll_Ent_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              srdWeeklyHasProduct: null,
+              forDataset: 'https://www.1688.com',
+            },
+            service: mktpOntopRepoIri,
+          },
+        ],
+        orderBy: [{ expression: variable('bucketEnd0'), descending: false }],
+      },
+      {
+        '@id': 'mktp:SrdMonthly_Coll', // machine-generated random UUID
+        '@type': 'aldkg:CollConstr',
+        entConstrs: [
+          {
+            '@id': 'mktp:SrdMonthly_Coll_Ent', // machine-generated random UUID
+            '@type': 'aldkg:EntConstr',
+            schema: 'mktp:SrdMonthlyShape',
+            conditions: {
+              '@id': 'mktp:SrdMonthly_Coll_Ent_Cond', // machine-generated random UUID
+              '@type': 'aldkg:EntConstrCondition',
+              forDataset: 'https://www.1688.com',
+              srdMonthlyHasProduct: null,
             },
             service: mktpOntopRepoIri,
           },
