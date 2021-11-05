@@ -192,8 +192,8 @@ const viewKindsProds = [
                   treeNodeParentKey: 'SubProdInProdLink',
                   connections: [
                     { toObj: 'mktp:Product_Coll_Ent0_Cond', toProp: '@_id' },
-                    { toObj: 'mktp:_u8Yg84_price', toProp: 'hasFeatureOfInterest' },
-                    { toObj: 'mktp:_u8Yg84_TotalSales', toProp: 'hasFeatureOfInterest' },
+                    { toObj: 'mktp:WB_Select_Boxplots_Price_Coll_Ent_Cond', toProp: 'hasFeatureOfInterest' },
+                    { toObj: 'mktp:WB_Select_Boxplots_TotalSales_Coll_Ent_Cond', toProp: 'hasFeatureOfInterest' },
                     { toObj: 'mktp:ProductCards_in_Product_Coll_Ent0_Cond', toProp: 'CardInProdLink' },
                   ],
                 },
@@ -489,15 +489,15 @@ const viewDescrsProds = [
       // BoxPlots
       //////////
       {
-        '@id': 'mktp:_8uJ8t6_price', // machine-generated random UUID
+        '@id': 'mktp:WB_Select_Boxplots_Price_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf78DfG_price', // machine-generated random UUID
+            '@id': 'mktp:WB_Select_Boxplots_Price_Coll_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_u8Yg84_price', // machine-generated random UUID
+              '@id': 'mktp:WB_Select_Boxplots_Price_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Toys',
               forProperty: 'hs:Price',
@@ -509,15 +509,15 @@ const viewDescrsProds = [
         orderBy: [{ expression: variable('begin0'), descending: false }],
       },
       {
-        '@id': 'mktp:_8uJ8t6_TotalSales', // machine-generated random UUID
+        '@id': 'mktp:WB_Select_Boxplots_TotalSales_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf78DfG_TotalSales', // machine-generated random UUID
+            '@id': 'mktp:WB_Select_Boxplots_TotalSales_Coll_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_u8Yg84_TotalSales', // machine-generated random UUID
+              '@id': 'mktp:WB_Select_Boxplots_TotalSales_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'mktp_d:Toys',
               forProperty: 'hs:TotalSales',
@@ -529,15 +529,15 @@ const viewDescrsProds = [
         orderBy: [{ expression: variable('begin0'), descending: false }],
       },
       {
-        '@id': 'mktp:_8uJ8t7_price', // machine-generated random UUID
+        '@id': 'mktp:WB_Antistress_Boxplots_Price_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf78Dfg_price', // machine-generated random UUID
+            '@id': 'mktp:WB_Antistress_Boxplots_Price_Coll_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_u8Yg83_price', // machine-generated random UUID
+              '@id': 'mktp:WB_Antistress_Boxplots_Price_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/igrushki/antistress',
               forProperty: 'hs:Price',
@@ -549,15 +549,15 @@ const viewDescrsProds = [
         orderBy: [{ expression: variable('begin0'), descending: false }],
       },
       {
-        '@id': 'mktp:_8uJ8t7_TotalSales', // machine-generated random UUID
+        '@id': 'mktp:WB_Antistress_Boxplots_TotalSales_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf78Dfg_TotalSales', // machine-generated random UUID
+            '@id': 'mktp:WB_Antistress_Boxplots_TotalSales_Coll_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:BoxPlotBucketShape',
             conditions: {
-              '@id': 'mktp:_u8Yg83_TotalSales', // machine-generated random UUID
+              '@id': 'mktp:WB_Antistress_Boxplots_TotalSales_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               hasFeatureOfInterest: 'https://www.wildberries.ru/catalog/igrushki/antistress',
               forProperty: 'hs:TotalSales',
@@ -619,7 +619,7 @@ const viewDescrsProds = [
               {
                 '@id': 'mktp:box1_price', // machine-generated random UUID
                 '@type': 'aldkg:BoxPlotSchema',
-                resultsScope: 'mktp:_8uJ8t6_price', // reference to data
+                resultsScope: 'mktp:WB_Select_Boxplots_Price_Coll', // reference to data
                 options: {
                   shape: 'box',
                   fill: '#2E8DF9',
@@ -633,7 +633,7 @@ const viewDescrsProds = [
               {
                 '@id': 'mktp:box2_price', // machine-generated random UUID
                 '@type': 'aldkg:BoxPlotSchema',
-                resultsScope: 'mktp:_8uJ8t7_price', // reference to data
+                resultsScope: 'mktp:WB_Antistress_Boxplots_Price_Coll', // reference to data
                 options: {
                   shape: 'box',
                   fill: '#1FD0BE',
@@ -690,7 +690,7 @@ const viewDescrsProds = [
               {
                 '@id': 'mktp:box1_TotalSales', // machine-generated random UUID
                 '@type': 'aldkg:BoxPlotSchema',
-                resultsScope: 'mktp:_8uJ8t6_TotalSales', // reference to data
+                resultsScope: 'mktp:WB_Select_Boxplots_TotalSales_Coll', // reference to data
                 options: {
                   shape: 'box',
                   fill: '#2E8DF9',
@@ -704,7 +704,7 @@ const viewDescrsProds = [
               {
                 '@id': 'mktp:box2_TotalSales', // machine-generated random UUID
                 '@type': 'aldkg:BoxPlotSchema',
-                resultsScope: 'mktp:_8uJ8t7_TotalSales', // reference to data
+                resultsScope: 'mktp:WB_Antistress_Boxplots_TotalSales_Coll', // reference to data
                 options: {
                   shape: 'box',
                   fill: '#1FD0BE',

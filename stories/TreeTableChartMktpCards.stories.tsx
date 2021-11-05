@@ -119,7 +119,7 @@ const viewKindsCats = [
             '@type': 'aldkg:EntConstr',
             schema: 'hs:ProductCardShape',
             conditions: {
-              '@id': 'mktp:ProductCards_in_Category_Coll_Ent_con',
+              '@id': 'mktp:ProductCards_in_Category_Coll_Ent_Cond',
               CardInCatLink: 'https://muying.1688.com/wanju',
             },
             service: mktpSchemaRepoIri,
@@ -194,9 +194,9 @@ const viewKindsCats = [
                   connections: [
                     { toObj: 'mktp:Categories_Coll_Ent', toProp: 'schema', fromProp: 'categoryShape' },
                     { toObj: 'mktp:ProductCards_in_Category_Coll_Ent', toProp: 'schema', fromProp: 'productCardShape' },
-                    { toObj: 'mktp:_sD7fg', toProp: 'forDataset' },
-                    { toObj: 'mktp:_qw89Ds', toProp: 'forDataset' },
-                    { toObj: 'mktp:_df8D78', toProp: 'forDataset' },
+                    { toObj: 'mktp:SvdDaily_Coll_Ent_Cond', toProp: 'forDataset' },
+                    { toObj: 'mktp:SvdWeekly_Coll_Ent_Cond', toProp: 'forDataset' },
+                    { toObj: 'mktp:SvdMonthly_Coll_Ent_Cond', toProp: 'forDataset' },
                   ],
                 },
               },
@@ -235,7 +235,7 @@ const viewKindsCats = [
                           treeNodeTitleKey: 'name',
                           treeNodeParentKey: 'SubcatInCatLink',
                           connections: [
-                            { toObj: 'mktp:ProductCards_in_Category_Coll_Ent_con', toProp: 'CardInCatLink' },
+                            { toObj: 'mktp:ProductCards_in_Category_Coll_Ent_Cond', toProp: 'CardInCatLink' },
                           ],
                         },
                       },
@@ -245,10 +245,10 @@ const viewKindsCats = [
                         resultsScope: 'mktp:ProductCards_in_Category_Coll',
                         options: {
                           connections: [
-                            { toObj: 'mktp:_u8Yg83', toProp: 'product' },
-                            { toObj: 'mktp:_sD7fg', toProp: 'svdDailyHasProduct' },
-                            { toObj: 'mktp:_qw89Ds', toProp: 'svdWeeklyHasProduct' },
-                            { toObj: 'mktp:_df8D78', toProp: 'svdMonthlyHasProduct' },
+                            { toObj: 'mktp:Observations_Coll_Ent_Cond', toProp: 'product' },
+                            { toObj: 'mktp:SvdDaily_Coll_Ent_Cond', toProp: 'svdDailyHasProduct' },
+                            { toObj: 'mktp:SvdWeekly_Coll_Ent_Cond', toProp: 'svdWeeklyHasProduct' },
+                            { toObj: 'mktp:SvdMonthly_Coll_Ent_Cond', toProp: 'svdMonthlyHasProduct' },
                           ],
                           draggable: true,
                           resizeableHeader: true,
@@ -657,15 +657,15 @@ const viewDescrsCats = [
     // datasets constraints, specific to this view (UML aggregation)
     collsConstrs: [
       {
-        '@id': 'mktp:_8uJ8t6', // machine-generated random UUID
+        '@id': 'mktp:Observations_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf78Dfg', // machine-generated random UUID
+            '@id': 'mktp:Observations_Coll_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'hs:HSObservationShape',
             conditions: {
-              '@id': 'mktp:_u8Yg83', // machine-generated random UUID
+              '@id': 'mktp:Observations_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               product: null,
             },
@@ -675,15 +675,15 @@ const viewDescrsCats = [
         orderBy: [{ expression: variable('parsedAt'), descending: false }],
       },
       {
-        '@id': 'mktp:_95fFg7', // machine-generated random UUID
+        '@id': 'mktp:SvdDaily_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_w89Df', // machine-generated random UUID
+            '@id': 'mktp:SvdDaily_Coll_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:SvdDailyShape',
             conditions: {
-              '@id': 'mktp:_sD7fg', // machine-generated random UUID
+              '@id': 'mktp:SvdDaily_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               svdDailyHasProduct: null,
               forDataset: 'https://www.wildberries.ru',
@@ -695,15 +695,15 @@ const viewDescrsCats = [
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
       },
       {
-        '@id': 'mktp:_aw34F3', // machine-generated random UUID
+        '@id': 'mktp:SvdWeekly_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_Dfg87', // machine-generated random UUID
+            '@id': 'mktp:SvdWeekly_Coll_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:SvdWeeklyShape',
             conditions: {
-              '@id': 'mktp:_qw89Ds', // machine-generated random UUID
+              '@id': 'mktp:SvdWeekly_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               svdWeeklyHasProduct: null,
               forDataset: 'https://www.wildberries.ru',
@@ -715,15 +715,15 @@ const viewDescrsCats = [
         orderBy: [{ expression: variable('bucketEnd'), descending: false }],
       },
       {
-        '@id': 'mktp:_34eF90', // machine-generated random UUID
+        '@id': 'mktp:SvdMonthly_Coll', // machine-generated random UUID
         '@type': 'aldkg:CollConstr',
         entConstrs: [
           {
-            '@id': 'mktp:_uf364r', // machine-generated random UUID
+            '@id': 'mktp:SvdMonthly_Coll_Ent', // machine-generated random UUID
             '@type': 'aldkg:EntConstr',
             schema: 'mktp:SvdMonthlyShape',
             conditions: {
-              '@id': 'mktp:_df8D78', // machine-generated random UUID
+              '@id': 'mktp:SvdMonthly_Coll_Ent_Cond', // machine-generated random UUID
               '@type': 'aldkg:EntConstrCondition',
               forDataset: 'https://www.wildberries.ru',
               svdMonthlyHasProduct: null,
@@ -740,7 +740,7 @@ const viewDescrsCats = [
         '@id': 'mktp:_g7H7gh_chart',
         '@type': 'aldkg:Chart',
         '@parent': 'mktp:TreeTableChartVKElement',
-        resultsScope: 'mktp:_8uJ8t6',
+        resultsScope: 'mktp:Observations_Coll',
         title: 'Показатели продукта',
         options: {
           timeUnit: 'day',
@@ -782,7 +782,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_price',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_8uJ8t6',
+                    resultsScope: 'mktp:Observations_Coll',
                     options: {
                       property: 'price',
                       color: '#2E8DF9',
@@ -819,7 +819,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_stocks',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_8uJ8t6',
+                    resultsScope: 'mktp:Observations_Coll',
                     options: {
                       property: 'stocks',
                       color: '#1FD0BE',
@@ -856,7 +856,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_saleValue',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_8uJ8t6',
+                    resultsScope: 'mktp:Observations_Coll',
                     options: {
                       property: 'saleValue',
                       color: '#EB648C',
@@ -893,7 +893,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_totalSales',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_8uJ8t6',
+                    resultsScope: 'mktp:Observations_Coll',
                     options: {
                       property: 'totalSales',
                       color: '#EB648C',
@@ -930,7 +930,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_commentsCount',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_8uJ8t6',
+                    resultsScope: 'mktp:Observations_Coll',
                     options: {
                       property: 'commentsCount',
                       color: '#EC7E31',
@@ -967,7 +967,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_stocksDiffOrders',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_8uJ8t6',
+                    resultsScope: 'mktp:Observations_Coll',
                     options: {
                       property: 'stocksDiffOrders',
                       color: '#1FD0BE',
@@ -1004,7 +1004,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_salesAmountDiff',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_8uJ8t6',
+                    resultsScope: 'mktp:Observations_Coll',
                     options: {
                       property: 'salesAmountDiff',
                       color: '#EB648C',
@@ -1041,7 +1041,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_totalSalesDiff',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_8uJ8t6',
+                    resultsScope: 'mktp:Observations_Coll',
                     options: {
                       property: 'totalSalesDiff',
                       color: '#EB648C',
@@ -1077,7 +1077,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_price_daily',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_95fFg7',
+                    resultsScope: 'mktp:SvdDaily_Coll',
                     options: {
                       color: '#FFE0C7',
                       lineWidth: 2,
@@ -1112,7 +1112,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_price_weekly',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_aw34F3',
+                    resultsScope: 'mktp:SvdWeekly_Coll',
                     options: {
                       color: '#FF99C3',
                       lineWidth: 2,
@@ -1147,7 +1147,7 @@ const viewDescrsCats = [
                   {
                     '@id': 'mktp:line_price_monthly',
                     '@type': 'aldkg:ChartLine',
-                    resultsScope: 'mktp:_34eF90',
+                    resultsScope: 'mktp:SvdMonthly_Coll',
                     options: {
                       color: '#BBDEDE',
                       lineWidth: 2,
@@ -1165,7 +1165,7 @@ const viewDescrsCats = [
       //   '@id': 'mktp:_g7H7gh_chart_2',
       //   '@type': 'aldkg:Chart',
       //   '@parent': 'mktp:TreeTableChartVKElement',
-      //   resultsScope: 'mktp:_95fFg7',
+      //   resultsScope: 'mktp:SvdDaily_Coll',
       //   title: 'Показатели продукта daily',
       //   options: {
       //     timeUnit: 'day',
@@ -1194,7 +1194,7 @@ const viewDescrsCats = [
       //             {
       //               '@id': 'mktp:line_price_daily',
       //               '@type': 'aldkg:ChartLine',
-      //               resultsScope: 'mktp:_95fFg7',
+      //               resultsScope: 'mktp:SvdDaily_Coll',
       //             },
       //           ],
       //         },
