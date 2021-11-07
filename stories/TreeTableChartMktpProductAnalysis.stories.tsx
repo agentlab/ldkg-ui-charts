@@ -400,7 +400,7 @@ const viewKindsProds = [
                 '@id': 'mktp:TreeTableChartMarginalityVKElement',
                 '@type': 'aldkg:TimeSeriesChart', // control type
                 options: {
-                  style: { display: 'flex', flexDirection: 'column', height: 250 },
+                  style: { display: 'flex', flexDirection: 'column' },
                 },
                 mappings: {
                   'aldkg:TimeSeriesMarginality': {
@@ -446,7 +446,7 @@ const viewKindsProds = [
                 '@id': 'mktp:BoxPlotChartViewKind_TotalSales',
                 '@type': 'aldkg:BoxPlotChart', // control type
                 options: {
-                  style: { display: 'flex', flexDirection: 'column', height: 250 },
+                  style: { display: 'flex', flexDirection: 'column' },
                 },
                 mappings: {
                   'aldkg:BoxPlotTimeSeries': {
@@ -499,7 +499,7 @@ const viewKindsProds = [
                 '@id': 'mktp:BoxPlotChartViewKind',
                 '@type': 'aldkg:BoxPlotChart', // control type
                 options: {
-                  style: { display: 'flex', flexDirection: 'column', height: 250 },
+                  style: { display: 'flex', flexDirection: 'column' },
                 },
                 mappings: {
                   'aldkg:BoxPlotTimeSeries': {
@@ -552,7 +552,7 @@ const viewKindsProds = [
                 '@id': 'mktp:TreeTableChartVKElement',
                 '@type': 'aldkg:TimeSeriesChart', // control type
                 options: {
-                  style: { display: 'flex', flexDirection: 'column', height: 250 },
+                  style: { display: 'flex', flexDirection: 'column' },
                 },
                 mappings: {
                   'aldkg:TimeSeriesDaily': {
@@ -663,7 +663,7 @@ const viewKindsProds = [
                 '@id': 'mktp:TreeTableKiChartVKElement',
                 '@type': 'aldkg:TimeSeriesChart', // control type
                 options: {
-                  style: { display: 'flex', flexDirection: 'column', height: 250 },
+                  style: { display: 'flex', flexDirection: 'column' },
                 },
                 mappings: {
                   'aldkg:TimeSeriesDaily': {
