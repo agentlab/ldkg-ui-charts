@@ -71,7 +71,16 @@ export const Full: Story<{}> = () => {
   return (
     <Provider store={store}>
       <MstContextProvider store={rootStore} renderers={antdRenderers} cells={cells}>
-        <Form viewDescrId={viewDescrs[0]['@id']} viewDescrCollId={viewDescrCollConstr['@id']} />
+        <div
+          style={{
+            //height: '1000px',
+            width: '100%',
+            backgroundColor: 'rgba(230, 235, 242, 0.5)',
+            margin: '0 auto',
+            padding: '5px',
+          }}>
+          <Form viewDescrId={viewDescrs[0]['@id']} viewDescrCollId={viewDescrCollConstr['@id']} />
+        </div>
       </MstContextProvider>
     </Provider>
   );
@@ -144,10 +153,19 @@ const viewKinds = [
                 xl: 4,
                 xxl: 7,
               },
+              style: {
+                minWidth: 460,
+              },
               elementTemplate: [
                 {
                   '@id': 'mktp:_94hfT67',
                   '@type': 'aldkg:CardLayout',
+                  options: {
+                    style: {
+                      maxWidth: 340,
+                      minWidth: 220,
+                    },
+                  },
                   elements: [
                     // {
                     //   '@id': 'mktp:_kje733js',
@@ -198,6 +216,9 @@ const viewKinds = [
                               textAlign: 'left',
                               fontFamily: 'Lato,Tahoma,sans-serif',
                               color: 'gray',
+                              height: '1rem',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
                             },
                           },
                         },
@@ -213,6 +234,9 @@ const viewKinds = [
                               textAlign: 'right',
                               fontFamily: 'Lato,Tahoma,sans-serif',
                               color: 'gray',
+                              height: '1rem',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
                             },
                           },
                         },
@@ -233,6 +257,9 @@ const viewKinds = [
                           textAlign: 'left',
                           fontFamily: 'Lato,Tahoma,sans-serif',
                           color: 'gray',
+                          height: '1rem',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
                         },
                       },
                     },
@@ -251,6 +278,9 @@ const viewKinds = [
                           textAlign: 'left',
                           fontFamily: 'Lato,Tahoma,sans-serif',
                           color: 'gray',
+                          height: '1rem',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
                         },
                       },
                     },
@@ -300,6 +330,7 @@ const viewKinds = [
                         },
                       ],
                     },
+                    //CellHorizontalLayout
                     {
                       '@id': 'mktp:_jfg789df',
                       '@type': 'aldkg:CellHorizontalLayout',
@@ -314,16 +345,17 @@ const viewKinds = [
                           options: {
                             style: {
                               border: '1.5px solid black',
+                              padding: '0 3px 0 3px',
                               borderRadius: '2px',
                               height: '2em',
                               textAlign: 'center',
                               fontWeight: 500,
-                              width: '90px',
                               color: 'black',
                             },
                             specialImage: 'https://www.meme-arsenal.com/memes/f8e9bfb9fdf368272b21a5dac8f01ec1.jpg',
                             editable: false,
                             formatter: 'link',
+                            relativeFont: 0.06,
                             dataToFormatter: {
                               link: '@id',
                             },
@@ -335,11 +367,12 @@ const viewKinds = [
                           '@type': 'aldkg:Button',
                           options: {
                             label: 'Добавить',
+                            relativeFont: 0.06,
                             style: {
                               border: '1.5px solid black',
                               borderRadius: '2px',
-                              width: '90px',
                               fontWeight: 500,
+                              backgroundColor: 'white',
                               color: 'black',
                             },
                           },
