@@ -35,6 +35,7 @@ const defaultRanges: Record<string, Duration | null> = {
   '3M': moment.duration(3, 'M'),
   '6M': moment.duration(6, 'M'),
   '1Y': moment.duration(1, 'y'),
+  All: null,
 };
 
 const DateRangesList = ({ value, ranges, renderItem }: DateRangeListProps) => {
