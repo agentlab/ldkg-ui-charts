@@ -562,7 +562,7 @@ const viewKindsProds = [
                       type: 'pointer',
                       value: '/type',
                     },
-                    yField: 'svdDaily',
+                    yField: 'value',
                     xField: 'bucketEnd',
                     colorField: 'forDataset',
                     mapping: {
@@ -596,7 +596,7 @@ const viewKindsProds = [
                       type: 'pointer',
                       value: '/type',
                     },
-                    yField: 'svdWeekly',
+                    yField: 'value',
                     xField: 'bucketEnd',
                     colorField: 'forDataset',
                     mapping: {
@@ -630,7 +630,7 @@ const viewKindsProds = [
                       type: 'pointer',
                       value: '/type',
                     },
-                    yField: 'svdMonthly',
+                    yField: 'value',
                     xField: 'bucketEnd',
                     colorField: 'forDataset',
                     mapping: {
@@ -673,7 +673,7 @@ const viewKindsProds = [
                       type: 'pointer',
                       value: '/type',
                     },
-                    yField: 'kiDaily',
+                    yField: 'value',
                     xField: 'bucketEnd',
                     colorField: 'forDataset',
                     mapping: {
@@ -707,7 +707,7 @@ const viewKindsProds = [
                       type: 'pointer',
                       value: '/type',
                     },
-                    yField: 'kiWeekly',
+                    yField: 'value',
                     xField: 'bucketEnd',
                     colorField: 'forDataset',
                     mapping: {
@@ -741,7 +741,7 @@ const viewKindsProds = [
                       type: 'pointer',
                       value: '/type',
                     },
-                    yField: 'kiMonthly',
+                    yField: 'value',
                     xField: 'bucketEnd',
                     colorField: 'forDataset',
                     mapping: {
