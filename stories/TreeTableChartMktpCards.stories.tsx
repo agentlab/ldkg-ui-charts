@@ -832,7 +832,7 @@ const viewDescrsCats = [
                       color: '#FFE0C7',
                       lineWidth: 2,
                       stroke: '#FFE0C7',
-                      shape: 'hv',
+                      shape: 'vh',
                     },
                   },
                   {
@@ -843,7 +843,7 @@ const viewDescrsCats = [
                       color: '#FF99C3',
                       lineWidth: 2,
                       stroke: '#FF99C3',
-                      shape: 'hv',
+                      shape: 'vh',
                     },
                   },
                   {
@@ -854,7 +854,7 @@ const viewDescrsCats = [
                       color: '#BBDEDE',
                       lineWidth: 2,
                       stroke: '#BBDEDE',
-                      shape: 'hv',
+                      shape: 'vh',
                     },
                   },
                 ],
@@ -896,7 +896,7 @@ const viewDescrsCats = [
                       color: '#FFE0C7',
                       lineWidth: 2,
                       stroke: '#FFE0C7',
-                      shape: 'hv',
+                      shape: 'vh',
                     },
                   },
                   {
@@ -907,7 +907,7 @@ const viewDescrsCats = [
                       color: '#FF99C3',
                       lineWidth: 2,
                       stroke: '#FF99C3',
-                      shape: 'hv',
+                      shape: 'vh',
                     },
                   },
                   {
@@ -918,7 +918,7 @@ const viewDescrsCats = [
                       color: '#BBDEDE',
                       lineWidth: 2,
                       stroke: '#BBDEDE',
-                      shape: 'hv',
+                      shape: 'vh',
                     },
                   },
                 ],
