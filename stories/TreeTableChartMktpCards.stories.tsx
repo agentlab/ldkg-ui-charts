@@ -146,7 +146,7 @@ const viewKindsCats = [
           {
             '@id': 'mktp:ProductCards_in_Product_Coll_Ent',
             '@type': 'aldkg:EntConstr',
-            schema: 'hs:ProductCardShape',
+            schema: 'als:ProductCardShape',
             conditions: {
               '@id': 'mktp:ProductCards_in_Product_Coll_Ent_Cond',
               CardInProdLink: null, //'mktp_d:Massager',
@@ -194,6 +194,8 @@ const viewKindsCats = [
                   connections: [
                     { toObj: 'mktp:Categories_Coll_Ent', toProp: 'schema', fromProp: 'categoryShape' },
                     { toObj: 'mktp:ProductCards_in_Category_Coll_Ent', toProp: 'schema', fromProp: 'productCardShape' },
+                    // Product cards
+                    { toObj: 'mktp:ProductCards_in_Product_Coll_Ent', toProp: 'schema', fromProp: 'productCardShape' },
                     //Observations
                     { toObj: 'mktp:Observations_Coll_Ent', toProp: 'schema', fromProp: 'observationShape' },
                     //SVD
