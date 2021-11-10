@@ -41,7 +41,11 @@
     flex-shrink: 0;
   }
 
-  .activeRange {
-    font-weight: 700;
+  .range {
+    cursor: 'pointer';
+
+    &--active {
+      font-weight: 700;
+    }
   }
 }
