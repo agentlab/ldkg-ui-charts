@@ -17,6 +17,7 @@ export * from './charts/RadarChart';
 export * as TimeSeriesWithAuxiliaryView from './charts/TimeSeriesWithAuxiliaryView';
 export * from './DataRenderer';
 export * as DateRangePickerMenu from './DateRangePickerMenu';
+export * from './dialog/DialogButtonRenderer';
 // test data
 export * from './store/data';
 export * from './store/MstViewElements';

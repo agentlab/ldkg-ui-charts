@@ -28,6 +28,7 @@ import { asReduxStore, connectReduxDevtools } from 'mst-middlewares';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { chartsRenderers } from '../src';
+import { antdDialogButtonControlTester, DialogButtonRenderer } from '../src/dialog/DialogButtonRenderer';
 
 const buildCustomTooltip = (property: string) => (title: any, items: any) => {
   const data = items[0]?.data || {};
@@ -48,6 +49,7 @@ const Template: Story = ({ additionalColls, viewDescrId, viewDescrCollId }: any)
     ...antdDataControlRenderers,
     ...tableRenderers,
     ...chartsRenderers,
+    { tester: antdDialogButtonControlTester, renderer: DialogButtonRenderer },
   ];
 
   const client = new SparqlClientImpl(
@@ -180,34 +182,69 @@ const viewKindsCats = [
             },
             elements: [
               {
-                '@id': 'mktp:_df7eds',
-                '@type': 'aldkg:TabControl',
-                // by this resultsScope TabControl could have read access to the results, selected by Query with @id='rm:ProjectViewClass_ArtifactFormats_Query'
-                resultsScope: 'mktp:Marketplaces_Coll', // bind to results data by query @id
+                '@id': 'mktp:_94kFg89',
+                '@type': 'aldkg:PanelLayout',
                 options: {
-                  title: 'Маркетплейсы',
+                  flow: 'horizontal',
                   style: {
-                    margin: '0 0 0 24px',
+                    width: '100%',
+                    flexDirection: 'row',
+                    display: 'flex',
                   },
-                  contentSize: true,
-                  // by this connection TabControl could have read/write access to the property 'artifactFormat' in condition object with @id='rm:ProjectViewClass_Artifacts_Query_Shape0_Condition'
-                  connections: [
-                    { toObj: 'mktp:Categories_Coll_Ent', toProp: 'schema', fromProp: 'categoryShape' },
-                    { toObj: 'mktp:ProductCards_in_Category_Coll_Ent', toProp: 'schema', fromProp: 'productCardShape' },
-                    // Product cards
-                    { toObj: 'mktp:ProductCards_in_Product_Coll_Ent', toProp: 'schema', fromProp: 'productCardShape' },
-                    //Observations
-                    { toObj: 'mktp:Observations_Coll_Ent', toProp: 'schema', fromProp: 'observationShape' },
-                    //SVD
-                    { toObj: 'mktp:SvdDaily_Coll_Ent_Cond', toProp: 'forDataset' },
-                    { toObj: 'mktp:SvdWeekly_Coll_Ent_Cond', toProp: 'forDataset' },
-                    { toObj: 'mktp:SvdMonthly_Coll_Ent_Cond', toProp: 'forDataset' },
-                    //SRD
-                    { toObj: 'mktp:SrdDaily_Coll_Ent_Cond', toProp: 'forDataset' },
-                    { toObj: 'mktp:SrdWeekly_Coll_Ent_Cond', toProp: 'forDataset' },
-                    { toObj: 'mktp:SrdMonthly_Coll_Ent_Cond', toProp: 'forDataset' },
-                  ],
                 },
+                elements: [
+                  {
+                    '@id': 'mktp:_fd8Sd',
+                    '@type': 'aldkg:DialogButton',
+                    options: {
+                      style: {
+                        display: 'flex',
+                        flexDirection: 'row',
+                      },
+                    },
+                  },
+                  {
+                    '@id': 'mktp:_df7eds',
+                    '@type': 'aldkg:TabControl',
+                    // by this resultsScope TabControl could have read access to the results, selected by Query with @id='rm:ProjectViewClass_ArtifactFormats_Query'
+                    resultsScope: 'mktp:Marketplaces_Coll', // bind to results data by query @id
+                    options: {
+                      title: 'Маркетплейсы',
+                      style: {
+                        margin: '0 0 0 42px',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        width: '200px',
+                      },
+                      contentSize: true,
+                      // by this connection TabControl could have read/write access to the property 'artifactFormat' in condition object with @id='rm:ProjectViewClass_Artifacts_Query_Shape0_Condition'
+                      connections: [
+                        { toObj: 'mktp:Categories_Coll_Ent', toProp: 'schema', fromProp: 'categoryShape' },
+                        {
+                          toObj: 'mktp:ProductCards_in_Category_Coll_Ent',
+                          toProp: 'schema',
+                          fromProp: 'productCardShape',
+                        },
+                        // Product cards
+                        {
+                          toObj: 'mktp:ProductCards_in_Product_Coll_Ent',
+                          toProp: 'schema',
+                          fromProp: 'productCardShape',
+                        },
+                        //Observations
+                        { toObj: 'mktp:Observations_Coll_Ent', toProp: 'schema', fromProp: 'observationShape' },
+                        //SVD
+                        { toObj: 'mktp:SvdDaily_Coll_Ent_Cond', toProp: 'forDataset' },
+                        { toObj: 'mktp:SvdWeekly_Coll_Ent_Cond', toProp: 'forDataset' },
+                        { toObj: 'mktp:SvdMonthly_Coll_Ent_Cond', toProp: 'forDataset' },
+                        //SRD
+                        { toObj: 'mktp:SrdDaily_Coll_Ent_Cond', toProp: 'forDataset' },
+                        { toObj: 'mktp:SrdWeekly_Coll_Ent_Cond', toProp: 'forDataset' },
+                        { toObj: 'mktp:SrdMonthly_Coll_Ent_Cond', toProp: 'forDataset' },
+                      ],
+                    },
+                  },
+                ],
               },
               {
                 '@id': 'mktp:_934Jfg7',
@@ -266,6 +303,26 @@ const viewKindsCats = [
                             { toObj: 'mktp:SrdMonthly_Coll_Ent_Cond', toProp: 'srdMonthlyHasProduct' },
                           ],
                           draggable: true,
+                          selectActions: [
+                            {
+                              '@id': 'action1',
+                              '@type': 'ldkg:addObjects',
+                              title: 'Добавить объекты',
+                            },
+                            {
+                              '@id': 'action2',
+                              '@type': 'ldkg:deleteObjects',
+                              title: 'Удалить объекты',
+                            },
+                            {
+                              '@id': 'action3',
+                              '@type': 'ldkg:addConectionToTarget',
+                              title: 'Добавить в правую таблицу',
+                              options: {
+                                target: 'mktp:ProductCards_in_Product_Coll',
+                              },
+                            },
+                          ],
                           resizeableHeader: true,
                           height: 'all-empty-space',
                           style: { height: '100%' },
@@ -602,6 +659,18 @@ const viewKindsCats = [
                 '@type': 'aldkg:Array',
                 resultsScope: 'mktp:ProductCards_in_Product_Coll',
                 options: {
+                  selectActions: [
+                    {
+                      '@id': 'action1',
+                      '@type': 'ldkg:addObjects',
+                      title: 'Добавить объекты',
+                    },
+                    {
+                      '@id': 'action2',
+                      '@type': 'ldkg:deleteObjects',
+                      title: 'Удалить объекты',
+                    },
+                  ],
                   draggable: true,
                   resizeableHeader: true,
                   height: 'all-empty-space',
