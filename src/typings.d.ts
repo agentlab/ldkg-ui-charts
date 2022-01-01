@@ -7,6 +7,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
+declare module 'uuid62';
 declare module '*.less' {
   const content: any;
   export default content;
