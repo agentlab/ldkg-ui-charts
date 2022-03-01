@@ -47,7 +47,7 @@ const categoryNames: any = {
 };
 
 export default {
-  title: '1 Control/BoxPlotCompare',
+  title: '2 LDKG Controls/BoxPlotCompare',
   component: Form,
   // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
   parameters: { docs: { source: { type: 'code' } } },

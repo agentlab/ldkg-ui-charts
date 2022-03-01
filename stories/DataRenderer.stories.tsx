@@ -17,7 +17,7 @@ import { chartsRenderers } from '../src';
 import { additionalCollsLocal, localChartsViewDescrs } from '../src/store/data';
 
 export default {
-  title: '1 Control/DataRenderer',
+  title: '2 LDKG Controls/DataRenderer',
   component: Form,
   // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
   parameters: { docs: { source: { type: 'code' } } },

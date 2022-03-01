@@ -7,11 +7,10 @@
  *
  * SPDX-License-Identifier: GPL-3.0-only
  ********************************************************************************/
+import { Line, LineConfig } from '@ant-design/plots';
 import React, { useEffect, useState } from 'react';
-import { Line } from '@ant-design/charts';
-import { LineConfig } from '@ant-design/charts/es/line';
 
-export const Chart: React.FC = () => {
+export const ChartDemo: React.FC = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     asyncFetch();

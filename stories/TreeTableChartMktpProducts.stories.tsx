@@ -35,7 +35,7 @@ const buildCustomTooltip = (property: string) => (title: any, items: any) => {
 };
 
 export default {
-  title: '2 Complex Controls/Tree-Table-Chart',
+  title: '3 Complex Controls/Tree-Table-Chart',
   component: Form,
   // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
   parameters: { docs: { source: { type: 'code' } } },

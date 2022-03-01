@@ -17,7 +17,7 @@ import { chartsRenderers } from '../src';
 import { additionalCollsLocal, localChartsViewDescrs } from '../src/store/data';
 
 export default {
-  title: '1 Control/GroupedBoxPlot',
+  title: '2 LDKG Controls/GroupedBoxPlot',
   component: Form,
   // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
   parameters: { docs: { source: { type: 'code' } } },

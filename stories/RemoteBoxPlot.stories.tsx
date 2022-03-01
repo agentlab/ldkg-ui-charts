@@ -17,7 +17,7 @@ import { chartsRenderers } from '../src';
 import { additionalBoxplotColls, remoteBoxPlotViewDescrs } from '../src/store/RemoteBoxPlot';
 
 export default {
-  title: '1 Control/RemoteBoxPlot',
+  title: '2 LDKG Controls/RemoteBoxPlot',
   component: Form,
   // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
   parameters: { docs: { source: { type: 'code' } } },

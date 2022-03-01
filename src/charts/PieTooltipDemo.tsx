@@ -18,12 +18,12 @@ const data1 = [
     qty: 10,
     count: 35,
   },
-  {
+  /*{
     id: 'Product1',
     date: '2020-02-01',
     qty: 15,
     count: 30,
-  },
+  },*/
   {
     id: 'Product1',
     date: '2020-02-02',
@@ -75,12 +75,12 @@ const data2 = [
     qty: 15,
     count: 25,
   },
-  {
+  /*{
     id: 'Product2',
     date: '2020-02-01',
     qty: 20,
     count: 20,
-  },
+  },*/
   {
     id: 'Product2',
     date: '2020-02-02',

@@ -23,7 +23,7 @@ import { chartsRenderers } from '../src';
 import { additionalColls, denormalizedObservationsViewDescrs } from '../src/store/DenormalizedObservationsData';
 
 export default {
-  title: '1 Control/DenormalizedObservations',
+  title: '2 LDKG Controls/DenormalizedObservations',
   component: Form,
   // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
   parameters: { docs: { source: { type: 'code' } } },

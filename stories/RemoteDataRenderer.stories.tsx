@@ -17,7 +17,7 @@ import { chartsRenderers } from '../src';
 import { additionalColls, timeSeriesViewDescrs } from '../src/store/RemoteData';
 
 export default {
-  title: '1 Control/RemoteDataRenderer',
+  title: '2 LDKG Controls/RemoteDataRenderer',
   component: Form,
   // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
   parameters: { docs: { source: { type: 'code' } } },

@@ -9,6 +9,7 @@
  ********************************************************************************/
 import { Meta } from '@storybook/react';
 import React, { ReactNode } from 'react';
+import { ChartDemo } from '../src/charts/ChartDemo';
 import { DataSetDemo } from '../src/charts/DataSetDemo';
 import { MultiViewDodgeDemo } from '../src/charts/MultiViewDodgeDemo';
 import { PieTooltipDemo } from '../src/charts/PieTooltipDemo';
@@ -19,6 +20,7 @@ export default {
   parameters: { docs: { source: { type: 'code' } } },
 } as Meta;
 
+export const Chart = (): ReactNode => <ChartDemo />;
 export const PieTooltip = (): ReactNode => <PieTooltipDemo />;
 export const Dodge = (): ReactNode => <MultiViewDodgeDemo />;
 export const DataSet = (): ReactNode => <DataSetDemo />;

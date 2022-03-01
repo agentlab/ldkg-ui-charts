@@ -33,7 +33,7 @@ import {
 } from '../src/store/shapes';
 
 export default {
-  title: '2 Complex Controls/CardCharts List',
+  title: '3 Complex Controls/CardCharts List',
   component: Form,
   argTypes: {
     backgroundColor: { control: 'color' },
@@ -87,8 +87,8 @@ export const Full: Story<{}> = () => {
 };
 
 // Preparation for mktp-fed repository speed test
-//const mktpSchemaRepoIri = 'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema';
-//const mktpOntopRepoIri = 'http://192.168.1.33:8090/sparql';
+const mktpSchemaRepoIri = 'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema';
+const mktpOntopRepoIri = 'http://192.168.1.33:8090/sparql';
 
 const viewKinds = [
   {
@@ -109,7 +109,7 @@ const viewKinds = [
             },
             orderBy: [{ expression: variable('lastMonthSalesValue0'), descending: true }],
             limit: 15,
-            //service: mktpSchemaRepoIri,
+            service: mktpSchemaRepoIri,
           },
           {
             '@id': 'mktp:ViewKind_Cards_Coll_Ent1',
@@ -123,7 +123,7 @@ const viewKinds = [
               },
             },
             orderBy: [{ expression: variable('parsedAt1'), descending: false }],
-            //service: mktpOntopRepoIri,
+            service: mktpOntopRepoIri,
           },
         ],
         orderBy: [

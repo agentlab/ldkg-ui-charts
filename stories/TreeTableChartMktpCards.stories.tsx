@@ -36,7 +36,7 @@ const buildCustomTooltip = (property: string) => (title: any, items: any) => {
 };
 
 export default {
-  title: '2 Complex Controls/Tree-Table-Chart',
+  title: '3 Complex Controls/Tree-Table-Chart',
   component: Form,
   // Due to Storybook bug https://github.com/storybookjs/storybook/issues/12747
   parameters: { docs: { source: { type: 'code' } } },
@@ -71,12 +71,12 @@ const Template: Story = ({ additionalColls, viewDescrId, viewDescrCollId }: any)
   );
 };
 
-const mktpSchemaRepoIri = 'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema';
-const mktpOntopRepoIri = 'http://192.168.1.33:8090/sparql';
-
 ///////////////////////////////////////////////
 //  Markeplaces Categories and Cards
 ///////////////////////////////////////////////
+
+const mktpSchemaRepoIri = 'https://rdf4j.agentlab.ru/rdf4j-server/repositories/mktp-schema';
+const mktpOntopRepoIri = 'http://192.168.1.33:8090/sparql';
 
 const viewKindsCats = [
   {
